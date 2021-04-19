@@ -1,0 +1,221 @@
+<ion-content class="teamAbout-container paddingSafe">
+  <div class="max-h-200 icons paddingSafe">
+    <ion-icon
+      name="arrow-back"
+      class="white div_cover_Pic"
+      style="float: left"
+      (click)="closeModal(0)"
+    >
+    </ion-icon>
+    <input
+      type="file"
+      id="uploadProfile"
+      accept="image/*"
+      class="hide inputfile"
+      (change)="handlefileinputProfile($event.target.files)"
+    />
+    <div *ngIf="isAdmin === true" style="float: right">
+      <ion-icon
+        name="camera"
+        class="white div_cover_Pic"
+        (click)="presentActionSheet()"
+      ></ion-icon>
+    </div>
+  </div>
+
+  <div style="height: 40%; width: 100%">
+    <div
+      [ngStyle]="{ 'background-image': 'url(' + teamImage + ')' }"
+      style="
+        height: 100%;
+        width: 100%;
+        background-repeat: no-repeat;
+        background-position: center;
+        background-color: #ec5529;
+        background-size: cover;
+      "
+    ></div>
+  </div>
+
+  <!-- Main Content -->
+  <div>
+    <ion-list class="ion-padding">
+      <ion-item lines="none">
+        <ion-label
+          position="stacked"
+          *ngIf="isAdmin === true && canEditName === false"
+          >{{ titleString }}</ion-label
+        >
+        <ion-input
+          maxlength="20"
+          #a
+          [(ngModel)]="teamName"
+          readonly="{{ !canEditName }}"
+          [disabled]="!isAdmin"
+        ></ion-input>
+        <i
+          slot="end"
+          *ngIf="isAdmin === true && canEditName === false"
+          class="material-icons"
+          (click)="editName(a)"
+          >create</i
+        >
+        <i
+          slot="end"
+          *ngIf="isAdmin === true && canEditName === true"
+          class="material-icons"
+          (click)="editNameSave(teamName, teamDesc)"
+          >done</i
+        >
+      </ion-item>
+
+      <ion-item lines="none">
+        <ion-label
+          position="stacked"
+          *ngIf="isAdmin === true && canEditDesc === false"
+          >{{ descriptionString }}</ion-label
+        >
+        <ion-input
+          #b
+          [(ngModel)]="teamDesc"
+          readonly="{{ !canEditDesc }}"
+          [disabled]="!isAdmin"
+        ></ion-input>
+        <i
+          slot="end"
+          *ngIf="isAdmin === true && canEditDesc === false"
+          class="material-icons"
+          (click)="editDesc(b)"
+          >create</i
+        >
+        <i
+          slot="end"
+          *ngIf="isAdmin === true && canEditDesc === true"
+          class="material-icons"
+          (click)="editDescSave(teamName, teamDesc)"
+          >done</i
+        >
+      </ion-item>
+    </ion-list>
+
+    <ion-list style="border-bottom: 1px solid #eaeaea" class="ion-padding">
+      <ion-list-header class="abt-addteam">
+        <ion-label>
+          <div style="margin-bottom: 10px; margin-left: 18px">
+            {{ membersCount }} {{ membersString }}
+          </div>
+          <div
+            (click)="addNewMember()"
+            button
+            style="
+              font-weight: 600;
+              width: fit-content;
+              padding: 6px;
+              display: flex;
+              align-items: center;
+            "
+            *ngIf="isAdmin === true && hideAddMemberButton === false"
+          >
+            <ion-icon
+              slot="start"
+              class="material-icons inside-addteam"
+              src="./../../../assets/iconsSvg/person-add.svg"
+            ></ion-icon>
+            {{ addMembersString }}
+          </div>
+          <div
+            style="
+              font-weight: 100;
+              width: fit-content;
+              padding: 6px;
+              display: flex;
+              align-items: center;
+            "
+            *ngIf="isAdmin === true && hideAddMemberButton === true"
+          >
+            <ion-icon
+              slot="start"
+              class="material-icons inside-addteam"
+              style="background: #181434b9"
+              src="./../../../assets/iconsSvg/person-add.svg"
+            ></ion-icon>
+            <!-- <i slot="start" class="material-icons inside-addteam" style="background: #ccc;">person_add</i> -->
+            <!-- <i>{{addMembersString}}</i> -->
+            {{ allMemberAreAlredyInString }}
+          </div>
+        </ion-label>
+      </ion-list-header>
+
+      <div
+        *ngFor="let item of teammembers"
+        style="clear: both; margin-bottom: 10px"
+      >
+        <ion-avatar slot="start">
+          <img
+            *ngIf="item.profile_img_url_thump != null"
+            src="{{
+              environment.apiUrl
+            }}v1/api/post/imagecall_mobile_url?imagepath=profile/{{
+              item.userid
+            }}/{{ item.profile_img_url_thump }}"
+          />
+          <img
+            *ngIf="item.profile_img_url_thump == null"
+            src="https://storage.googleapis.com/tribation_uploads_dev/profile/default.png"
+          />
+        </ion-avatar>
+        <div class="memberName" button (click)="optionsPanel(item)">
+          <div *ngIf="item.member_accepted == 0">
+            <i style="color: #ccc">{{
+              (item.fullName | slice: 0:20) +
+                (item.fullName.length > 20 ? "..." : "")
+            }}</i>
+          </div>
+          <div *ngIf="item.member_accepted == 1">
+            {{
+              (item.fullName | slice: 0:20) +
+                (item.fullName.length > 20 ? "..." : "")
+            }}
+          </div>
+          <ion-icon
+            style="color: #ec5529"
+            name="star"
+            *ngIf="item.role == 1"
+          ></ion-icon>
+          <ion-button
+            disabled="true"
+            class="ion-text-wrap ion-no-padding"
+            color="secondary"
+            style="
+              max-height: 20px;
+              text-transform: none;
+              position: absolute;
+              right: 4%;
+            "
+            slot="end"
+            fill="outline"
+            *ngIf="item.member_accepted == 0"
+          >
+            &nbsp;{{ requestedString }}&nbsp;</ion-button
+          >
+          <ion-button
+            disabled="true"
+            class="ion-text-wrap ion-no-padding"
+            color="secondary"
+            style="
+              max-height: 20px;
+              text-transform: none;
+              position: absolute;
+              right: 4%;
+            "
+            slot="end"
+            fill="outline"
+            *ngIf="item.role == 1"
+          >
+            &nbsp;{{ adminString }}&nbsp;</ion-button
+          >
+        </div>
+      </div>
+    </ion-list>
+  </div>
+</ion-content>

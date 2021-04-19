@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "533634067398",
+    "project_id": "httpsplaycomstoreappsdet-78512",
+    "storage_bucket": "httpsplaycomstoreappsdet-78512.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:533634067398:android:7728518083f358a2b6a0c7",
+        "android_client_info": {
+          "package_name": "com.tribation"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "533634067398-8bpjv83uulo3da3itroqru3l6nqulboi.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDzBZkZ5uIC__cc3yjB9FixEAAzIIXAMGE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "533634067398-8bpjv83uulo3da3itroqru3l6nqulboi.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

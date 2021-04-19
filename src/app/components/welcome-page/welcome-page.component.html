@@ -1,0 +1,71 @@
+<ion-content
+  style="
+    --background: #212529;
+    background: linear-gradient(
+      90deg,
+      rgb(2 0 36 / 70%) 0%,
+      #2125290f 35%,
+      #21252982 100%
+    );
+  "
+>
+  <div style="height: 100%; text-align: center">
+    <div style="text-align: center">
+      <div
+        style="
+          text-align: center;
+          color: #fff;
+          padding: env(safe-area-inset-top) env(safe-area-inset-right)
+            env(safe-area-inset-bottom) env(safe-area-inset-left);
+        "
+      >
+        <h1 style="font-weight: bolder">Welcome to</h1>
+      </div>
+      <div style="text-align: center">
+        <img
+          src="../../../assets/logo2.png"
+          alt="Tribation"
+          style="width: 40%"
+        />
+      </div>
+      <div style="text-align: center; color: #fff">
+        <h2 style="font-weight: bolder">{{ promoConstString }}</h2>
+      </div>
+      <ion-card style="--background: #f28e1f26">
+        <ion-row>
+          <ion-col size="12">
+            <img
+              src="../../../assets/bonus.png"
+              alt="Tribation"
+              style="width: 40%"
+            />
+          </ion-col>
+          <div style="text-align: center; color: #fff">
+            <ion-label
+              >Congratulation
+              <span style="font-weight: bold; font-size: larger">{{
+                userDetail.first_name
+              }}</span
+              >, you are
+              <span style="font-weight: bold; font-size: larger"
+                >{{ userDetail.id }}th</span
+              >
+              on Tribation</ion-label
+            >
+            <p>{{ thanksForLoyaltyString }}</p>
+            <p>{{ loyaltyDescString }}</p>
+            <h3>{{ goodLuckString }}</h3>
+          </div>
+        </ion-row>
+      </ion-card>
+    </div>
+    <ion-button
+      #c
+      class="gettingStartedBtn"
+      (click)="onClickContinue()"
+      style="height: 50px; font-size: 18px; z-index: 9999999"
+    >
+      Getting started<i class="material-icons"> arrow_right_alt </i>
+    </ion-button>
+  </div>
+</ion-content>

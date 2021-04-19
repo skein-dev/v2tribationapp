@@ -1,0 +1,152 @@
+.ld-img {
+  position: absolute;
+  top: 4px;
+}
+
+.i-icon {
+  left: -20px;
+  top: -15px;
+}
+
+.i-in-cam {
+  font-size: 21px;
+  position: relative;
+  color: #4e4e50;
+  margin: 12px 12px;
+  vertical-align: middle;
+}
+
+.i-in-gal {
+  font-size: 26px;
+  position: relative;
+  color: #4e4e50;
+  vertical-align: middle;
+}
+
+.i-in-send {
+  font-size: 30px;
+  color: #2fa6cc;
+  float: right;
+  padding-right: 10px;
+}
+
+.chat_image_main {
+  width: 76px !important;
+  margin-right: 4px;
+  position: relative;
+  height: 65px;
+  border-radius: 11px;
+  opacity: 0.8;
+}
+
+.container-img {
+  padding-right: 0px;
+  padding-left: 0px;
+  margin-right: auto;
+  margin-left: auto;
+}
+
+.in-pad {
+  padding-left: 1px !important;
+  margin: 3px !important;
+}
+
+.time-rcvd {
+  font-size: 10px !important;
+  float: left !important;
+  margin-left: 10px;
+  color: black;
+}
+
+.time-sent {
+  font-size: 10px !important;
+  float: right !important;
+  margin-right: 10px;
+}
+
+.fab_align {
+  position: fixed;
+  z-index: 1;
+  left: 40%;
+  top: 10%;
+}
+
+.time_pad {
+  padding: 10px;
+}
+
+.profileimg {
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  margin-top: 8px;
+}
+
+.chattincon {
+  height: 14px;
+  width: 17px;
+  background: #848588;
+  position: relative;
+  bottom: 61px;
+  left: 55px;
+}
+
+.chat_in_icon {
+  transform: translate(-50%, -50%);
+  -ms-transform: translate(-50%, -50%);
+  background-color: transparent;
+  color: var(--ion-color-primary-contrast);
+  font-size: 16px;
+  position: relative;
+  top: 4px;
+  right: -8px;
+}
+
+.namePersonChatWith {
+  display: flex;
+  text-align: center;
+  // justify-content: center;
+  padding: 0em;
+  align-items: baseline;
+}
+.chat_time_me {
+  margin: 12px;
+  font-weight: normal !important;
+  font-size: 11px;
+  color: #bfbaba !important;
+}
+.chatting-container {
+  -webkit-user-select: text;
+  -moz-user-select: text;
+  -ms-user-select: text;
+  user-select: text;
+}
+
+.rcved-msg-time-mul {
+  font-weight: normal !important;
+  /* margin-top: 16px; */
+  font-size: 11px;
+  /* margin-left: 5px; */
+  color: #000000 !important;
+  margin: 10px;
+  float: right;
+}
+.closeIcon {
+  font-size: x-large !important;
+  background: #112;
+  color: #fff;
+  --color: #fff;
+  font-weight: unset !important;
+  margin-top: -77px;
+  position: absolute;
+  margin-left: 55px;
+  border-radius: 50%;
+  padding: 2px;
+}
+.bottomRow {
+  margin-top: -9px;
+}
+.sentMarkClass {
+  margin: 7px;
+  float: right !important;
+}

@@ -1,0 +1,20 @@
+<ion-header [translucent]="true">
+  <ion-toolbar mode="md">
+    <ion-icon
+      slot="start"
+      name="arrow-back"
+      class="white"
+      (click)="goback()"
+      style="font-size: xx-large"
+    ></ion-icon>
+    <ion-title mode="md" class="ion-align-self-center white"
+      >{{termsString}}</ion-title
+    >
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-card style="padding-left: 10px; padding-right: 10px">
+    <span class="large" [innerHTML]="termsContent"></span>
+  </ion-card>
+</ion-content>

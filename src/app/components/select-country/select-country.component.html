@@ -1,0 +1,96 @@
+<ion-content mode="ios">
+  <ion-searchbar
+    placeholder="{{ searchString }}"
+    [(ngModel)]="searchTerm"
+    showCancelButton="never"
+    (ionChange)="search(searchTerm)"
+  ></ion-searchbar>
+  <ion-card>
+    <ion-list *ngIf="!countryList">
+      <ion-item>
+        <ion-skeleton-text
+          animated
+          style="width: 96%; height: 20px"
+        ></ion-skeleton-text>
+      </ion-item>
+
+      <ion-item>
+        <ion-skeleton-text
+          animated
+          style="width: 96%; height: 20px"
+        ></ion-skeleton-text>
+      </ion-item>
+
+      <ion-item>
+        <ion-skeleton-text
+          animated
+          style="width: 96%; height: 20px"
+        ></ion-skeleton-text>
+      </ion-item>
+
+      <ion-item>
+        <ion-skeleton-text
+          animated
+          style="width: 96%; height: 20px"
+        ></ion-skeleton-text>
+      </ion-item>
+
+      <ion-item>
+        <ion-skeleton-text
+          animated
+          style="width: 96%; height: 20px"
+        ></ion-skeleton-text>
+      </ion-item>
+
+      <ion-item>
+        <ion-skeleton-text
+          animated
+          style="width: 96%; height: 20px"
+        ></ion-skeleton-text>
+      </ion-item>
+
+      <ion-item>
+        <ion-skeleton-text
+          animated
+          style="width: 96%; height: 20px"
+        ></ion-skeleton-text>
+      </ion-item>
+
+      <ion-item>
+        <ion-skeleton-text
+          animated
+          style="width: 96%; height: 20px"
+        ></ion-skeleton-text>
+      </ion-item>
+
+      <ion-item>
+        <ion-skeleton-text
+          animated
+          style="width: 96%; height: 20px"
+        ></ion-skeleton-text>
+      </ion-item>
+
+      <ion-item>
+        <ion-skeleton-text
+          animated
+          style="width: 96%; height: 20px"
+        ></ion-skeleton-text>
+      </ion-item>
+    </ion-list>
+
+    <ion-list *ngIf="countryList">
+      <ion-radio-group>
+        <ion-item *ngFor="let country of listOfCountries" mode="ios">
+          <ion-label>{{ country.COUNTRY_NAME }}</ion-label>
+          <ion-radio
+            (click)="select(country.CC_ISO, country.COUNTRY_NAME)"
+            value="country.CC_ISO"
+            slot="end"
+            [(ngModel)]="country.CC_ISO"
+          >
+          </ion-radio>
+        </ion-item>
+      </ion-radio-group>
+    </ion-list>
+  </ion-card>
+</ion-content>

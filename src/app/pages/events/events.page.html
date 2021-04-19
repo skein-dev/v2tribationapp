@@ -1,0 +1,150 @@
+<ion-header [translucent]="true">
+  <ion-toolbar mode="md">
+    <ion-buttons slot="start">
+      <ion-menu-button autoHide="false" menuToggle></ion-menu-button>
+    </ion-buttons>
+    <ion-title
+      mode="md"
+      class="ion-align-self-center"
+      style="color: #0d0439; font-weight: bold; text-align: center"
+      >{{eventsString}}</ion-title
+    >
+  </ion-toolbar>
+</ion-header>
+
+<ion-content *ngIf="teameventList.length===0 && noevent==true">
+  <div
+    style="
+      display: flex;
+      width: 100%;
+      height: 100%;
+      justify-content: center;
+      align-items: center;
+    "
+  >
+    <img src="../../../assets/schedule.png" width="40%" />
+    <div
+      style="
+        width: 80%;
+        margin: auto;
+        text-align: center;
+        color: black;
+        position: absolute;
+        margin-top: 50%;
+      "
+    >
+      {{noEventsString}}
+    </div>
+  </div>
+</ion-content>
+
+<ion-content class="ion-padding" *ngIf="teameventList.length!==0">
+  <ion-radio-group
+    [(ngModel)]="radioValue"
+    value="all"
+    (ionChange)="sortSelect()"
+    style="display: flex; justify-content: flex-end; width: 95%"
+    mode="md"
+  >
+    <div class="radioBut">
+      {{allString}}
+      <ion-radio slot="start" value="all" mode="md"> </ion-radio>
+    </div>
+    <div class="radioBut" style="margin-left: 15px">
+      <ion-icon name="star"></ion-icon>
+      <ion-radio slot="start" value="stared" mode="md"></ion-radio>
+    </div>
+  </ion-radio-group>
+
+  <div *ngIf="radioValue === 'all' && noevent==false">
+    <ion-card *ngFor="let list of teameventList" mode="ios">
+      <ion-card-header
+        style="background: #ec5529; padding: 3% 2%"
+        class="ion-text-center white"
+        mode="ios"
+      >
+        <ion-icon
+          class="starOnTop"
+          name="star"
+          *ngIf="list.isStared === true"
+        ></ion-icon>
+        <div
+          class="ion-text-capitalize"
+          style="font-weight: bold; font-size: large; padding-top: 4px"
+          (click)="viewDetail(list)"
+        >
+          {{list.event_title}}
+        </div>
+        <div style="color: #112" class="ion-text-capitalize">
+          {{list.teamname}}
+        </div>
+      </ion-card-header>
+      <ion-card-content
+        (click)="viewDetail(list)"
+        style="padding: 5px !important"
+        mode="ios"
+      >
+        <ion-row class="ion-text-capitalize" style="padding: 2%">
+          {{(list.event_description | slice:0:30)+(list.event_description.length
+          > 30? '...' :'')}}
+        </ion-row>
+        <ion-row>
+          <ion-col size="6" class="ion-text-start">
+            <strong>{{dateString}}:</strong> {{list.event_date | date:
+            'MM-dd-yyyy'}}
+          </ion-col>
+          <ion-col size="6" class="ion-text-end">
+            <strong>{{venueString}}:</strong> {{list.event_venue}}
+          </ion-col>
+        </ion-row>
+      </ion-card-content>
+    </ion-card>
+  </div>
+
+  <div *ngIf="radioValue === 'stared' && noevent==false">
+    <div *ngFor="let list of teameventList">
+      <ion-card *ngIf="list.isStared === true" mode="ios">
+        <ion-card-header
+          style="background: #ec5529; padding: 3% 2%"
+          class="ion-text-center white"
+          mode="ios"
+        >
+          <ion-icon
+            class="starOnTop"
+            name="star"
+            *ngIf="list.isStared === true"
+          ></ion-icon>
+          <div
+            class="ion-text-capitalize"
+            style="font-weight: bold; font-size: large; padding-top: 4px"
+            (click)="viewDetail(list)"
+          >
+            {{list.event_title}}
+          </div>
+          <div style="color: #112" class="ion-text-capitalize">
+            {{list.teamname}}
+          </div>
+        </ion-card-header>
+        <ion-card-content
+          (click)="viewDetail(list)"
+          style="padding: 5px !important"
+          mode="ios"
+        >
+          <ion-row class="ion-text-capitalize" style="padding: 2%">
+            {{(list.event_description |
+            slice:0:30)+(list.event_description.length > 30? '...' :'')}}
+          </ion-row>
+          <ion-row>
+            <ion-col size="6" class="ion-text-start">
+              <strong>{{dateString}}:</strong> {{list.event_date | date:
+              'MM-dd-yyyy'}}
+            </ion-col>
+            <ion-col size="6" class="ion-text-end">
+              <strong>{{venueString}}:</strong> {{list.event_venue}}
+            </ion-col>
+          </ion-row>
+        </ion-card-content>
+      </ion-card>
+    </div>
+  </div>
+</ion-content>

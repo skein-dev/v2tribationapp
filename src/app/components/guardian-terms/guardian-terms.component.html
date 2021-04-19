@@ -1,0 +1,26 @@
+<ion-header [translucent]="true">
+  <ion-toolbar mode="md">
+    <ion-icon
+      slot="start"
+      name="close"
+      class="white"
+      (click)="goback()"
+      style="font-size: xx-large"
+    ></ion-icon>
+    <ion-title mode="md" class="ion-align-self-center white">{{
+      termsString
+    }}</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-card style="padding-left: 10px; padding-right: 10px">
+    <div class="terms" innerHTML="{{ termsContent }}"></div>
+  </ion-card>
+</ion-content>
+<ion-footer>
+  <div class="accept" (click)="addValue()">
+    <ion-checkbox color="tertiary"></ion-checkbox>
+    {{ iAccpetTermsString }}
+  </div>
+</ion-footer>

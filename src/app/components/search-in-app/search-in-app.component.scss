@@ -1,0 +1,131 @@
+.menu-search {
+  border: 1px solid #3f3c52;
+  border-radius: 24px;
+  padding: 5px;
+  max-height: 40px;
+  color: white;
+  background: #121212;
+
+  .searchbar-input-container {
+    .searchbar-input {
+      max-height: 40px !important;
+      border-radius: 0 !important;
+      margin-top: 0 !important;
+    }
+  }
+}
+.search-any {
+  margin-bottom: 0px;
+  text-align: center;
+
+  .emptysearchicon {
+    padding: 20px;
+    background: #181334 !important;
+    border-radius: 50%;
+  }
+}
+
+.before-type {
+  margin: 20px;
+  margin-bottom: 0px;
+}
+
+.search-any {
+  margin-bottom: 0px;
+  text-align: center;
+
+  .emptysearchicon {
+    padding: 20px;
+    background: #181334 !important;
+    border-radius: 50%;
+  }
+}
+
+.emptytxt {
+  font-size: initial;
+}
+
+.searchedfor {
+  color: #999;
+}
+
+.bounce {
+  display: inline-block;
+  position: relative;
+  -moz-animation: bounce 0.5s infinite linear;
+  -o-animation: bounce 0.5s infinite linear;
+  -webkit-animation: bounce 0.5s infinite linear;
+  animation: bounce 0.5s infinite linear;
+  color: #000;
+}
+
+@-webkit-keyframes bounce {
+  0% {
+    top: 0;
+  }
+  50% {
+    top: -0.2em;
+  }
+  70% {
+    top: -0.3em;
+  }
+  100% {
+    top: 0;
+  }
+}
+@-moz-keyframes bounce {
+  0% {
+    top: 0;
+  }
+  50% {
+    top: -0.2em;
+  }
+  70% {
+    top: -0.3em;
+  }
+  100% {
+    top: 0;
+  }
+}
+@-o-keyframes bounce {
+  0% {
+    top: 0;
+  }
+  50% {
+    top: -0.2em;
+  }
+  70% {
+    top: -0.3em;
+  }
+  100% {
+    top: 0;
+  }
+}
+@-ms-keyframes bounce {
+  0% {
+    top: 0;
+  }
+  50% {
+    top: -0.2em;
+  }
+  70% {
+    top: -0.3em;
+  }
+  100% {
+    top: 0;
+  }
+}
+@keyframes bounce {
+  0% {
+    top: 0;
+  }
+  50% {
+    top: -0.2em;
+  }
+  70% {
+    top: -0.3em;
+  }
+  100% {
+    top: 0;
+  }
+}

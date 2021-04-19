@@ -1,0 +1,44 @@
+ion-item {
+  padding-bottom: 1px;
+  border-bottom: #ddd double 4px;
+}
+
+.tribationBtn {
+  width: 95% !important;
+  margin-left: 10px !important;
+  margin-right: 10px !important;
+  height: 50px !important;
+  --border-radius: 24px !important;
+  font-size: 18px !important;
+}
+
+.customRadioItem {
+  // border: #ddd solid 1px;
+  width: 100%;
+
+  ion-item {
+    padding-bottom: 0px;
+    border-bottom: unset;
+  }
+}
+
+.pop {
+  font-weight: 600;
+}
+
+.modelTransform {
+  text-transform: capitalize;
+  font-style: italic;
+  font-weight: bold;
+}
+
+ion-label {
+  white-space: pre-line !important;
+}
+
+.deleteAcc {
+  padding: 5%;
+  text-align: right;
+  color: #4c8dff;
+  font-size: larger;
+}

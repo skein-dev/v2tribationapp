@@ -1,0 +1,77 @@
+.btn-update {
+  width: 94%;
+  margin-left: 10px;
+  --border-radius: 24px;
+  font-size: 18px;
+  --background: #ec5529;
+  color: #ffffff;
+  --background-activated: #ec5529;
+}
+
+ion-datetime {
+  button {
+    position: relative !important;
+  }
+
+  .datetime-text {
+    overflow: visible;
+  }
+
+  flex: 1;
+}
+
+.teamName {
+  color: #ec5529;
+  padding: 3%;
+  margin: auto;
+  text-align: end;
+  border-style: double;
+  background: #fff;
+  font-weight: bold;
+  border-color: #112;
+  border-width: 5px 0px 0px 0px;
+}
+
+ion-fab-button {
+  --background: #ec5529;
+  --background-activated: #ec5529;
+  --background-hover: #ec5529;
+  --background-focused: #ec5529;
+  --color: #fff;
+  --color-activated: #fff;
+  --color-focused: #fff;
+}
+
+.fab-button-disabled {
+  --background: #333 !important;
+  --background-activated: #333 !important;
+  --background-hover: #333 !important;
+  --background-focused: #333 !important;
+}
+
+.claenderAction {
+  margin-top: 2%;
+
+  ion-datetime {
+    display: none !important;
+    visibility: hidden !important;
+  }
+}
+
+.picker-opt {
+  overflow: visible !important;
+  text-overflow: unset !important;
+}
+
+button {
+  overflow: visible !important;
+  text-overflow: unset !important;
+}
+
+.tribationBtn {
+  width: 100%;
+  height: 50px;
+  --border-radius: 24px;
+  font-size: 18px;
+  margin-top: 2%;
+}

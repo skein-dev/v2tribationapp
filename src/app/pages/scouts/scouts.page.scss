@@ -1,0 +1,146 @@
+.info {
+  margin: auto;
+
+  ion-row {
+    text-align: center;
+    justify-content: center;
+  }
+}
+
+.prospectAvtar {
+  img,
+  ion-avatar {
+    width: 50px;
+    height: 50px;
+    --border-radius: 12px;
+  }
+}
+
+.row {
+  clear: both;
+  width: 100%;
+  text-align: center;
+}
+
+.name {
+  --color: #000;
+  color: #000;
+  font-size: large;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  max-width: 95%;
+  white-space: nowrap;
+}
+
+.chat {
+  right: 2%;
+  position: absolute;
+  top: 5%;
+}
+
+.partitionPipe {
+  height: 100%;
+  display: flex;
+  align-items: center;
+  float: left;
+  padding-left: 5%;
+  // border-left: solid 1px;
+  border-left: 3px double;
+}
+
+.sports {
+  position: absolute;
+  right: 2%;
+}
+
+.customScroll {
+  flex-wrap: nowrap;
+  overflow-x: auto;
+  display: flex;
+  align-items: center;
+  padding: 2% 2% 2% 2%;
+  background: #fff;
+}
+
+.bottom {
+  background: #000;
+  position: fixed;
+  bottom: 10%;
+  z-index: 999;
+  width: 100%;
+  height: 5%;
+}
+
+.filterButton {
+  float: left;
+  padding: 0px;
+  margin: 0px;
+  text-transform: capitalize;
+  font-size: 15px;
+  margin-right: 4%;
+  height: 31px;
+  --background: #0d0439;
+  --border-radius: 50px;
+  --padding-start: 5px;
+  --padding-inline-start: var(--padding-start);
+}
+
+.close-icon {
+  margin-right: 5px;
+  font-size: 25px;
+}
+
+.name {
+  color: #0d0439;
+  font-size: 20px;
+  line-height: 28px;
+}
+
+.location {
+  font-size: medium;
+  color: #9e9bb0;
+}
+
+.person {
+  border-radius: 20px;
+  background-color: #f9f8fc;
+  margin: 0 10px;
+}
+.personalTitle {
+  color: #9e9bb0;
+  font-size: 14px;
+  line-height: 20px;
+}
+
+.personalDetail {
+  color: #0d0439;
+  font-size: 20px;
+  line-height: 28px;
+  font-weight: bold;
+  .unit {
+    font-size: 14px;
+  }
+}
+.rightLine {
+  border-left: 1px solid #e7e6eb;
+}
+
+.personInfo {
+  border-radius: 20px;
+  background-color: #f9f8fc;
+  margin: 0 10px;
+}
+.info {
+  font-style: normal;
+  font-weight: normal;
+  font-size: 14px;
+  line-height: 20px;
+  color: #9e9bb0;
+}
+.personData {
+  font-style: normal;
+  font-weight: normal;
+  font-size: 16px;
+  line-height: 22px;
+  color: #0d0439;
+}

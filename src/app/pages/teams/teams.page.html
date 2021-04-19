@@ -1,0 +1,177 @@
+<ion-header [translucent]="true">
+  <ion-toolbar mode="md">
+    <ion-buttons slot="start">
+      <ion-menu-button autoHide="false" menuToggle></ion-menu-button>
+    </ion-buttons>
+    <ion-title mode="md" class="ion-align-self-center"
+      >{{teamString}}</ion-title
+    >
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding" mode="ios">
+  <ion-segment
+    class="seg_style"
+    (ionChange)="segmentChanged($event)"
+    [(ngModel)]="checkedsegment"
+  >
+    <ion-segment-button class="seg_btn" value="allTeam">
+      <ion-label>{{allTeamString}}</ion-label>
+    </ion-segment-button>
+
+    <ion-segment-button class="seg_btn" value="manage">
+      <ion-label>{{manageString}}</ion-label>
+    </ion-segment-button>
+  </ion-segment>
+
+  <!-- Manage Section -->
+  <div *ngIf="checkedsegment=='allTeam'">
+    <div *ngIf="noTeams != true">
+      <ion-searchbar
+        color="light"
+        [(ngModel)]="searchTeam"
+        mode="ios"
+        placeholder="{{searchString}}"
+        showCancelButton="never"
+      ></ion-searchbar>
+    </div>
+    <div
+      *ngIf="noTeams == true"
+      style="color: #000; margin-top: 48%; font-size: large"
+      class="ion-text-center"
+    >
+      {{noTeamString}}
+    </div>
+
+    <div *ngIf="noTeams == false">
+      <ion-list>
+        <!-- <ion-item-sliding *ngFor="let item of allTeamList | team:searchTeam; let i=index;" (ionSwipe)="removeItem(item)"> -->
+        <ion-item-sliding
+          *ngFor="let item of allTeamList | team:searchTeam; let i=index;"
+        >
+          <ion-item class="ion-no-padding" (click)="aboutTeam(item)">
+            <ion-avatar slot="start">
+              <img
+                *ngIf="item.team_pic!=''"
+                src="{{environment.apiUrl}}v1/api/post/imagecall_mobile_url?imagepath=team/{{item.teamid}}/{{item.team_pic_small}}"
+              />
+              <img
+                *ngIf="item.team_pic==''"
+                src="{{environment.apiUrl}}v1/api/post/imagecall_mobile_url?imagepath=profile/cover1.jpg"
+              />
+            </ion-avatar>
+            <ion-label>
+              <div class="ownerBadge" slot="end">
+                <h2 style="width: fit-content; float: left">
+                  {{item.team_name}}&nbsp;
+                </h2>
+                <img
+                  *ngIf="item.masteradminid==userDetail.id"
+                  src="../../assets/Security_Admin-01-512.png"
+                />
+              </div>
+              <div style="clear: both">
+                <ion-icon
+                  style="font-size: 16px; color: grey; vertical-align: middle"
+                  name="people"
+                ></ion-icon
+                >&nbsp;<a style="font-size: 11px; color: grey">
+                  {{item.memberscount}}</a
+                >
+              </div>
+            </ion-label>
+          </ion-item>
+          <ion-item-options
+            side="end"
+            (ionSwipe)="deleteTeams(item.id , item.masteradminid)"
+            style="background-color: #eb445a"
+          >
+            <ion-item-option
+              color="danger"
+              (click)="deleteTeams(item.id, item.masteradminid)"
+            >
+              <ion-icon slot="icon-only" name="trash-sharp"> </ion-icon>
+            </ion-item-option>
+          </ion-item-options>
+        </ion-item-sliding>
+      </ion-list>
+    </div>
+  </div>
+
+  <div *ngIf="checkedsegment=='manage'">
+    <div *ngIf="noTeams != true">
+      <ion-searchbar
+        color="light"
+        mode="ios"
+        [(ngModel)]="searchMyTeam"
+        placeholder="{{searchString}}"
+        showCancelButton="never"
+      ></ion-searchbar>
+    </div>
+    <div
+      *ngIf="noOwnTeam===true || myTeamList.length===0"
+      style="color: #000; margin-top: 48%; font-size: large"
+      class="ion-text-center"
+    >
+      {{noTeamString}}
+    </div>
+    <div *ngIf="noOwnTeam===false">
+      <ion-list>
+        <!-- <ion-item-sliding *ngFor="let item of myTeamList | team:searchMyTeam; let i=index;" (ionSwipe)="removeItem(item)"> -->
+        <ion-item-sliding
+          *ngFor="let item of myTeamList | team:searchMyTeam; let i=index;"
+        >
+          <ion-item class="ion-no-padding" (click)="aboutTeam(item)">
+            <ion-avatar slot="start">
+              <img
+                *ngIf="item.team_pic!=''"
+                src="{{environment.apiUrl}}v1/api/post/imagecall_mobile_url?imagepath=team/{{item.teamid}}/{{item.team_pic_small}}"
+              />
+              <img
+                *ngIf="item.team_pic==''"
+                src="{{environment.apiUrl}}v1/api/post/imagecall_mobile_url?imagepath=profile/cover1.jpg"
+              />
+            </ion-avatar>
+            <ion-label>
+              <h2>{{item.team_name}}</h2>
+              <div>
+                <ion-icon
+                  style="font-size: 16px; color: grey; vertical-align: middle"
+                  name="people"
+                ></ion-icon
+                >&nbsp;<a style="font-size: 11px; color: grey">
+                  {{item.memberscount}}</a
+                >
+              </div>
+            </ion-label>
+          </ion-item>
+          <ion-item-options
+            side="end"
+            (ionSwipe)="deleteTeams(item.id, item.masteradminid)"
+            style="background-color: #eb445a"
+          >
+            <ion-item-option
+              color="danger"
+              (click)="deleteTeams(item.id, item.masteradminid)"
+            >
+              <ion-icon slot="icon-only" name="trash-sharp"> </ion-icon>
+            </ion-item-option>
+          </ion-item-options>
+        </ion-item-sliding>
+      </ion-list>
+    </div>
+  </div>
+  <!-- Ends Manage section -->
+
+  <ion-fab
+    vertical="bottom"
+    horizontal="end"
+    slot="fixed"
+    button
+    routerLink="create-team"
+  >
+    <ion-fab-button class="tribationBtn">
+      <ion-icon name="add"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
+</ion-content>

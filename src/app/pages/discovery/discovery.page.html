@@ -1,0 +1,456 @@
+<ion-header [translucent]="true">
+  <ion-toolbar mode="md">
+    <ion-buttons slot="start">
+      <ion-menu-button autoHide="false" menuToggle></ion-menu-button>
+    </ion-buttons>
+    <ion-title
+      mode="md"
+      class="ion-align-self-center"
+      style="font-weight: bold; padding-left: 30%"
+      >{{discoveryString}}</ion-title
+    >
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <div class="frnd_pad" style="padding-top: 3%">
+    <!-- Search Bar -->
+    <div class="search_bar">
+      <ion-searchbar
+        #searchBox
+        class="search_bar ion-no-padding"
+        color="light"
+        [(ngModel)]="searchTerm"
+        mode="ios"
+        (ionChange)="search(searchTerm)"
+        placeholder="{{searchString}}"
+        showCancelButton="never"
+        style="width: 95%; margin: auto"
+      >
+      </ion-searchbar>
+    </div>
+
+    <div padding *ngIf="searchTerm!=''">
+      <ion-segment
+        (ionChange)="searchByDiscChanged($event)"
+        [(ngModel)]="checkedsegment"
+      >
+        <ion-segment-button value="people">
+          <ion-label>{{peopleString}}</ion-label>
+        </ion-segment-button>
+        <ion-segment-button value="post">
+          <ion-label>{{postString}}</ion-label>
+        </ion-segment-button>
+      </ion-segment>
+
+      <!--search by people -->
+      <div *ngIf="checkedsegment=='people'">
+        <div
+          *ngIf="searchTerm!='' && userListLength===0"
+          style="text-align: center"
+        >
+          <img src="../../../assets/no_Discovery_found.gif" />
+          <h3 style="color: gray; font-weight: bolder; font-size: large">
+            {{tryChangeFilterString}}
+          </h3>
+        </div>
+        <ion-list *ngIf="searchTerm!='' && userListLength>0">
+          <ion-item-sliding *ngFor="let frnd of listOfUser">
+            <ion-item>
+              <ion-avatar slot="start">
+                <img
+                  *ngIf="frnd.profile_img_url!=''"
+                  button
+                  (click)="friendDetail(frnd.id)"
+                  src="{{environment.apiUrl}}v1/api/post/imagecall_mobile_url?imagepath=profile/{{frnd.id}}/{{frnd.profile_img_url}}"
+                />
+                <img
+                  *ngIf="frnd.profile_img_url==''"
+                  button
+                  (click)="friendDetail(frnd.id)"
+                  src="../assets/defaultProfile.png"
+                />
+              </ion-avatar>
+              <ion-label>
+                <h2
+                  class="ion-text-wrap capital"
+                  button
+                  (click)="friendDetail(frnd.id)"
+                >
+                  {{frnd.title}}
+                </h2>
+                <p class="para_size" style="text-transform: capitalize">
+                  <ion-icon name="pin" class="icon_location"></ion-icon
+                  ><span *ngIf="frnd.country_code!='0'">
+                    {{frnd.city}}, {{frnd.country_code}} </span
+                  ><span
+                    *ngIf="frnd.country_code=='0' || frnd.country_code=='' || frnd.country_code=='null'"
+                  >
+                    {{frnd.city}}</span
+                  >
+                </p>
+              </ion-label>
+              <ion-icon
+                style="font-size: x-large"
+                name="chatbox-ellipses-outline"
+                class="black"
+                (click)="rootMsgPage(frnd.id)"
+              >
+              </ion-icon>
+            </ion-item>
+          </ion-item-sliding>
+        </ion-list>
+      </div>
+
+      <!-- search by post -->
+      <div *ngIf="checkedsegment=='post'">
+        <div
+          *ngIf="searchTerm!='' && searchedAssests.length===0"
+          style="text-align: center"
+        >
+          <img src="../../../assets/no_Discovery_found.gif" />
+          <h3 style="color: gray; font-weight: bolder; font-size: large">
+            {{tryChangeFilterString}}
+          </h3>
+        </div>
+        <div *ngIf="searchTerm!='' && searchedAssests.length>0">
+          <ion-grid>
+            <div *ngFor="let item of searchedAssests; let index=index">
+              <div *ngIf="index % 3 === 0">
+                <ion-row size="12">
+                  <ion-col
+                    size="4"
+                    class="customPadding"
+                    *ngIf="searchedAssests.length > index"
+                  >
+                    <div
+                      style="height: 125px; padding-bottom: 2px"
+                      (click)="onClickDis(searchedAssests[index])"
+                    >
+                      <img
+                        style="height: 100%; width: 100%; object-fit: cover"
+                        src="{{environment.apiUrl}}v1/api/post/imagecall_mobile_url?imagepath={{searchedAssests[index].asset_thumb_url}}"
+                      />
+                    </div>
+                  </ion-col>
+                  <ion-col
+                    size="4"
+                    class="customPadding"
+                    *ngIf="searchedAssests.length > index + 1"
+                  >
+                    <div
+                      style="height: 125px; padding-bottom: 2px"
+                      (click)="onClickDis(searchedAssests[index + 1])"
+                    >
+                      <img
+                        style="height: 100%; width: 100%; object-fit: cover"
+                        src="{{environment.apiUrl}}v1/api/post/imagecall_mobile_url?imagepath={{searchedAssests[index + 1 ].asset_thumb_url}}"
+                      />
+                    </div>
+                  </ion-col>
+                  <ion-col
+                    size="4"
+                    class="customPadding"
+                    *ngIf="searchedAssests.length > index + 2"
+                  >
+                    <div
+                      style="height: 125px; padding-bottom: 2px"
+                      (click)="onClickDis(searchedAssests[index + 2])"
+                    >
+                      <img
+                        style="height: 100%; width: 100%; object-fit: cover"
+                        src="{{environment.apiUrl}}v1/api/post/imagecall_mobile_url?imagepath={{searchedAssests[index + 2].asset_thumb_url}}"
+                      />
+                    </div>
+                  </ion-col>
+                </ion-row>
+              </div>
+            </div>
+          </ion-grid>
+        </div>
+      </div>
+    </div>
+
+    <!-- Grid Of Posts without filter (Discovery) -->
+    <div *ngIf="discoveryAssets && (searchTerm == '')">
+      <div class="scrollmenu">
+        <ion-button
+          class="customButtonSport"
+          *ngFor="let item of sportsList"
+          (click)="onClickSport(item)"
+          >{{item.name}}</ion-button
+        >
+      </div>
+
+      <ion-grid>
+        <div *ngFor="let item of discoveryAssets; let index=index">
+          <div *ngIf="index % 18 === 0">
+            <ion-row size="12">
+              <ion-col size="4" class="customPadding">
+                <div
+                  style="height: 125px; padding-bottom: 2px"
+                  *ngIf="discoveryAssets.length > index"
+                  (click)="onClickDis(discoveryAssets[index])"
+                >
+                  <img
+                    style="height: 100%; width: 100%; object-fit: cover"
+                    src="{{environment.apiUrl}}v1/api/post/imagecall_mobile_url?imagepath={{discoveryAssets[index].asset_thumb_url}}"
+                  />
+                </div>
+                <div
+                  style="height: 125px"
+                  *ngIf="discoveryAssets.length > index + 1"
+                  (click)="onClickDis(discoveryAssets[index + 1])"
+                >
+                  <img
+                    style="height: 100%; width: 100%; object-fit: cover"
+                    src="{{environment.apiUrl}}v1/api/post/imagecall_mobile_url?imagepath={{discoveryAssets[index + 1].asset_thumb_url}}"
+                  />
+                </div>
+              </ion-col>
+              <ion-col
+                size="8"
+                class="customPadding"
+                *ngIf="discoveryAssets.length > index + 2"
+                (click)="onClickDis(discoveryAssets[index + 2])"
+              >
+                <div style="height: 250px">
+                  <img
+                    style="height: 100%; width: 100%; object-fit: cover"
+                    src="{{environment.apiUrl}}v1/api/post/imagecall_mobile_url?imagepath={{discoveryAssets[index + 2].asset_thumb_url}}"
+                  />
+                </div>
+              </ion-col>
+            </ion-row>
+            <ion-row>
+              <ion-col
+                size="4"
+                class="customPadding"
+                *ngIf="discoveryAssets.length > index + 3"
+                (click)="onClickDis(discoveryAssets[index + 3])"
+              >
+                <div style="height: 125px">
+                  <img
+                    style="height: 100%; width: 100%; object-fit: cover"
+                    src="{{environment.apiUrl}}v1/api/post/imagecall_mobile_url?imagepath={{discoveryAssets[index + 3].asset_thumb_url}}"
+                  />
+                </div>
+              </ion-col>
+              <ion-col
+                size="4"
+                class="customPadding"
+                *ngIf="discoveryAssets.length > index + 4"
+                (click)="onClickDis(discoveryAssets[index + 4])"
+              >
+                <div style="height: 125px">
+                  <img
+                    style="height: 100%; width: 100%; object-fit: cover"
+                    src="{{environment.apiUrl}}v1/api/post/imagecall_mobile_url?imagepath={{discoveryAssets[index + 4].asset_thumb_url}}"
+                  />
+                </div>
+              </ion-col>
+              <ion-col
+                size="4"
+                class="customPadding"
+                *ngIf="discoveryAssets.length > index + 5"
+                (click)="onClickDis(discoveryAssets[index + 5])"
+              >
+                <div style="height: 125px">
+                  <img
+                    style="height: 100%; width: 100%; object-fit: cover"
+                    src="{{environment.apiUrl}}v1/api/post/imagecall_mobile_url?imagepath={{discoveryAssets[index + 5].asset_thumb_url}}"
+                  />
+                </div>
+              </ion-col>
+            </ion-row>
+
+            <ion-row>
+              <ion-col
+                size="4"
+                class="customPadding"
+                *ngIf="discoveryAssets.length > index + 6"
+                (click)="onClickDis(discoveryAssets[index + 6])"
+              >
+                <div style="height: 125px">
+                  <img
+                    style="height: 100%; width: 100%; object-fit: cover"
+                    src="{{environment.apiUrl}}v1/api/post/imagecall_mobile_url?imagepath={{discoveryAssets[index + 6].asset_thumb_url}}"
+                  />
+                </div>
+              </ion-col>
+              <ion-col
+                size="4"
+                class="customPadding"
+                *ngIf="discoveryAssets.length > index + 7"
+                (click)="onClickDis(discoveryAssets[index + 7])"
+              >
+                <div style="height: 125px">
+                  <img
+                    style="height: 100%; width: 100%; object-fit: cover"
+                    src="{{environment.apiUrl}}v1/api/post/imagecall_mobile_url?imagepath={{discoveryAssets[index + 7].asset_thumb_url}}"
+                  />
+                </div>
+              </ion-col>
+              <ion-col
+                size="4"
+                class="customPadding"
+                *ngIf="discoveryAssets.length > index + 8"
+                (click)="onClickDis(discoveryAssets[index + 8])"
+              >
+                <div style="height: 125px">
+                  <img
+                    style="height: 100%; width: 100%; object-fit: cover"
+                    src="{{environment.apiUrl}}v1/api/post/imagecall_mobile_url?imagepath={{discoveryAssets[index + 8].asset_thumb_url}}"
+                  />
+                </div>
+              </ion-col>
+            </ion-row>
+
+            <ion-row size="12">
+              <ion-col
+                size="8"
+                class="customPadding"
+                *ngIf="discoveryAssets.length > index + 9"
+                (click)="onClickDis(discoveryAssets[index + 9])"
+              >
+                <div style="height: 250px">
+                  <img
+                    style="height: 100%; width: 100%; object-fit: cover"
+                    src="{{environment.apiUrl}}v1/api/post/imagecall_mobile_url?imagepath={{discoveryAssets[index + 9].asset_thumb_url}}"
+                  />
+                </div>
+              </ion-col>
+              <ion-col size="4" class="customPadding">
+                <div
+                  style="height: 125px; padding-bottom: 2px"
+                  *ngIf="discoveryAssets.length > index + 10"
+                  (click)="onClickDis(discoveryAssets[index + 10])"
+                >
+                  <img
+                    style="height: 100%; width: 100%; object-fit: cover"
+                    src="{{environment.apiUrl}}v1/api/post/imagecall_mobile_url?imagepath={{discoveryAssets[index + 10].asset_thumb_url}}"
+                  />
+                </div>
+                <div
+                  style="height: 125px"
+                  *ngIf="discoveryAssets.length > index + 11"
+                  (click)="onClickDis(discoveryAssets[index + 11])"
+                >
+                  <img
+                    style="height: 100%; width: 100%; object-fit: cover"
+                    src="{{environment.apiUrl}}v1/api/post/imagecall_mobile_url?imagepath={{discoveryAssets[index + 11].asset_thumb_url}}"
+                  />
+                </div>
+              </ion-col>
+            </ion-row>
+
+            <ion-row>
+              <ion-col
+                size="4"
+                class="customPadding"
+                *ngIf="discoveryAssets.length > index + 12"
+                (click)="onClickDis(discoveryAssets[index + 12])"
+              >
+                <div style="height: 125px">
+                  <img
+                    style="height: 100%; width: 100%; object-fit: cover"
+                    src="{{environment.apiUrl}}v1/api/post/imagecall_mobile_url?imagepath={{discoveryAssets[index + 12].asset_thumb_url}}"
+                  />
+                </div>
+              </ion-col>
+              <ion-col
+                size="4"
+                class="customPadding"
+                *ngIf="discoveryAssets.length > index + 13"
+                (click)="onClickDis(discoveryAssets[index + 13])"
+              >
+                <div style="height: 125px">
+                  <img
+                    style="height: 100%; width: 100%; object-fit: cover"
+                    src="{{environment.apiUrl}}v1/api/post/imagecall_mobile_url?imagepath={{discoveryAssets[index + 13].asset_thumb_url}}"
+                  />
+                </div>
+              </ion-col>
+              <ion-col
+                size="4"
+                class="customPadding"
+                *ngIf="discoveryAssets.length > index + 14"
+                (click)="onClickDis(discoveryAssets[index + 14])"
+              >
+                <div style="height: 125px">
+                  <img
+                    style="height: 100%; width: 100%; object-fit: cover"
+                    src="{{environment.apiUrl}}v1/api/post/imagecall_mobile_url?imagepath={{discoveryAssets[index + 14].asset_thumb_url}}"
+                  />
+                </div>
+              </ion-col>
+            </ion-row>
+
+            <ion-row>
+              <ion-col
+                size="4"
+                class="customPadding"
+                *ngIf="discoveryAssets.length > index + 15"
+                (click)="onClickDis(discoveryAssets[index + 15])"
+              >
+                <div style="height: 125px">
+                  <img
+                    style="height: 100%; width: 100%; object-fit: cover"
+                    src="{{environment.apiUrl}}v1/api/post/imagecall_mobile_url?imagepath={{discoveryAssets[index + 15].asset_thumb_url}}"
+                  />
+                </div>
+              </ion-col>
+              <ion-col
+                size="4"
+                class="customPadding"
+                *ngIf="discoveryAssets.length > index + 16"
+                (click)="onClickDis(discoveryAssets[index + 16])"
+              >
+                <div style="height: 125px">
+                  <img
+                    style="height: 100%; width: 100%; object-fit: cover"
+                    src="{{environment.apiUrl}}v1/api/post/imagecall_mobile_url?imagepath={{discoveryAssets[index + 16].asset_thumb_url}}"
+                  />
+                </div>
+              </ion-col>
+              <ion-col
+                size="4"
+                class="customPadding"
+                *ngIf="discoveryAssets.length > index + 17"
+                (click)="onClickDis(discoveryAssets[index + 17])"
+              >
+                <div style="height: 125px">
+                  <img
+                    style="height: 100%; width: 100%; object-fit: cover"
+                    src="{{environment.apiUrl}}v1/api/post/imagecall_mobile_url?imagepath={{discoveryAssets[index + 17].asset_thumb_url}}"
+                  />
+                </div>
+              </ion-col>
+            </ion-row>
+          </div>
+        </div>
+        <ion-infinite-scroll
+          threshold="100px"
+          (ionInfinite)="loadMore($event)"
+          *ngIf="limitreached === false"
+        >
+          <ion-infinite-scroll-content
+            loadingSpinner="bubbles"
+            loadingText=""
+          ></ion-infinite-scroll-content>
+        </ion-infinite-scroll>
+
+        <div
+          style="text-align: center; padding-top: 10%"
+          *ngIf="limitreached === true"
+        >
+          <ion-icon
+            name="checkmark-circle-outline"
+            style="font-size: -webkit-xxx-large; color: #f69a3b"
+          ></ion-icon>
+          <h3 style="color: grey">{{allCaughtUpString}}</h3>
+        </div>
+      </ion-grid>
+    </div>
+  </div>
+</ion-content>

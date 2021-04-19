@@ -1,0 +1,260 @@
+<ion-header [translucent]="true">
+  <ion-toolbar mode="md">
+    <ion-buttons slot="start">
+      <ion-menu-button autoHide="false" menuToggle></ion-menu-button>
+    </ion-buttons>
+    <ion-title
+      mode="md"
+      class="ion-align-self-center"
+      style="font-weight: bold; padding-left: 30%;"
+      >{{friendsString}}</ion-title
+    >
+  </ion-toolbar>
+</ion-header>
+<ion-content *ngIf="regularUser === false">
+  <!-- <div class="blockAcessMinor">
+    {{blockAccessGetGuardianString}}
+  </div> -->
+</ion-content>
+
+<ion-content class="bgcolor" *ngIf="regularUser === true">
+  <ion-row>
+    <ion-col size="3" *ngIf="webTrib">
+      <ion-card class="sticky">
+        <img
+          *ngIf="this.userDetail.profile_img_url!=null"
+          src="{{environment.apiUrl}}v1/api/post/imagecall_mobile_url?imagepath={{this.userDetail.profile_img_url}}"
+        />
+        <img
+          *ngIf="this.userDetail.profile_img_url==null"
+          src="../../../assets/defaultProfile.png"
+        />
+        <ion-card-header>
+          <ion-card-title style="font-size: medium"
+            >{{this.userDetail.first_name}}
+            {{this.userDetail.last_name}}</ion-card-title
+          >
+          <!-- <ion-card-subtitle>Destination</ion-card-subtitle> -->
+        </ion-card-header>
+        <ion-card-content>
+          <ion-list mode="md">
+            <ion-item
+              mode="md"
+              lines="none"
+              [routerLink]="['/friends-list']"
+              routerLinkActive="active-link"
+            >
+              <ion-icon name="people" style="padding-right: 4%"></ion-icon>
+              <ion-label>{{friendsString}}</ion-label>
+              <ion-note slot="end" color="primary" style="font-size: medium"
+                >{{this.quickInfo.friends}}</ion-note
+              >
+            </ion-item>
+            <ion-item
+              mode="md"
+              lines="none"
+              [routerLink]="['/chat']"
+              routerLinkActive="active-link"
+            >
+              <ion-icon name="home" style="padding-right: 4%"></ion-icon>
+              <ion-label>{{groupsString}}</ion-label>
+              <ion-note slot="end" color="primary" style="font-size: medium"
+                >{{this.quickInfo.groups}}</ion-note
+              >
+            </ion-item>
+            <ion-item
+              mode="md"
+              lines="none"
+              [routerLink]="['/teams']"
+              routerLinkActive="active-link"
+            >
+              <ion-icon name="people" style="padding-right: 4%"></ion-icon>
+              <ion-label>{{teamsString}}</ion-label>
+              <ion-note slot="end" color="primary" style="font-size: medium"
+                >{{this.quickInfo.teams}}</ion-note
+              >
+            </ion-item>
+            <ion-item
+              mode="md"
+              lines="none"
+              [routerLink]="['/events']"
+              routerLinkActive="active-link"
+            >
+              <ion-icon name="people" style="padding-right: 4%"></ion-icon>
+              <ion-label>{{eventsString}}</ion-label>
+              <ion-note slot="end" color="primary" style="font-size: medium"
+                >{{this.quickInfo.events}}</ion-note
+              >
+            </ion-item>
+          </ion-list>
+        </ion-card-content>
+      </ion-card>
+    </ion-col>
+    <ion-col>
+      <div *ngIf="noFriends===true">
+        <div
+          class="noReq ion-text-capitalize ion-text-center"
+          style="margin-top: 42%"
+        >
+          <ion-icon
+            mode="ios"
+            src="../../../assets/UserThree.svg"
+            style="font-size: 900%; color: #3a3a3a"
+          ></ion-icon>
+          <div
+            style="width: 70%; margin: auto; margin-top: -3%; font-size: large"
+          >
+            {{noFriendString}}
+          </div>
+        </div>
+      </div>
+      <div class="frnd_pad" *ngIf="noFriends===false">
+        <div class="search_bar">
+          <!-- (ionChange)="setFilteredItem(searchTerm)"  -->
+          <ion-searchbar
+            class="search_bar ion-no-padding"
+            color="light"
+            [(ngModel)]="searchFriendsTerm"
+            mode="ios"
+            placeholder="{{searchString}}"
+            showCancelButton="never"
+            style="width: 95%; margin: auto"
+          >
+          </ion-searchbar>
+        </div>
+        <div class="container">
+          <ion-list *ngIf="myfrndsList">
+            <ion-item-sliding
+              (ionSwipe)="unFriend(frnd.id,frnd.name)"
+              *ngFor="let frnd of myfrndsList | friends:searchFriendsTerm"
+            >
+              <ion-item>
+                <ion-avatar slot="start" (click)="goToProfile(frnd.id)" button>
+                  <img
+                    *ngIf="frnd.profile_img_url_thump!=null"
+                    src="{{environment.apiUrl}}v1/api/post/imagecall_mobile_url?imagepath=profile/{{frnd.id}}/{{frnd.profile_img_url_thump}}"
+                  />
+                  <img
+                    *ngIf="frnd.profile_img_url_thump==null"
+                    src="{{environment.apiUrl}}v1/api/post/imagecall_mobile_url?imagepath=profile/default.png"
+                  />
+                </ion-avatar>
+                <ion-label (click)="goToProfile(frnd.id)" button>
+                  <h2
+                    class="ion-text-wrap capital"
+                    button
+                    (click)="goToProfile(frnd.id)"
+                  >
+                    {{frnd.name}}
+                  </h2>
+                  <p class="para_size" style="text-transform: capitalize">
+                    <ion-icon name="location" class="icon_location"></ion-icon
+                    ><span *ngIf="frnd.country_code!='0'">
+                      {{frnd.city}}, {{frnd.country}} </span
+                    ><span
+                      *ngIf="frnd.country_code=='0' || frnd.country_code=='' || frnd.country_code=='null'"
+                    >
+                      {{frnd.city}}</span
+                    >
+                  </p>
+                </ion-label>
+                <!-- src="../../../assets/iconsSvg/chat-fri.svg" -->
+                <ion-icon
+                  style="color: #9e9bb0"
+                  name="chatbox-ellipses-outline"
+                  (click)="rootMsgPage(frnd.id)"
+                >
+                </ion-icon>
+              </ion-item>
+              <ion-item-options>
+                <ion-button
+                  class="unfrnd-btn capital ion-text-wrap"
+                  color="danger"
+                  expand="full"
+                  (click)="unFriend(frnd.id,frnd.name)"
+                  >{{unfriendString}}</ion-button
+                >
+              </ion-item-options>
+            </ion-item-sliding>
+          </ion-list>
+        </div>
+      </div>
+    </ion-col>
+    <ion-col size="3" *ngIf="webTrib">
+      <ion-card class="sticky">
+        <ion-card-header>
+          <ion-item lines="none">
+            <img
+              src="../../../assets/smallLogo.png"
+              style="width: 16%; border-radius: 6px"
+            />
+            <ion-searchbar
+              animated="true"
+              placeholder="{{searchString}}"
+              readonly="true"
+              debounce="500"
+              (click)="searchFun()"
+            >
+            </ion-searchbar>
+          </ion-item>
+        </ion-card-header>
+        <ion-card-content>
+          <ion-list>
+            <ion-item
+              mode="md"
+              [routerLink]="['/settings/edit-profile']"
+              routerLinkActive="active-link"
+              *ngIf="this.userDetail.user_type !== 'scout'"
+            >
+              <ion-label>{{editProfileString}}</ion-label>
+            </ion-item>
+            <ion-item
+              mode="md"
+              [routerLink]="['/settings/language']"
+              routerLinkActive="active-link"
+            >
+              <ion-label>{{changeLanguageString}}</ion-label>
+            </ion-item>
+          </ion-list>
+        </ion-card-content>
+        <div style="border-top: 1px solid #1111222b">
+          <div class="linkAll">
+            <div>
+              <a
+                style="color: #ec5529"
+                href="https://www.tribation.com/#!/terms"
+                target="_blank"
+                >Terms of Service</a
+              >
+            </div>
+            <div>
+              <a
+                style="color: #ec5529"
+                href="https://www.tribation.com/#!/termsconditions"
+                target="_blank"
+                >Terms and conditions</a
+              >
+            </div>
+            <div>
+              <a
+                style="color: #ec5529"
+                href="https://www.tribation.com/#!/privacyPolicy"
+                target="_blank"
+                >Privacy Policy</a
+              >
+            </div>
+            <div>
+              <a
+                style="color: #ec5529"
+                href="https://www.tribation.com/#!/contactus"
+                target="_blank"
+                >Contact us</a
+              >
+            </div>
+            <span> Copyright &copy; Tribation 2020. </span>
+          </div>
+        </div>
+      </ion-card>
+    </ion-col>
+  </ion-row>
+</ion-content>

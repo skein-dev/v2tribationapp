@@ -1,0 +1,70 @@
+.teamAbout-container {
+  .max-h-200 {
+    max-height: 200px;
+    margin: 3%;
+    width: 94%;
+  }
+
+  .abt-addteam {
+    border-bottom: 1px solid #eaeaea;
+    margin-bottom: 10px;
+    padding: 0;
+
+    .inside-addteam {
+      background: #181434;
+      color: white;
+      padding: 5px;
+      border-radius: 24px;
+      text-align: center;
+      margin-right: 5px;
+      font-size: 18px;
+    }
+  }
+
+  .abt-teamcustitem {
+    padding-top: 10px;
+  }
+}
+
+.div_cover_Pic {
+  background: #000;
+  border-radius: 50%;
+  font-size: x-large !important;
+  padding: 2px;
+}
+
+.icons {
+  position: fixed;
+  width: 100%;
+  top: 0;
+  padding: 2%;
+}
+
+.memberName {
+  font-size: large;
+  display: flex;
+  align-items: center;
+}
+ion-avatar {
+  float: left;
+  width: 30px;
+  height: 30px;
+  margin-right: 5px;
+  img {
+    color: #fff;
+  }
+}
+ion-item.item-has-focus > ion-label {
+  color: #ec5529 !important;
+}
+ion-checkbox {
+  --border-radius: 50%;
+  color: transparent !important;
+  --border-color: transparent !important;
+  --border-color-checked: #181434;
+  --background-checked: #181434;
+  width: 8%;
+  height: auto;
+  padding: 0;
+  margin: 0;
+}

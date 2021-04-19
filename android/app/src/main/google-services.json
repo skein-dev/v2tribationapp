@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "726234007471",
+    "firebase_url": "https://tribation-234415.firebaseio.com",
+    "project_id": "tribation-234415",
+    "storage_bucket": "tribation-234415.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:726234007471:android:6b01104695f1f826",
+        "android_client_info": {
+          "package_name": "com.tribation.sportapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "726234007471-akfpsa0iknsa3j76qj9449lbpr32fnu9.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB1B2T86q8bNdQpDMQQ8gJxin3hq3E4NZc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "726234007471-akfpsa0iknsa3j76qj9449lbpr32fnu9.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "726234007471-ofq0cppj6ovdelped9gitkj0gkkfgpdu.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.tribation.sportapp"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

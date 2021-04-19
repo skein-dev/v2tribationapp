@@ -1,0 +1,32 @@
+.updateRequired {
+  --background: #00000082;
+  background: #00000082;
+
+  .innerContent {
+    --background: #fff;
+    background: #fff;
+    padding: 5%;
+    position: absolute;
+    top: 40%;
+    left: 10%;
+    margin: auto !important;
+    height: 15%;
+    width: 80%;
+    border-radius: 9px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  ion-button {
+    position: absolute;
+    bottom: 3px;
+    right: 3px;
+  }
+}
+
+.common-tab {
+  ion-tab-button:focus{
+    border-bottom: 2px solid black;
+  }
+}

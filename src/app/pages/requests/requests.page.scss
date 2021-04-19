@@ -1,0 +1,84 @@
+.noReq {
+  font-size: x-large;
+}
+
+.frndReqBorderBtm {
+  border-bottom: 0.5px solid #ec5529;
+}
+
+.acceptRequest {
+  --background: #112 !important;
+  padding-right: 3%;
+}
+
+.deleteRequest {
+  color: black;
+  --background: #dadce4;
+}
+
+.topright {
+  position: absolute;
+  top: 10%;
+  right: 6px;
+  font-size: 67%;
+}
+
+.two {
+  display: flex;
+  color: red;
+}
+
+.cardMaxHeight {
+  // max-height: 38.3%;
+  overflow: auto;
+}
+
+.reqListMargin {
+  margin-top: 3%;
+}
+
+.seg_padding {
+  padding-top: 15px;
+}
+
+.seg_style {
+  border: none !important;
+  background-color: #bdc1c5;
+  color: white !important;
+  border-radius: 5px !important;
+  width: 96%;
+  margin: 2%;
+}
+
+.seg_btn {
+  text-transform: capitalize;
+  --background-checked: #171434;
+  color: #fff !important;
+  --border-color: unset;
+  --indicator-color: #112;
+  min-width: fit-content;
+  min-height: fit-content;
+  width: fit-content;
+  height: fit-content;
+  // max-width           : fit-content;
+  max-height: fit-content;
+  // --padding-start:2px;
+  // --padding-end: 2px;
+}
+
+.segment-button-checked {
+  background: #0d0439;
+  color: #fff !important;
+  border-radius: 5px !important;
+}
+.avtr_and_name {
+  // display   : flex;
+  width: 100%;
+  align-items: center;
+  margin: auto;
+  position: absolute;
+  top: 32.5%;
+}
+.frndReqBorderBtm {
+  border-bottom: 0.5px solid #ec5529;
+}

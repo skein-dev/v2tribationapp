@@ -1,0 +1,98 @@
+<ion-content mode="ios">
+  <ion-searchbar
+    placeholder="{{ searchString }}"
+    [(ngModel)]="searchTerm"
+    showCancelButton="never"
+    (ionChange)="search(searchTerm)"
+  ></ion-searchbar>
+  <ion-card>
+    <ion-list *ngIf="!sportsList">
+      <ion-item>
+        <ion-skeleton-text
+          animated
+          style="width: 96%; height: 20px"
+        ></ion-skeleton-text>
+      </ion-item>
+      <ion-item>
+        <ion-skeleton-text
+          animated
+          style="width: 96%; height: 20px"
+        ></ion-skeleton-text>
+      </ion-item>
+      <ion-item>
+        <ion-skeleton-text
+          animated
+          style="width: 96%; height: 20px"
+        ></ion-skeleton-text>
+      </ion-item>
+      <ion-item>
+        <ion-skeleton-text
+          animated
+          style="width: 96%; height: 20px"
+        ></ion-skeleton-text>
+      </ion-item>
+      <ion-item>
+        <ion-skeleton-text
+          animated
+          style="width: 96%; height: 20px"
+        ></ion-skeleton-text>
+      </ion-item>
+      <ion-item>
+        <ion-skeleton-text
+          animated
+          style="width: 96%; height: 20px"
+        ></ion-skeleton-text>
+      </ion-item>
+      <ion-item>
+        <ion-skeleton-text
+          animated
+          style="width: 96%; height: 20px"
+        ></ion-skeleton-text>
+      </ion-item>
+      <ion-item>
+        <ion-skeleton-text
+          animated
+          style="width: 96%; height: 20px"
+        ></ion-skeleton-text>
+      </ion-item>
+      <ion-item>
+        <ion-skeleton-text
+          animated
+          style="width: 96%; height: 20px"
+        ></ion-skeleton-text>
+      </ion-item>
+      <ion-item>
+        <ion-skeleton-text
+          animated
+          style="width: 96%; height: 20px"
+        ></ion-skeleton-text>
+      </ion-item>
+    </ion-list>
+
+    <ion-list *ngIf="sportsList">
+      <ion-radio-group>
+        <ion-item *ngFor="let sports of listOfSports" mode="ios">
+          <ion-radio
+            (click)="
+              select(
+                sports.id,
+                sports.name,
+                sports.icon_class,
+                sports.categories
+              )
+            "
+            value="sports.id"
+            slot="end"
+            [(ngModel)]="sports.id"
+          >
+          </ion-radio>
+          <img
+            src="../../../assets/sports/{{ sports.icon_class }}.png"
+            style="height: auto; width: 40px"
+          />
+          <ion-label>&nbsp;{{ sports.name }}</ion-label>
+        </ion-item>
+      </ion-radio-group>
+    </ion-list>
+  </ion-card>
+</ion-content>

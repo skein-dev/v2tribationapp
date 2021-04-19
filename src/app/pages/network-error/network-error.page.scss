@@ -1,0 +1,25 @@
+.pageContent {
+  color: #fff !important;
+  --color: #fff !important;
+}
+
+.logo {
+  position: absolute;
+  left: 0;
+  bottom: 3%;
+}
+
+.text {
+  position: absolute;
+  font-size: x-large;
+  top: 50%;
+  width: 90%;
+  margin-left: 5%;
+  text-align: center;
+}
+
+.imgHolder {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+}

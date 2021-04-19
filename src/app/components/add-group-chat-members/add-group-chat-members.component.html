@@ -1,0 +1,95 @@
+<ion-header [translucent]="true">
+  <ion-toolbar mode="md">
+    <ion-icon
+      slot="start"
+      name="close"
+      class="white fnt-18"
+      (click)="back()"
+    ></ion-icon>
+    <ion-title mode="md" class="ion-align-self-center">{{
+      selectGrouupMemberString
+    }}</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <div *ngIf="grpMembers.length === 0">
+    <div
+      class="noReq ion-text-capitalize ion-text-center"
+      style="margin-top: 42%"
+    >
+      <ion-icon
+        mode="ios"
+        src="../../../assets/UserThree.svg"
+        style="font-size: 900%; color: #3a3a3a"
+      ></ion-icon>
+      <div style="width: 70%; margin: auto; margin-top: -3%; font-size: large">
+        {{ noFriendToAddString }}
+      </div>
+    </div>
+  </div>
+  <div *ngIf="grpMembers.length > 0 && isReady === true">
+    <ion-list class="addmember-container">
+      <ion-item
+        *ngFor="let frnd of grpMembers; let i = index"
+        lines="none"
+        button
+        (click)="markSelected(frnd)"
+        style="height: 60px; border-bottom: 1px solid #e6e6e6; width: 100%"
+        detail="false"
+      >
+        <ion-avatar slot="start">
+          <img
+            *ngIf="frnd.profile_img_url_thump != null"
+            src="{{
+              environment.apiUrl
+            }}v1/api/post/imagecall_mobile_url?imagepath=profile/{{
+              frnd.id
+            }}/{{ frnd.profile_img_url_thump }}"
+          />
+          <img
+            *ngIf="frnd.profile_img_url_thump == null"
+            src="{{
+              environment.apiUrl
+            }}v1/api/post/imagecall_mobile_url?imagepath=profile/default.png"
+          />
+        </ion-avatar>
+
+        <ion-label class="pos_onselect">
+          <h2>{{ frnd.name }}</h2>
+          <p class="para_size" style="text-transform: capitalize">
+            <ion-icon name="pin" class="icon_location"></ion-icon
+            ><span *ngIf="frnd.country_code != '0'">
+              {{ frnd.city }}, {{ frnd.country_code }} </span
+            ><span
+              *ngIf="
+                frnd.country_code == '0' ||
+                frnd.country_code == '' ||
+                frnd.country_code == 'null'
+              "
+            >
+              {{ frnd.city }}</span
+            >
+          </p>
+        </ion-label>
+        <ion-checkbox
+          slot="end"
+          (ionChange)="change()"
+          [(ngModel)]="frnd.isChecked"
+        ></ion-checkbox>
+      </ion-item>
+    </ion-list>
+  </div>
+</ion-content>
+<ion-fab
+  vertical="bottom"
+  horizontal="end"
+  slot="fixed"
+  class="fab-pos"
+  *ngIf="anyMemberSelected"
+  style="z-index: 9999999999"
+>
+  <ion-fab-button (click)="doneSelecting()" class="tribationBtn">
+    <ion-icon name="arrow-forward"></ion-icon>
+  </ion-fab-button>
+</ion-fab>

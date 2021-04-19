@@ -1,0 +1,213 @@
+<ion-header>
+  <ion-toolbar>
+    <div style="display: flex; align-items: center; color: #fff">
+      <ion-icon
+        name="arrow-back"
+        style="font-size: x-large; padding-left: 2%; float: left"
+        (click)="back()"
+      >
+      </ion-icon>
+      <ion-title mode="md" style="float: left" class="ion-align-self-center">{{
+        editPostString
+      }}</ion-title>
+    </div>
+  </ion-toolbar>
+
+  <ion-item
+    lines="none"
+    style="
+      border-bottom: 1px solid #d3d2d5;
+      display: flex;
+      justify-content: center;
+      margin-top: 2%;
+    "
+  >
+    <ion-avatar style="height: 40px; width: 40px">
+      <img
+        *ngIf="postUser.profile_img_url_thump != null"
+        style="height: 40px; width: 40px"
+        src="{{
+          environment.apiUrl
+        }}v1/api/post/imagecall_mobile_url?imagepath=profile/{{
+          postUser.id
+        }}/{{ postUser.profile_img_url_thump }}"
+      />
+      <img
+        *ngIf="postUser.profile_img_url_thump == null"
+        src="../../../assets/defaultProfile.png"
+        style="height: 40px; width: 40px"
+      />
+    </ion-avatar>
+    <div
+      style="margin-left: 4%; color: #000; font-size: large; margin-top: -2%"
+    >
+      {{ postUser.first_name }}&nbsp;{{ postUser.last_name }}
+    </div>
+    <div
+      slot="end"
+      style="display: flex; width: auto; align-items: end; margin: 0"
+    >
+      <!-- <span button class="noBackgroundItem" (click)="postLegacySelect()">
+        <img *ngIf="legacySportIcon!=''" src="../../assets/bubblewithsports/{{legacySportIcon}}.png"
+          style="height: auto;width:22px;">
+        <img *ngIf="legacySportIcon==''" src="../../../assets/comment-bubble.png" style="height: auto;width:22px;">
+      </span> -->
+      <span
+        button
+        class="noBackgroundItem"
+        (click)="attachMediaInPost()"
+        *ngIf="showCloseBtn"
+      >
+        <ion-icon
+          name="attach"
+          aria-label="attach"
+          style="font-size: x-large; opacity: 0.7"
+        ></ion-icon>
+      </span>
+      <input
+        type="file"
+        onClick="this.value = null"
+        (change)="pickImageVideoFromDevice($event)"
+        #userInput
+        multiple
+        accept="image/*,video/*"
+        style="display: none"
+      />
+      <input
+        type="file"
+        onClick="this.value = null"
+        (change)="pickImageVideoFromDevice($event)"
+        #userInputForIos
+        multiple
+        accept="video/*"
+        style="display: none"
+      />
+    </div>
+  </ion-item>
+  <ion-card style="margin-bottom: 2%; padding: 2%">
+    <ion-textarea
+      [(ngModel)]="postContent"
+      #postText
+      class="selectable"
+      (keyup)="mensioning($event.keyCode)"
+      readonly="{{ postReadonly }}"
+      (keyup.space)="break($event)"
+      autoGrow="true"
+      (ionChange)="postContentEdit(postContent)"
+    ></ion-textarea>
+  </ion-card>
+  <ion-card
+    class="customTagPop"
+    *ngIf="showMensionPickUp === true && searchFriendsList.length > 0"
+  >
+    <div
+      *ngFor="let item of searchFriendsList"
+      button
+      (click)="onFriendTag(item)"
+    >
+      <ion-avatar
+        style="width: max-content; height: max-content; margin: 2% 0px"
+      >
+        <img
+          style="width: 25px; height: 25px"
+          *ngIf="item.profile_img_url !== ''"
+          src="{{
+            environment.apiUrl
+          }}v1/api/post/imagecall_mobile_url?imagepath=profile/{{ item.id }}/{{
+            item.profile_img_url
+          }}"
+        />
+        <img
+          style="width: 25px; height: 25px"
+          *ngIf="item.profile_img_url === ''"
+          src="../../../assets/defaultProfile.png"
+        />
+        &nbsp;
+        {{ item.name }}
+      </ion-avatar>
+      <ion-ripple-effect></ion-ripple-effect>
+    </div>
+  </ion-card>
+  <!-- <ion-button (click)="creatPost()" *ngIf="showPostButton" expand="full"
+    style="--color:#fff;color:#fff;background: #112;--background: #112;">
+    {{postString}}
+  </ion-button> -->
+</ion-header>
+<ion-content>
+  <div *ngIf="showLoadingImage === true">
+    <div *ngFor="let item of selectedMediaLoader">
+      <img class="photoItem" src="../../../assets/spinnerImageLoad.gif" />
+    </div>
+  </div>
+  <div class="personal_Media" style="margin-top: 5%">
+    <div *ngFor="let media of mediaArray; let m = index">
+      <div *ngIf="media.asset_url || media.thumbname">
+        <div class="photoItem" button (click)="openMultiMedia(mediaArray, m)">
+          <img
+            class="loading_img img-fluid post-img img_height loading_img"
+            *ngIf="media.asset_url"
+            src="{{
+              environment.apiUrl
+            }}v1/api/post/imagecall_mobile_url?imagepath={{
+              media.asset_thumb_url
+            }}"
+          />
+          <img
+            class="loading_img img-fluid post-img img_height loading_img"
+            *ngIf="media.thumbname && media.posttype == 'image'"
+            src="https://storage.googleapis.com/tribation_uploads_dev/temp/{{
+              media.thumbname
+            }}"
+          />
+          <!-- <video *ngIf="!media.asset_url && vidExtArray.indexOf(media.type) > -1" size="3" preload="metadata"
+            webkit-playsinline="webkit-playsinline">
+            <source [src]="media.mediaUrl" />
+          </video> -->
+          <img
+            class="loading_img img-fluid post-img img_height loading_img"
+            *ngIf="media.thumbname && media.posttype == 'video'"
+            src="https://storage.googleapis.com/tribation_uploads_dev/temp/{{
+              media.thumbname
+            }}"
+          />
+          <div class="videoPlayButton" *ngIf="media.posttype == 'video'">
+            <ion-icon name="caret-forward-circle" class="white"></ion-icon>
+          </div>
+          <ion-icon
+            *ngIf="
+              (mediaArray[m].asset_url != '' || mediaArray[m].mediaUrl != '') &&
+              showCloseBtn === true
+            "
+            name="close"
+            (click)="removeimg(media.id, m)"
+            class="closeIcon"
+          >
+          </ion-icon>
+        </div>
+        <div *ngIf="m % 2 === 0" class="divider"></div>
+      </div>
+    </div>
+  </div>
+</ion-content>
+<ion-fab
+  vertical="bottom"
+  horizontal="end"
+  class="tribationBtn"
+  (click)="creatPost()"
+  *ngIf="videoProcesComplete === true"
+>
+  <ion-fab-button class="tribationBtn">
+    <ion-icon name="checkmark"></ion-icon>
+  </ion-fab-button>
+</ion-fab>
+<ion-footer>
+  <ion-progress-bar
+    *ngIf="showProgressFlag == true"
+    value="{{ progressBarval }}"
+    style="
+      padding: 2%;
+      --progress-background: #111122;
+      --buffer-background: transparent;
+    "
+  ></ion-progress-bar>
+</ion-footer>

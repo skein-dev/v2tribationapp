@@ -1,0 +1,322 @@
+<ion-app>
+  <!--============= Sidemenu ==================-->
+  <ion-menu
+    side="start"
+    contentId="custom"
+    class="my-custom-menu"
+    type="overlay"
+    *ngIf="
+      route != '' &&
+      route != '/login' &&
+      route != '/signup' &&
+      route != '/login/forget-pass' &&
+      route != '/terms' &&
+      route != '/intro' &&
+      route != 'network-error'
+    "
+  >
+    <ion-content class="menu-content">
+      <ion-menu-toggle auto-hide="false">
+        <div class="paddingSafe">
+          <ion-row style="width: 90%; height: 7%; margin: auto; margin-top: 3%">
+            <ion-col
+              style="align-items: center; display: flex"
+              (click)="searchFun()"
+            >
+              <ion-searchbar
+                animated="true"
+                showCancelButton="focus"
+                disabled="true"
+                class="menu-search"
+                placeholder="{{ searchString }}"
+                readonly="true"
+                debounce="500"
+                style="max-height: 40px; opacity: 99%"
+                mode="md"
+              ></ion-searchbar>
+            </ion-col>
+            <!-- <ion-col size="2" class="custom-algn-center" [routerLink]="['/settings']">
+                            <ion-icon style="font-size:large;color:#fff;text-align:center;" name="settings"></ion-icon>
+                        </ion-col> -->
+          </ion-row>
+          <div
+            class="menu-img-container ion-text-center"
+            style="margin-top: 10%"
+            button
+            (click)="myProfile()"
+          >
+            <img
+              class="img-fluid"
+              *ngIf="profileImageURL"
+              src="{{
+                environment.apiUrl
+              }}v1/api/post/imagecall_mobile_url?imagepath={{
+                profileImageURL
+              }}"
+            />
+            <img
+              class="img-fluid"
+              *ngIf="!this.profileImageURL"
+              src="{{ profileImageURL }}"
+            />
+            <p
+              style="
+                margin: unset;
+                margin-top: 1%;
+                font-size: large;
+                color: #fff;
+              "
+            >
+              {{ profileFirstname }} {{ profileLastName }}
+            </p>
+          </div>
+        </div>
+      </ion-menu-toggle>
+
+      <ion-menu-toggle auto-hide="false">
+        <ion-list mode="md">
+          <ion-item
+            mode="md"
+            lines="none"
+            style="
+              --min-height: unset;
+              padding: 2% 0%;
+              --color-activated: #fff;
+              margin-top: 5%;
+            "
+            [routerLink]="['/timeline']"
+            routerLinkActive="active-link"
+            detail="false"
+          >
+            <ion-icon name="home-outline"></ion-icon>{{ timelineString }}
+          </ion-item>
+
+          <ion-item
+            mode="md"
+            lines="none"
+            style="--min-height: unset; padding: 2% 0%; --color-activated: #fff"
+            button
+            (click)="myProfile()"
+            routerLinkActive="active-link"
+          >
+            <ion-icon name="person-outline"></ion-icon>
+            {{ myprofileString }}
+          </ion-item>
+
+          <ion-item
+            mode="md"
+            lines="none"
+            style="--min-height: unset; padding: 2% 0%; --color-activated: #fff"
+            [routerLink]="['/teams']"
+            routerLinkActive="active-link"
+            *ngIf="regularUser === true"
+          >
+            <ion-icon name="people-outline"></ion-icon>{{ teamString }}
+          </ion-item>
+          <ion-item
+            mode="md"
+            lines="none"
+            style="--min-height: unset; padding: 2% 0%; --color-activated: #fff"
+            [routerLink]="['/guardian']"
+            routerLinkActive="active-link"
+            *ngIf="isScout !== null && isGuardian === true && isMinor === false"
+          >
+            <ion-icon name="person-add-outline"></ion-icon>{{ guardianString }}
+          </ion-item>
+          <ion-item
+            mode="md"
+            lines="none"
+            style="--min-height: unset; padding: 2% 0%; --color-activated: #fff"
+            [routerLink]="['/scouts']"
+            routerLinkActive="active-link"
+            *ngIf="isScout === true && isMinor === false"
+          >
+            <ion-icon name="megaphone-outline"></ion-icon>{{ scoutsToolString }}
+          </ion-item>
+          <ion-item
+            mode="md"
+            lines="none"
+            style="--min-height: unset; padding: 2% 0%; --color-activated: #fff"
+            [routerLink]="['/scouts/doc-to-upload']"
+            routerLinkActive="active-link"
+            *ngIf="isScout === false && isMinor === false"
+          >
+            <ion-icon name="megaphone-outline"></ion-icon>{{ scoutsToolString }}
+          </ion-item>
+          <ion-item
+            mode="md"
+            lines="none"
+            style="--min-height: unset; padding: 2% 0%; --color-activated: #fff"
+            [routerLink]="['/events']"
+            routerLinkActive="active-link"
+            detail="false"
+            *ngIf="regularUser === true"
+          >
+            <ion-icon name="calendar-outline" mode="md"></ion-icon
+            >{{ eventsString }}
+          </ion-item>
+          <ion-item
+            mode="md"
+            lines="none"
+            style="--min-height: unset; padding: 2% 0%; --color-activated: #fff"
+            [routerLink]="['/settings/help-center']"
+            routerLinkActive="active-link"
+            detail="false"
+          >
+            <ion-icon name="call-outline"></ion-icon>{{ helpcenterString }}
+          </ion-item>
+          <ion-item
+            mode="md"
+            lines="none"
+            style="--min-height: unset; padding: 2% 0%; --color-activated: #fff"
+            [routerLink]="['/settings/about-tribation']"
+            routerLinkActive="active-link"
+            detail="false"
+          >
+            <ion-icon name="information-circle-outline"></ion-icon
+            >{{ aboutTribationString }}
+          </ion-item>
+        </ion-list>
+      </ion-menu-toggle>
+      <ion-fab
+        slot="fixed"
+        horizontal="end"
+        vertical="bottom"
+        style="width: 35%"
+      >
+        <ion-fab-button
+          size="small"
+          (click)="sahreInvite()"
+          matTooltipPosition="above"
+          matTooltip="{{ shareString }}"
+          style="
+            --background: transparent;
+            background: transparent;
+            width: 100% !important;
+            float: left;
+          "
+          >{{ shareString }}
+          <ion-icon name="share-social-outline"></ion-icon>
+        </ion-fab-button>
+      </ion-fab>
+    </ion-content>
+    <ion-footer>
+      <div style="width: 100%; padding-bottom: 5%">
+        <ion-button
+          (click)="logout()"
+          class="white ion-text-capitalize borderNoColor"
+          expand="full"
+        >
+          {{ logoutString }} &nbsp;&nbsp;
+          <ion-icon
+            class="white"
+            style="font-size: large; margin-left: 1.5%"
+            name="log-out-outline"
+            mode="md"
+          >
+          </ion-icon>
+        </ion-button>
+      </div>
+    </ion-footer>
+  </ion-menu>
+  <!-- ENDS SIDEMENU -->
+  <ion-router-outlet id="custom" main></ion-router-outlet>
+
+  <!--===========Bottom TABS=============-->
+  <div class="common-tab">
+    <ion-tabs>
+      <ion-tab-bar
+        slot="bottom"
+        *ngIf="
+          currentLocation == '/timeline' ||
+          currentLocation == '/settings' ||
+          currentLocation == '/notification' ||
+          currentLocation == '/friends-list' ||
+          currentLocation == '/chat' ||
+          currentLocation == '/requests' ||
+          currentLocation == '/teams' ||
+          currentLocation == '/profile/:id' ||
+          currentLocation == '/scouts' ||
+          currentLocation == '/scouts/doc-to-upload' ||
+          currentLocation == '/scouts/subscribing-plan' ||
+          currentLocation == '/guardian' ||
+          currentLocation == '/guardian/doc-to-upload' ||
+          currentLocation == '/events' ||
+          currentLocation == '/discovery'
+        "
+      >
+        <ion-tab-button
+          [routerLink]="['/timeline']"
+          routerLinkActive="active-link-icon"
+        >
+          <ion-icon name="home-outline"></ion-icon>
+          <ion-badge class="tab-badge" *ngIf="postCount != 0">{{
+            postCount
+          }}</ion-badge>
+        </ion-tab-button>
+
+        <ion-tab-button
+          [routerLink]="['/discovery']"
+          routerLinkActive="active-link-icon"
+        >
+          <ion-icon name="search-outline"></ion-icon>
+        </ion-tab-button>
+
+        <ion-tab-button
+          [routerLink]="['/friends-list']"
+          routerLinkActive="active-link-icon"
+        >
+          <ion-icon name="person-outline"></ion-icon>
+        </ion-tab-button>
+
+        <ion-tab-button
+          [routerLink]="['/requests']"
+          routerLinkActive="active-link-icon"
+        >
+          <ion-icon name="person-add-outline"></ion-icon>
+          <ion-badge *ngIf="this.requestCount != 0" class="tab-badge">{{
+            requestCount
+          }}</ion-badge>
+        </ion-tab-button>
+
+        <ion-tab-button
+          [routerLink]="['/chat']"
+          routerLinkActive="active-link-icon"
+        >
+          <ion-icon name="chatbox-ellipses-outline"></ion-icon>
+          <ion-badge *ngIf="this.messageCount !== 0" class="tab-badge">{{
+            messageCount
+          }}</ion-badge>
+        </ion-tab-button>
+
+        <ion-tab-button
+          [routerLink]="['/notification']"
+          routerLinkActive="active-link-icon"
+        >
+          <ion-icon name="notifications-outline"></ion-icon>
+          <ion-badge class="tab-badge" *ngIf="this.notificationCount !== 0">{{
+            notificationCount
+          }}</ion-badge>
+        </ion-tab-button>
+        <ion-tab-button
+          [routerLink]="['/settings']"
+          routerLinkActive="active-link-icon"
+        >
+          <ion-icon name="settings-outline"></ion-icon>
+        </ion-tab-button>
+      </ion-tab-bar>
+    </ion-tabs>
+  </div>
+
+  <p id="logout" button [routerLink]="['/login']" routerDirection="root"></p>
+  <!--===========ENDS Bottom TABS=============-->
+
+  <!-- <ion-content *ngIf="needToUpdate === true" class="updateRequired">
+        <div class="innerContent">
+            {{updateMessageString}}
+            <ion-button (click)="updateApp()" expand="block" fill="clear">
+                {{updateString}}
+            </ion-button>
+        </div>
+    </ion-content> -->
+</ion-app>

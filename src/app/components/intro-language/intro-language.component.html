@@ -1,0 +1,34 @@
+<ion-header [translucent]="true">
+  <ion-toolbar mode="md">
+    <ion-icon
+      slot="start"
+      name="arrow-back"
+      class="fnt-18"
+      (click)="back()"
+    ></ion-icon>
+    <ion-title mode="md" class="ion-align-self-center">{{
+      languageString
+    }}</ion-title>
+  </ion-toolbar>
+</ion-header>
+<!--=========== Header Ends ============-->
+<ion-content *ngIf="tribLanguages" class="language-container slideInleft">
+  <ion-card class="mrg-10 cus-b-r">
+    <ion-list>
+      <ion-radio-group [(ngModel)]="languagevalue">
+        <ion-item *ngFor="let language of tribLanguages; let i = index">
+          <ion-label>{{ language.name }}</ion-label>
+          <ion-radio slot="start" [value]="language.value"></ion-radio>
+        </ion-item>
+      </ion-radio-group>
+    </ion-list>
+  </ion-card>
+</ion-content>
+<ion-footer>
+  <ion-button
+    class="tribationBtn"
+    (click)="changeLanguage(languagevalue)"
+    expand="full"
+    >{{ okString }}
+  </ion-button>
+</ion-footer>

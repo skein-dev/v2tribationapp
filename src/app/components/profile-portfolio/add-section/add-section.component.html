@@ -1,0 +1,924 @@
+<div class="content" mode="ios">
+  <div
+    *ngIf="profileFlag === true"
+    style="width: 100%; height: 95%; display: flex"
+  >
+    <ion-card mode="ios">
+      <div class="closeIcon" button (click)="exit()">
+        <ion-icon name="close"></ion-icon>
+      </div>
+      <ion-card-header>
+        <div style="width: 100%; height: auto; clear: both; overflow: hidden">
+          <div style="width: 20%; float: left">
+            <div class="avtar">
+              <img
+                *ngIf="profileinfo.profileImgThumb != ''"
+                src="{{
+                  environment.apiUrl
+                }}v1/api/post/imagecall_mobile_url?imagepath=profile/{{
+                  profileinfo.id
+                }}/{{ profileinfo.profileImgThumb }}"
+              />
+              <img
+                *ngIf="profileinfo.profileImgThumb == ''"
+                src="../../../assets/defaultProfile.png"
+              />
+            </div>
+          </div>
+          <div class="name">
+            {{ profileinfo.fName }}&nbsp;{{ profileinfo.lName }}
+          </div>
+        </div>
+        <!-- <ion-card-title>{{infoBlockString}}</ion-card-title> -->
+      </ion-card-header>
+      <ion-card-content *ngIf="profileinfo">
+        <ion-item lines="none" style="border-bottom: 1px #44444461 solid">
+          <ion-label position="floating">{{ birthdayString }}*</ion-label>
+          <ion-datetime
+            [(ngModel)]="profileinfo.birthday"
+            min="{{ minDate }}"
+            max="{{ maxDate }}"
+            displayFormat="DD MMMM YYYY"
+          ></ion-datetime>
+        </ion-item>
+        <ion-item lines="none" style="border-bottom: 1px #44444461 solid">
+          <ion-label position="floating">{{ cityString }}*</ion-label>
+          <ion-input type="text" [(ngModel)]="profileinfo.city"></ion-input>
+        </ion-item>
+        <ion-item lines="none" style="border-bottom: 1px #44444461 solid">
+          <ion-label position="floating">{{ stateProvinceString }}*</ion-label>
+          <ion-input
+            type="text"
+            [(ngModel)]="profileinfo.stateProvince"
+          ></ion-input>
+        </ion-item>
+        <ion-item
+          lines="none"
+          style="border-bottom: 1px #44444461 solid"
+          (click)="gotocountry()"
+        >
+          <ion-label position="floating">{{ countryString }}*</ion-label>
+          <ion-input
+            type="text"
+            [(ngModel)]="profileinfo.countryName"
+            readonly="true"
+          ></ion-input>
+        </ion-item>
+        <ion-item style="--padding-start: 3px" lines="none">
+          <ion-row style="width: 100%; margin-top: 5%">
+            <!-- <ion-col size="2"></ion-col>
+            <ion-col size="8"> -->
+            <ion-segment
+              [(ngModel)]="profileinfo.gender"
+              class="seg_style"
+              mode="md"
+            >
+              <ion-segment-button class="seg_btn" checked="true" value="male">
+                <!-- <ion-icon size="large" name="man"></ion-icon> -->
+                {{ maleString }}
+              </ion-segment-button>
+              <ion-segment-button class="seg_btn" value="female">
+                <!-- <ion-icon size="large" name="woman"></ion-icon> -->
+                {{ femaleString }}
+              </ion-segment-button>
+              <ion-segment-button class="seg_btn" value="other">
+                <!-- <ion-icon size="large" name="woman"></ion-icon> -->
+                other
+              </ion-segment-button>
+            </ion-segment>
+            <!-- </ion-col>
+            <ion-col size="2"></ion-col> -->
+          </ion-row>
+        </ion-item>
+        <!-- weight card -->
+        <div
+          style="
+            font-size: large;
+            width: 100%;
+            text-align: center;
+            font-weight: bold;
+            color: #000;
+            margin-top: 5%;
+          "
+        >
+          {{ weightString }}
+        </div>
+        <div
+          style="
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-bottom: 1px #44444461 solid;
+          "
+        >
+          <div style="width: 30%; float: left">
+            <ion-input
+              inputmode="decimal"
+              maxlength="3"
+              [(ngModel)]="profileinfo.weight"
+              style="
+                text-align: center;
+                background: #efefef;
+                border-radius: 5px;
+                width: 80%;
+                margin: auto;
+              "
+            >
+            </ion-input>
+          </div>
+          <div style="width: 70%; float: right">
+            <ion-segment
+              mode="md"
+              [(ngModel)]="profileinfo.weightUnit"
+              class="seg_style"
+              slot="end"
+              style="margin: auto"
+            >
+              <ion-segment-button value="kg" class="seg_btn">
+                {{ kgString }}
+              </ion-segment-button>
+              <ion-segment-button value="lbs" class="seg_btn">
+                {{ poundsString }}
+              </ion-segment-button>
+              <ion-segment-button value="sto" class="seg_btn">
+                {{ stonesString }}
+              </ion-segment-button>
+            </ion-segment>
+          </div>
+        </div>
+
+        <!-- height -->
+        <div
+          style="
+            font-size: large;
+            width: 100%;
+            text-align: center;
+            font-weight: bold;
+            color: #000;
+            margin-top: 5%;
+          "
+        >
+          {{ heightString }}
+        </div>
+        <div
+          style="
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-bottom: 1px #44444461 solid;
+          "
+        >
+          <div style="width: 30%; float: left">
+            <ion-input
+              inputmode="decimal"
+              maxlength="3"
+              [(ngModel)]="profileinfo.height"
+              style="
+                text-align: center;
+                background: #efefef;
+                border-radius: 5px;
+                width: 80%;
+                margin: auto;
+              "
+            >
+            </ion-input>
+          </div>
+          <div style="width: 70%; float: right">
+            <ion-segment
+              mode="md"
+              [(ngModel)]="profileinfo.heightUnit"
+              class="seg_style"
+              slot="end"
+              style="margin: auto"
+            >
+              <ion-segment-button value="in" class="seg_btn">
+                {{ inchesString }}
+              </ion-segment-button>
+              <ion-segment-button value="cm" class="seg_btn">
+                {{ cmString }}
+              </ion-segment-button>
+              <ion-segment-button value="ft" class="seg_btn">
+                {{ feetString }}
+              </ion-segment-button>
+            </ion-segment>
+          </div>
+        </div>
+
+        <ion-footer style="width: 90%; margin: auto; padding-top: 7%">
+          <ion-button
+            (click)="saveProfileData()"
+            expand="block"
+            style="--background: #112; --color: #fff"
+            *ngIf="
+              profileinfo.birthday &&
+              profileinfo.city &&
+              profileinfo.stateProvince &&
+              profileinfo.countryName
+            "
+          >
+            {{ saveString }}
+          </ion-button>
+        </ion-footer>
+      </ion-card-content>
+    </ion-card>
+  </div>
+  <!-- Work Block -->
+  <div
+    *ngIf="workHistoryAddFlag === true"
+    style="width: 100%; height: 95%; display: flex"
+  >
+    <ion-card mode="ios">
+      <div class="closeIcon" button (click)="exit()">
+        <ion-icon name="close"></ion-icon>
+      </div>
+      <ion-card-header>
+        <ion-card-title>
+          <!-- <ion-icon name="briefcase"></ion-icon> -->
+          <ion-icon name="albums"></ion-icon>
+          <!-- <ion-icon name="person-circle"></ion-icon> -->
+          &nbsp;{{ workHistoryString }}
+        </ion-card-title>
+      </ion-card-header>
+      <ion-card-content>
+        <ion-item>
+          <ion-label position="floating">{{ jobTitleString }}*</ion-label>
+          <ion-input
+            type="text"
+            [(ngModel)]="userWorkHistory.jobTitle"
+          ></ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-label position="floating">{{ employerString }}*</ion-label>
+          <ion-input
+            type="text"
+            [(ngModel)]="userWorkHistory.employer"
+          ></ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-label position="floating">{{ dateFromString }}*</ion-label>
+          <ion-datetime
+            [(ngModel)]="userWorkHistory.dateFrom"
+            (ionChange)="changeDate(userWorkHistory)"
+            [max]="maxToday"
+            displayFormat="MM-DD-YYYY"
+          >
+          </ion-datetime>
+        </ion-item>
+        <ion-item *ngIf="userWorkHistory.current === false">
+          <ion-label position="floating">{{ dateToString }}</ion-label>
+          <ion-datetime
+            [(ngModel)]="userWorkHistory.dateTo"
+            [min]="userWorkHistory.dateFrom"
+            displayFormat="MM-DD-YYYY"
+          >
+          </ion-datetime>
+        </ion-item>
+        <ion-item mode="md" lines="none" style="margin-top: 3%">
+          <ion-label>{{ presentString }}</ion-label>
+          <ion-checkbox
+            slot="start"
+            [(ngModel)]="userWorkHistory.current"
+          ></ion-checkbox>
+        </ion-item>
+        <ion-item>
+          <ion-label position="floating">{{ descriptionString }}</ion-label>
+          <ion-textarea
+            autoGrow="true"
+            style="min-height: auto; max-height: 120px"
+            [(ngModel)]="userWorkHistory.decsribtion"
+          >
+          </ion-textarea>
+        </ion-item>
+      </ion-card-content>
+      <ion-footer style="width: 90%; margin: auto; padding-top: 2%">
+        <ion-button
+          (click)="saveWorkData()"
+          expand="block"
+          style="--background: #112; --color: #fff"
+          *ngIf="
+            userWorkHistory.jobTitle &&
+            userWorkHistory.employer &&
+            userWorkHistory.dateFrom
+          "
+        >
+          {{ saveString }}
+        </ion-button>
+      </ion-footer>
+    </ion-card>
+    <div
+      style="
+        width: 100%;
+        margin: auto;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        color: #fff;
+        font-weight: bold;
+        font-size: x-large;
+        position: absolute;
+        bottom: 2.5%;
+      "
+      *ngIf="workHistoryAddFlag === true && editDeleteMode === true"
+      (click)="deleteWorkHistory()"
+    >
+      <ion-icon
+        src="../../../../assets/iconsSvg/trash.svg"
+        style="background: #eb445a; padding: 2%; border-radius: 50%"
+      >
+      </ion-icon>
+    </div>
+  </div>
+
+  <!-- Team Block -->
+  <div
+    *ngIf="teamHistoryAddFlag === true"
+    style="width: 100%; height: 95%; display: flex"
+  >
+    <ion-card mode="ios">
+      <div class="closeIcon" button (click)="exit()">
+        <ion-icon name="close"></ion-icon>
+      </div>
+      <ion-card-header>
+        <ion-card-title>
+          <ion-icon mode="ios" src="../../../assets/UserThree.svg"></ion-icon>
+          &nbsp;{{ teamHistoryString }}
+        </ion-card-title>
+      </ion-card-header>
+      <ion-card-content>
+        <ion-item button (click)="selectSports('team')" detail="false">
+          <ion-label position="floating">{{ sportString }}*</ion-label>
+          <ion-input
+            [(ngModel)]="userTeamHistory.sportsName"
+            placeholder="{{ selectSportString }}"
+            readonly="true"
+          >
+            <img
+              src="../../../assets/sports/{{ sportsIcon }}.png"
+              style="height: auto; width: 40px; position: absolute; right: 0"
+              *ngIf="sportsIcon"
+            />
+          </ion-input>
+        </ion-item>
+
+        <ion-item
+          button
+          (click)="selectPosition('team')"
+          detail="false"
+          *ngIf="userTeamHistory.sportsName"
+        >
+          <ion-label position="floating">{{ positionString }}*</ion-label>
+          <ion-input
+            [(ngModel)]="userTeamHistory.positionName"
+            placeholder="{{ selectPositionString }}"
+            readonly="true"
+          >
+          </ion-input>
+        </ion-item>
+
+        <ion-item>
+          <ion-label position="floating">{{ teamNameString }}*</ion-label>
+          <ion-input
+            type="text"
+            [(ngModel)]="userTeamHistory.teamName"
+          ></ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-label position="floating">{{ coachString }}</ion-label>
+          <ion-input
+            type="text"
+            [(ngModel)]="userTeamHistory.coach"
+          ></ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-label position="floating">{{ dateFromString }}</ion-label>
+          <ion-datetime
+            [(ngModel)]="userTeamHistory.dateFrom"
+            (ionChange)="changeDate(userTeamHistory)"
+            [max]="maxToday"
+            displayFormat="MM-DD-YYYY"
+          >
+          </ion-datetime>
+        </ion-item>
+        <ion-item *ngIf="userTeamHistory.current === false">
+          <ion-label position="floating">{{ dateToString }}</ion-label>
+          <ion-datetime
+            [(ngModel)]="userTeamHistory.dateTo"
+            [min]="userTeamHistory.dateFrom"
+            displayFormat="MM-DD-YYYY"
+          >
+          </ion-datetime>
+        </ion-item>
+        <ion-item mode="md" lines="none" style="margin-top: 3%">
+          <ion-label>{{ presentString }}</ion-label>
+          <ion-checkbox
+            slot="start"
+            [(ngModel)]="userTeamHistory.current"
+          ></ion-checkbox>
+        </ion-item>
+        <ion-item>
+          <ion-label position="floating">{{ descriptionString }}</ion-label>
+          <ion-textarea
+            autoGrow="true"
+            style="min-height: auto; max-height: 120px"
+            [(ngModel)]="userTeamHistory.description"
+          >
+          </ion-textarea>
+        </ion-item>
+      </ion-card-content>
+      <ion-footer style="width: 90%; margin: auto; padding-top: 2%">
+        <ion-button
+          (click)="saveTeamData()"
+          expand="block"
+          style="--background: #112; --color: #fff"
+          *ngIf="
+            userTeamHistory.positionName &&
+            userTeamHistory.teamName &&
+            userTeamHistory.sportsName
+          "
+        >
+          {{ saveString }}
+        </ion-button>
+      </ion-footer>
+    </ion-card>
+    <div
+      style="
+        width: 100%;
+        margin: auto;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        color: #fff;
+        font-weight: bold;
+        font-size: x-large;
+        position: absolute;
+        bottom: 2.5%;
+      "
+      *ngIf="teamHistoryAddFlag === true && editDeleteMode === true"
+      (click)="deleteTeamHistory()"
+    >
+      <ion-icon
+        src="../../../../assets/iconsSvg/trash.svg"
+        style="background: #eb445a; padding: 2%; border-radius: 50%"
+      >
+      </ion-icon>
+    </div>
+  </div>
+
+  <!-- Traning Block -->
+  <div
+    *ngIf="formalTraningAddFlag === true"
+    style="width: 100%; height: 95%; display: flex"
+  >
+    <ion-card mode="ios">
+      <div class="closeIcon" button (click)="exit()">
+        <ion-icon name="close"></ion-icon>
+      </div>
+      <ion-card-header>
+        <ion-card-title>
+          <ion-icon name="star"></ion-icon>
+          &nbsp;{{ sportString }}
+        </ion-card-title>
+      </ion-card-header>
+      <ion-card-content>
+        <ion-item button (click)="selectSports('')" detail="false">
+          <ion-label position="floating">{{ sportString }}*</ion-label>
+          <ion-input
+            [(ngModel)]="userFormalTraning.sportsName"
+            placeholder="{{ selectSportString }}"
+            readonly="true"
+          >
+            <img
+              src="../../../assets/sports/{{ sportsIcon }}.png"
+              style="height: auto; width: 40px; position: absolute; right: 0"
+              *ngIf="sportsIcon"
+            />
+          </ion-input>
+        </ion-item>
+
+        <ion-item>
+          <ion-label position="floating">{{ academeyNameString }}*</ion-label>
+          <ion-input
+            type="text"
+            [(ngModel)]="userFormalTraning.academyName"
+          ></ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-label position="floating">{{ instructorString }}</ion-label>
+          <ion-input
+            type="text"
+            [(ngModel)]="userFormalTraning.instructor"
+          ></ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-label position="floating">{{ levelString }}</ion-label>
+          <ion-input
+            type="text"
+            [(ngModel)]="userFormalTraning.level"
+          ></ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-label position="floating">{{ dateFromString }}</ion-label>
+          <ion-datetime
+            [(ngModel)]="userFormalTraning.dateFrom"
+            (ionChange)="changeDate(userFormalTraning)"
+            [max]="maxToday"
+            displayFormat="MM-DD-YYYY"
+          >
+          </ion-datetime>
+        </ion-item>
+        <ion-item *ngIf="userFormalTraning.current === false">
+          <ion-label position="floating">{{ dateToString }}</ion-label>
+          <ion-datetime
+            [(ngModel)]="userFormalTraning.dateTo"
+            [min]="userFormalTraning.dateFrom"
+            displayFormat="MM-DD-YYYY"
+          >
+          </ion-datetime>
+        </ion-item>
+        <ion-item mode="md" lines="none" style="margin-top: 3%">
+          <ion-label>{{ presentString }}</ion-label>
+          <ion-checkbox
+            slot="start"
+            [(ngModel)]="userFormalTraning.current"
+          ></ion-checkbox>
+        </ion-item>
+        <ion-item>
+          <ion-label position="floating">{{ descriptionString }}</ion-label>
+          <ion-textarea
+            autoGrow="true"
+            style="max-height: 120px"
+            [(ngModel)]="userFormalTraning.description"
+          >
+          </ion-textarea>
+        </ion-item>
+      </ion-card-content>
+      <ion-footer style="width: 90%; margin: auto; padding-top: 2%">
+        <ion-button
+          (click)="saveTraningData()"
+          expand="block"
+          style="--background: #112; --color: #fff"
+          *ngIf="userFormalTraning.sportsName && userFormalTraning.academyName"
+        >
+          {{ saveString }}
+        </ion-button>
+      </ion-footer>
+    </ion-card>
+    <div
+      style="
+        width: 100%;
+        margin: auto;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        color: #fff;
+        font-weight: bold;
+        font-size: x-large;
+        position: absolute;
+        bottom: 2.5%;
+      "
+      *ngIf="formalTraningAddFlag === true && editDeleteMode === true"
+      (click)="deleteTraningHistory()"
+    >
+      <ion-icon
+        src="../../../../assets/iconsSvg/trash.svg"
+        style="background: #eb445a; padding: 2%; border-radius: 50%"
+      >
+      </ion-icon>
+    </div>
+  </div>
+
+  <!-- education Block -->
+  <div
+    *ngIf="educationAddFlag === true"
+    style="width: 100%; height: 95%; display: flex"
+  >
+    <ion-card mode="ios">
+      <div class="closeIcon" button (click)="exit()">
+        <ion-icon name="close"></ion-icon>
+      </div>
+      <ion-card-header>
+        <ion-card-title>
+          <ion-icon name="school"></ion-icon>
+          &nbsp;{{ educationString }}
+        </ion-card-title>
+      </ion-card-header>
+      <ion-card-content>
+        <ion-item>
+          <ion-label position="floating">{{ schoolNameString }}*</ion-label>
+          <ion-input
+            type="text"
+            [(ngModel)]="userEducation.schoolName"
+          ></ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-label position="floating"
+            >{{ levelString }} / {{ programString }}</ion-label
+          >
+          <ion-input type="text" [(ngModel)]="userEducation.level"></ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-label position="floating">{{ dateFromString }}</ion-label>
+          <ion-datetime
+            [(ngModel)]="userEducation.dateFrom"
+            (ionChange)="userEducation.dateTo = ''"
+            [max]="maxToday"
+            displayFormat="MM-DD-YYYY"
+          >
+          </ion-datetime>
+        </ion-item>
+        <ion-item *ngIf="userEducation.current === false">
+          <ion-label position="floating">{{ dateToString }}</ion-label>
+          <ion-datetime
+            [(ngModel)]="userEducation.dateTo"
+            [min]="userEducation.dateFrom"
+            displayFormat="MM-DD-YYYY"
+          >
+          </ion-datetime>
+        </ion-item>
+        <ion-item mode="md" lines="none" style="margin-top: 3%">
+          <ion-label>{{ presentString }}</ion-label>
+          <ion-checkbox
+            slot="start"
+            [(ngModel)]="userEducation.current"
+          ></ion-checkbox>
+        </ion-item>
+        <ion-item>
+          <ion-label position="floating">{{ descriptionString }}</ion-label>
+          <ion-textarea
+            autoGrow="true"
+            style="min-height: auto; max-height: 120px"
+            [(ngModel)]="userEducation.description"
+          >
+          </ion-textarea>
+        </ion-item>
+      </ion-card-content>
+      <ion-footer style="width: 90%; margin: auto; padding-top: 2%">
+        <ion-button
+          (click)="saveEducationData()"
+          expand="block"
+          style="--background: #112; --color: #fff"
+          *ngIf="userEducation.schoolName"
+        >
+          {{ saveString }}
+        </ion-button>
+      </ion-footer>
+    </ion-card>
+    <div
+      style="
+        width: 100%;
+        margin: auto;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        color: #fff;
+        font-weight: bold;
+        font-size: x-large;
+        position: absolute;
+        bottom: 2.5%;
+      "
+      *ngIf="educationAddFlag === true && editDeleteMode === true"
+      (click)="deleteEdu()"
+    >
+      <ion-icon
+        src="../../../../assets/iconsSvg/trash.svg"
+        style="background: #eb445a; padding: 2%; border-radius: 50%"
+      >
+      </ion-icon>
+    </div>
+  </div>
+
+  <!-- award Block -->
+  <div
+    *ngIf="awardsAddFlag === true"
+    style="width: 100%; height: 95%; display: flex"
+  >
+    <ion-card mode="ios">
+      <div class="closeIcon" button (click)="exit()">
+        <ion-icon name="close"></ion-icon>
+      </div>
+      <ion-card-header>
+        <ion-card-title>
+          <ion-icon name="ribbon-sharp"></ion-icon>
+          &nbsp;{{ awardsString }}
+        </ion-card-title>
+      </ion-card-header>
+      <ion-card-content>
+        <ion-item>
+          <ion-label position="floating">{{ nameString }}</ion-label>
+          <ion-input type="text" [(ngModel)]="userAwards.awardName"></ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-label position="floating">{{ byString }}</ion-label>
+          <ion-input
+            type="text"
+            [(ngModel)]="userAwards.adwardedBy"
+          ></ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-label position="floating">{{ onString }}</ion-label>
+          <ion-datetime
+            [(ngModel)]="userAwards.date"
+            [max]="maxToday"
+            displayFormat="MM-DD-YYYY"
+          >
+          </ion-datetime>
+        </ion-item>
+      </ion-card-content>
+      <ion-footer style="width: 90%; margin: auto; padding-top: 2%">
+        <ion-button
+          (click)="saveAwardData()"
+          expand="block"
+          style="--background: #112; --color: #fff"
+        >
+          {{ saveString }}
+        </ion-button>
+      </ion-footer>
+    </ion-card>
+    <div
+      style="
+        width: 100%;
+        margin: auto;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        color: #fff;
+        font-weight: bold;
+        font-size: x-large;
+        position: absolute;
+        bottom: 2.5%;
+      "
+      *ngIf="awardsAddFlag === true && editDeleteMode === true"
+      (click)="deleteAward()"
+    >
+      <ion-icon
+        src="../../../../assets/iconsSvg/trash.svg"
+        style="background: #eb445a; padding: 2%; border-radius: 50%"
+      >
+      </ion-icon>
+    </div>
+  </div>
+
+  <!-- aspirations Block -->
+  <div
+    *ngIf="aspirationsAddFlag === true"
+    style="width: 100%; height: 95%; display: flex"
+  >
+    <ion-card mode="ios">
+      <div class="closeIcon" button (click)="exit()">
+        <ion-icon name="close"></ion-icon>
+      </div>
+      <ion-card-header>
+        <ion-card-title>
+          <ion-icon name="person-circle"></ion-icon>
+          &nbsp;{{ aspirationsString }}
+        </ion-card-title>
+      </ion-card-header>
+      <ion-card-content>
+        <ion-item>
+          <ion-textarea
+            autofocus="true"
+            autoGrow="true"
+            required="true"
+            #aspBox
+            [(ngModel)]="userAspiration.text"
+            [placeholder]="aboutyouString"
+          >
+          </ion-textarea>
+        </ion-item>
+      </ion-card-content>
+      <ion-footer style="width: 90%; margin: auto; padding-top: 2%">
+        <ion-button
+          (click)="saveAspirationData()"
+          expand="block"
+          style="--background: #112; --color: #fff"
+          *ngIf="userAspiration.text"
+        >
+          {{ saveString }}
+        </ion-button>
+      </ion-footer>
+    </ion-card>
+    <div
+      style="
+        width: 100%;
+        margin: auto;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        color: #fff;
+        font-weight: bold;
+        font-size: x-large;
+        position: absolute;
+        bottom: 2.5%;
+      "
+      *ngIf="aspirationsAddFlag === true && editDeleteMode === true"
+      (click)="deleteAsp()"
+    >
+      <ion-icon
+        src="../../../../assets/iconsSvg/trash.svg"
+        style="background: #eb445a; padding: 2%; border-radius: 50%"
+      >
+      </ion-icon>
+    </div>
+  </div>
+
+  <!-- statistics Block -->
+  <div
+    *ngIf="statisticsAddFlag === true"
+    style="width: 100%; height: 95%; display: flex"
+  >
+    <ion-card mode="ios">
+      <div class="closeIcon" button (click)="exit()">
+        <ion-icon name="close"></ion-icon>
+      </div>
+      <ion-card-header>
+        <ion-card-title>
+          <ion-icon name="analytics"></ion-icon>
+          &nbsp;{{ statisticsString }}
+        </ion-card-title>
+      </ion-card-header>
+      <ion-card-content>
+        <ion-item>
+          <ion-label position="floating">{{ titleString }}</ion-label>
+          <ion-input type="text" [(ngModel)]="userStatEntries.key"></ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-label position="floating">{{ descString }}</ion-label>
+          <ion-input
+            type="text"
+            [(ngModel)]="userStatEntries.value"
+          ></ion-input>
+        </ion-item>
+      </ion-card-content>
+      <ion-footer style="width: 90%; margin: auto; padding-top: 2%">
+        <ion-button
+          (click)="saveStatsData()"
+          expand="block"
+          style="--background: #112; --color: #fff"
+        >
+          {{ saveString }}
+        </ion-button>
+      </ion-footer>
+    </ion-card>
+    <div
+      style="
+        width: 100%;
+        margin: auto;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        color: #fff;
+        font-weight: bold;
+        font-size: x-large;
+        position: absolute;
+        bottom: 2.5%;
+      "
+      *ngIf="statisticsAddFlag === true && editDeleteMode === true"
+      (click)="deleteStats()"
+    >
+      <ion-icon
+        src="../../../../assets/iconsSvg/trash.svg"
+        style="background: #eb445a; padding: 2%; border-radius: 50%"
+      >
+      </ion-icon>
+    </div>
+  </div>
+
+  <!-- Heglights Block -->
+  <div
+    *ngIf="highlitsAddFlag === true"
+    style="width: 100%; height: 95%; display: flex"
+  >
+    <ion-card mode="ios">
+      <div class="closeIcon" button (click)="exit()">
+        <ion-icon name="close"></ion-icon>
+      </div>
+      <ion-card-header>
+        <ion-card-title>
+          <ion-icon name="rocket"></ion-icon>
+          &nbsp;{{ highlitsString }}
+        </ion-card-title>
+      </ion-card-header>
+      <ion-card-content *ngIf="imagesArray" style="padding: 5%">
+        <div id="photos">
+          <div *ngFor="let media of imagesArray">
+            <div class="is_checked" button (click)="markSelected(media)">
+              <img
+                src="{{
+                  environment.apiUrl
+                }}v1/api/post/imagecall_mobile_url?imagepath={{
+                  media.asset_url
+                }}"
+                style="width: auto !important; height: 120px !important"
+              />
+              <ion-icon
+                *ngIf="media.isChecked"
+                name="checkmark-circle"
+                color="primary"
+              ></ion-icon>
+            </div>
+          </div>
+        </div>
+      </ion-card-content>
+    </ion-card>
+  </div>
+</div>

@@ -1,0 +1,87 @@
+<ion-header [translucent]="true">
+  <ion-toolbar mode="md">
+    <ion-buttons slot="start">
+      <ion-menu-button autoHide="false" menuToggle></ion-menu-button>
+    </ion-buttons>
+    <ion-title style="font-weight: bold; text-align: center"
+      >{{notifications}}</ion-title
+    >
+    <ion-button
+      style="color: #0d0439"
+      slot="end"
+      color="transperant"
+      shape="round"
+      (click)="deleteAllNotifications()"
+      [disabled]="noNotification==true"
+    >
+      <ion-icon slot="icon-only" name="trash-sharp"></ion-icon>
+    </ion-button>
+    <!-- <ion-icon slot="end" name="trash-sharp" class="fnt-18" (click)="deleteAllNotifications()"  [disabled]="noNotification==true" ></ion-icon> -->
+  </ion-toolbar>
+</ion-header>
+
+<ion-content *ngIf="noNotification==true">
+  <div
+    class="noNoti ion-text-capitalize ion-text-center"
+    style="margin-top: 42%"
+  >
+    <ion-icon
+      mode="ios"
+      name="trash-sharp"
+      style="font-size: 900%; color: #0d0439"
+    >
+    </ion-icon>
+    <div style="color: #0d0439">{{noNotificationsString}}</div>
+  </div>
+</ion-content>
+
+<ion-content *ngIf="noNotification==false">
+  <ion-list>
+    <ion-item-sliding *ngFor="let item of notificationList ; let i = index;">
+      <ion-item (click)="routeTo(item.route)" style="border-radius: 11px">
+        <ion-avatar slot="start">
+          <img
+            *ngIf="item.profile_img_url!=''"
+            src="{{environment.apiUrl}}v1/api/post/imagecall_mobile_url?imagepath=profile/{{item.from_id}}/{{item.profile_img_url}}" />
+          <img
+            *ngIf="item.profile_img_url==''"
+            src="../../../assets/defaultProfile.png"
+        /></ion-avatar>
+        <ion-label>
+          <div
+            style="white-space: pre-line; font-size: 14px; color: #0d0439"
+            [innerHTML]="item.notification_type | safeHtml"
+          ></div>
+          <!-- <h3 class="ion-text-wrap"><b>{{item.first_name}} {{item.last_name}}</b> {{item.notification_type}} <b *ngIf="item.teamname">{{item.teamname}}</b><b *ngIf="item.groupname">{{item.groupname}}</b></h3> -->
+          <p style="font-size: small">{{getTimeFromNow(item.created)}}</p>
+        </ion-label>
+      </ion-item>
+
+      <ion-item-options
+        side="end"
+        (ionSwipe)="deleteNotification(item.id, i)"
+        style="background-color: #eb445a"
+      >
+        <ion-item-option
+          color="danger"
+          (click)="deleteNotification(item.id, i)"
+        >
+          <ion-icon slot="icon-only" name="close-circle"> </ion-icon>
+        </ion-item-option>
+      </ion-item-options>
+    </ion-item-sliding>
+  </ion-list>
+  <!-- <div *ngIf="limitReached === true"
+  style="width: 100%;text-align: center;text-decoration: underline;font-style: italic;font-size: large;padding-bottom: 10%;padding-top: 5%;">
+  {{endOfSearchResultString}}</div> -->
+  <ion-infinite-scroll
+    threshold="100px"
+    (ionInfinite)="loadMore($event)"
+    *ngIf="limitReached === false"
+  >
+    <ion-infinite-scroll-content
+      loadingSpinner="bubbles"
+      loadingText=""
+    ></ion-infinite-scroll-content>
+  </ion-infinite-scroll>
+</ion-content>

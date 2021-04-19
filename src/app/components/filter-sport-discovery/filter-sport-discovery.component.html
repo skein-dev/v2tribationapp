@@ -1,0 +1,406 @@
+<ion-header [translucent]="true">
+  <ion-toolbar mode="md">
+    <ion-icon
+      slot="start"
+      name="close"
+      class="fnt-18"
+      (click)="back()"
+    ></ion-icon>
+    <ion-title mode="md" class="ion-align-self-center">{{
+      sportData.name
+    }}</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="bgcolor">
+  <div class="frnd_pad" style="padding-top: 3%" *ngIf="filteredSportData">
+    <div class="scrollmenu">
+      <ion-button
+        class="customButtonSport"
+        *ngFor="let item of sportsList"
+        (click)="onClickSport(item)"
+        >{{ item.name }}</ion-button
+      >
+    </div>
+
+    <div *ngIf="filteredSportData.length === 0" style="text-align: center">
+      <img src="../../../assets/no_Discovery_found.gif" />
+      <h3 style="color: gray; font-weight: bolder; font-size: large">
+        {{ tryChangeFilterString }}
+      </h3>
+    </div>
+
+    <!-- Grid Of Posts without filter (Discovery) -->
+    <div *ngIf="filteredSportData.length > 0">
+      <ion-grid>
+        <div *ngFor="let item of filteredSportData; let index = index">
+          <div *ngIf="index % 18 === 0">
+            <ion-row size="12">
+              <ion-col size="4" class="customPadding">
+                <div
+                  style="height: 125px; padding-bottom: 2px"
+                  *ngIf="filteredSportData.length > index"
+                  (click)="onClickDis(filteredSportData[index])"
+                >
+                  <img
+                    style="height: 100%; width: 100%; object-fit: cover"
+                    src="{{
+                      environment.apiUrl
+                    }}v1/api/post/imagecall_mobile_url?imagepath={{
+                      filteredSportData[index].asset_thumb_url
+                    }}"
+                  />
+                </div>
+                <div
+                  style="height: 125px"
+                  *ngIf="filteredSportData.length > index + 1"
+                  (click)="onClickDis(filteredSportData[index + 1])"
+                >
+                  <img
+                    style="height: 100%; width: 100%; object-fit: cover"
+                    src="{{
+                      environment.apiUrl
+                    }}v1/api/post/imagecall_mobile_url?imagepath={{
+                      filteredSportData[index + 1].asset_thumb_url
+                    }}"
+                  />
+                </div>
+              </ion-col>
+              <ion-col
+                size="8"
+                class="customPadding"
+                *ngIf="filteredSportData.length > index + 2"
+              >
+                <div
+                  style="height: 250px"
+                  (click)="onClickDis(filteredSportData[index + 2])"
+                >
+                  <img
+                    style="height: 100%; width: 100%; object-fit: cover"
+                    src="{{
+                      environment.apiUrl
+                    }}v1/api/post/imagecall_mobile_url?imagepath={{
+                      filteredSportData[index + 2].asset_thumb_url
+                    }}"
+                  />
+                </div>
+              </ion-col>
+            </ion-row>
+            <ion-row>
+              <ion-col
+                size="4"
+                class="customPadding"
+                *ngIf="filteredSportData.length > index + 3"
+              >
+                <div
+                  style="height: 125px"
+                  (click)="onClickDis(filteredSportData[index + 3])"
+                >
+                  <img
+                    style="height: 100%; width: 100%; object-fit: cover"
+                    src="{{
+                      environment.apiUrl
+                    }}v1/api/post/imagecall_mobile_url?imagepath={{
+                      filteredSportData[index + 3].asset_thumb_url
+                    }}"
+                  />
+                </div>
+              </ion-col>
+              <ion-col
+                size="4"
+                class="customPadding"
+                *ngIf="filteredSportData.length > index + 4"
+              >
+                <div
+                  style="height: 125px"
+                  (click)="onClickDis(filteredSportData[index + 4])"
+                >
+                  <img
+                    style="height: 100%; width: 100%; object-fit: cover"
+                    src="{{
+                      environment.apiUrl
+                    }}v1/api/post/imagecall_mobile_url?imagepath={{
+                      filteredSportData[index + 4].asset_thumb_url
+                    }}"
+                  />
+                </div>
+              </ion-col>
+              <ion-col
+                size="4"
+                class="customPadding"
+                *ngIf="filteredSportData.length > index + 5"
+              >
+                <div
+                  style="height: 125px"
+                  (click)="onClickDis(filteredSportData[index + 5])"
+                >
+                  <img
+                    style="height: 100%; width: 100%; object-fit: cover"
+                    src="{{
+                      environment.apiUrl
+                    }}v1/api/post/imagecall_mobile_url?imagepath={{
+                      filteredSportData[index + 5].asset_thumb_url
+                    }}"
+                  />
+                </div>
+              </ion-col>
+            </ion-row>
+
+            <ion-row>
+              <ion-col
+                size="4"
+                class="customPadding"
+                *ngIf="filteredSportData.length > index + 6"
+              >
+                <div
+                  style="height: 125px"
+                  (click)="onClickDis(filteredSportData[index + 6])"
+                >
+                  <img
+                    style="height: 100%; width: 100%; object-fit: cover"
+                    src="{{
+                      environment.apiUrl
+                    }}v1/api/post/imagecall_mobile_url?imagepath={{
+                      filteredSportData[index + 6].asset_thumb_url
+                    }}"
+                  />
+                </div>
+              </ion-col>
+              <ion-col
+                size="4"
+                class="customPadding"
+                *ngIf="filteredSportData.length > index + 7"
+              >
+                <div
+                  style="height: 125px"
+                  (click)="onClickDis(filteredSportData[index + 7])"
+                >
+                  <img
+                    style="height: 100%; width: 100%; object-fit: cover"
+                    src="{{
+                      environment.apiUrl
+                    }}v1/api/post/imagecall_mobile_url?imagepath={{
+                      filteredSportData[index + 7].asset_thumb_url
+                    }}"
+                  />
+                </div>
+              </ion-col>
+              <ion-col
+                size="4"
+                class="customPadding"
+                *ngIf="filteredSportData.length > index + 8"
+              >
+                <div
+                  style="height: 125px"
+                  (click)="onClickDis(filteredSportData[index + 8])"
+                >
+                  <img
+                    style="height: 100%; width: 100%; object-fit: cover"
+                    src="{{
+                      environment.apiUrl
+                    }}v1/api/post/imagecall_mobile_url?imagepath={{
+                      filteredSportData[index + 8].asset_thumb_url
+                    }}"
+                  />
+                </div>
+              </ion-col>
+            </ion-row>
+
+            <ion-row size="12">
+              <ion-col
+                size="8"
+                class="customPadding"
+                *ngIf="filteredSportData.length > index + 9"
+              >
+                <div
+                  style="height: 250px"
+                  (click)="onClickDis(filteredSportData[index + 9])"
+                >
+                  <img
+                    style="height: 100%; width: 100%; object-fit: cover"
+                    src="{{
+                      environment.apiUrl
+                    }}v1/api/post/imagecall_mobile_url?imagepath={{
+                      filteredSportData[index + 9].asset_thumb_url
+                    }}"
+                  />
+                </div>
+              </ion-col>
+              <ion-col size="4" class="customPadding">
+                <div
+                  style="height: 125px; padding-bottom: 2px"
+                  *ngIf="filteredSportData.length > index + 10"
+                  (click)="onClickDis(filteredSportData[index + 10])"
+                >
+                  <img
+                    style="height: 100%; width: 100%; object-fit: cover"
+                    src="{{
+                      environment.apiUrl
+                    }}v1/api/post/imagecall_mobile_url?imagepath={{
+                      filteredSportData[index + 10].asset_thumb_url
+                    }}"
+                  />
+                </div>
+                <div
+                  style="height: 125px"
+                  *ngIf="filteredSportData.length > index + 11"
+                  (click)="onClickDis(filteredSportData[index + 11])"
+                >
+                  <img
+                    style="height: 100%; width: 100%; object-fit: cover"
+                    src="{{
+                      environment.apiUrl
+                    }}v1/api/post/imagecall_mobile_url?imagepath={{
+                      filteredSportData[index + 11].asset_thumb_url
+                    }}"
+                  />
+                </div>
+              </ion-col>
+            </ion-row>
+
+            <ion-row>
+              <ion-col
+                size="4"
+                class="customPadding"
+                *ngIf="filteredSportData.length > index + 12"
+              >
+                <div
+                  style="height: 125px"
+                  (click)="onClickDis(filteredSportData[index + 12])"
+                >
+                  <img
+                    style="height: 100%; width: 100%; object-fit: cover"
+                    src="{{
+                      environment.apiUrl
+                    }}v1/api/post/imagecall_mobile_url?imagepath={{
+                      filteredSportData[index + 12].asset_thumb_url
+                    }}"
+                  />
+                </div>
+              </ion-col>
+              <ion-col
+                size="4"
+                class="customPadding"
+                *ngIf="filteredSportData.length > index + 13"
+              >
+                <div
+                  style="height: 125px"
+                  (click)="onClickDis(filteredSportData[index + 13])"
+                >
+                  <img
+                    style="height: 100%; width: 100%; object-fit: cover"
+                    src="{{
+                      environment.apiUrl
+                    }}v1/api/post/imagecall_mobile_url?imagepath={{
+                      filteredSportData[index + 13].asset_thumb_url
+                    }}"
+                  />
+                </div>
+              </ion-col>
+              <ion-col
+                size="4"
+                class="customPadding"
+                *ngIf="filteredSportData.length > index + 14"
+              >
+                <div
+                  style="height: 125px"
+                  (click)="onClickDis(filteredSportData[index + 14])"
+                >
+                  <img
+                    style="height: 100%; width: 100%; object-fit: cover"
+                    src="{{
+                      environment.apiUrl
+                    }}v1/api/post/imagecall_mobile_url?imagepath={{
+                      filteredSportData[index + 14].asset_thumb_url
+                    }}"
+                  />
+                </div>
+              </ion-col>
+            </ion-row>
+
+            <ion-row>
+              <ion-col
+                size="4"
+                class="customPadding"
+                *ngIf="filteredSportData.length > index + 15"
+              >
+                <div
+                  style="height: 125px"
+                  (click)="onClickDis(filteredSportData[index + 15])"
+                >
+                  <img
+                    style="height: 100%; width: 100%; object-fit: cover"
+                    src="{{
+                      environment.apiUrl
+                    }}v1/api/post/imagecall_mobile_url?imagepath={{
+                      filteredSportData[index + 15].asset_thumb_url
+                    }}"
+                  />
+                </div>
+              </ion-col>
+              <ion-col
+                size="4"
+                class="customPadding"
+                *ngIf="filteredSportData.length > index + 16"
+              >
+                <div
+                  style="height: 125px"
+                  (click)="onClickDis(filteredSportData[index + 16])"
+                >
+                  <img
+                    style="height: 100%; width: 100%; object-fit: cover"
+                    src="{{
+                      environment.apiUrl
+                    }}v1/api/post/imagecall_mobile_url?imagepath={{
+                      filteredSportData[index + 16].asset_thumb_url
+                    }}"
+                  />
+                </div>
+              </ion-col>
+              <ion-col
+                size="4"
+                class="customPadding"
+                *ngIf="filteredSportData.length > index + 17"
+              >
+                <div
+                  style="height: 125px"
+                  (click)="onClickDis(filteredSportData[index + 17])"
+                >
+                  <img
+                    style="height: 100%; width: 100%; object-fit: cover"
+                    src="{{
+                      environment.apiUrl
+                    }}v1/api/post/imagecall_mobile_url?imagepath={{
+                      filteredSportData[index + 17].asset_thumb_url
+                    }}"
+                  />
+                </div>
+              </ion-col>
+            </ion-row>
+          </div>
+        </div>
+        <ion-infinite-scroll
+          threshold="100px"
+          (ionInfinite)="loadMore($event)"
+          *ngIf="limitreached === false"
+        >
+          <ion-infinite-scroll-content
+            loadingSpinner="bubbles"
+            loadingText=""
+          ></ion-infinite-scroll-content>
+        </ion-infinite-scroll>
+
+        <div
+          style="text-align: center; padding-top: 10%"
+          *ngIf="limitreached === true"
+        >
+          <ion-icon
+            name="checkmark-circle-outline"
+            style="font-size: -webkit-xxx-large; color: #f69a3b"
+          ></ion-icon>
+          <h3 style="color: grey">{{ allCaughtUpString }}</h3>
+        </div>
+      </ion-grid>
+    </div>
+  </div>
+</ion-content>

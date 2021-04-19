@@ -1,0 +1,623 @@
+<ion-content class="tribationBackground">
+  <div class="pageContent">
+    <div class="signup-input" id="signupInput">
+      <ion-toolbar
+        style="--background: transparent; color: white"
+        class="paddingSafe"
+      >
+        <!-- <ion-icon slot="start" class="white fnt-18 pos-r-6" name="person"></ion-icon> -->
+        <ion-icon
+          slot="start"
+          name="arrow-back"
+          class="white fnt-18"
+          (click)="backtologin()"
+        ></ion-icon>
+        <ion-title class="ion-align-self-center"
+          >{{createAccountString}}</ion-title
+        >
+      </ion-toolbar>
+      <div>
+        <!-- <div class="g-signin2" data-onsuccess="onSignIn" data-theme="dark">xdfsdf</div> -->
+        <!-- <div [hidden]="hideGoogle" (click)="googleLog()" *ngIf="showGooleSignIn">
+            <a class="btn btn-outline-dark" href="/users/googleauth" role="button" style="width: 100%;font-size: medium;background: #fff;color: #000000;border-radius: 7px;text-transform: none;"> 
+              <img width="20px" style="margin-bottom:3px; margin-right:5px" alt="Google sign-in" src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/53/Google_%22G%22_Logo.svg/512px-Google_%22G%22_Logo.svg.png" />
+              Login with Google
+            </a>
+        </div>
+      <ion-button *ngIf="showAppleSignIn" (click)="appleLogin()" class="apple-sign-in" expand="block" fill="clear" shape="round" [hidden]="hideApple">
+         Sign in with Apple
+      </ion-button> -->
+      </div>
+
+      <!-- Profile Pic -->
+      <div class="ion-padding row" style="clear: both; margin-top: 5%">
+        <ion-avatar style="margin: auto">
+          <ion-img *ngIf="setImage !== null" [src]="setImage"></ion-img>
+          <ion-img
+            *ngIf="setImage == null"
+            src="../../../assets/defaultProfile.png"
+          ></ion-img>
+        </ion-avatar>
+        <div class="p-image">
+          <ion-icon
+            name="camera"
+            class="myProfile_icon"
+            (click)="presentActionSheet()"
+          ></ion-icon>
+        </div>
+      </div>
+      <!-- <input type="file" (change)="pickImageFromDevice($event);" #userInput
+        accept="image/*" style="display:none;"/> -->
+
+      <form [formGroup]="signup" *ngIf="signup">
+        <ion-list class="noBackgroundItem">
+          <!-- Firstname Field -->
+          <ion-row class="uderline">
+            <ion-col size="2">
+              <ion-icon
+                name="person"
+                style="font-size: x-large; margin-top: 10%"
+              ></ion-icon>
+            </ion-col>
+            <ion-col size="10" style="text-align: unset">
+              <ion-item lines="none" class="noBackgroundItem ion-no-padding">
+                <ion-label position="floating">{{firstNameString}} *</ion-label>
+                <ion-input
+                  type="text"
+                  [(ngModel)]="firstnameModel"
+                  (keyup.enter)="moveFocus(lName)"
+                  formControlName="firstname"
+                  clearInput
+                ></ion-input>
+              </ion-item>
+              <ion-row
+                lines="none"
+                *ngIf="(signup.get('firstname').hasError('required') ) && signup.get('firstname').touched"
+              >
+                <div
+                  class="error"
+                  *ngIf="signup.get('firstname').hasError('required') && signup.get('firstname').touched"
+                >
+                  <i class="material-icons error_icon">error</i>
+                  {{enterFirstNameString}}
+                </div>
+              </ion-row>
+              <ion-row *ngIf="(signup.get('firstname').hasError('trimError') )">
+                <div
+                  class="error"
+                  *ngIf="(signup.get('firstname').hasError('trimError') )"
+                >
+                  <i class="material-icons error_icon">error</i> {{noSpaceString
+                  }}
+                </div>
+              </ion-row>
+            </ion-col>
+          </ion-row>
+
+          <!-- Lastname Field -->
+          <ion-row class="uderline">
+            <ion-col size="2">
+              <ion-icon
+                name="person"
+                style="font-size: x-large; margin-top: 10%"
+              ></ion-icon>
+            </ion-col>
+            <ion-col size="10" style="text-align: unset">
+              <ion-item lines="none" class="noBackgroundItem ion-no-padding">
+                <ion-label position="floating">{{lastNameString}} *</ion-label>
+                <ion-input
+                  #lName
+                  type="text"
+                  [(ngModel)]="lastnameModel"
+                  (keyup.enter)="moveFocus(Eemail)"
+                  formControlName="lastname"
+                  clearInput
+                ></ion-input>
+              </ion-item>
+              <ion-row
+                lines="none"
+                *ngIf="(signup.get('lastname').hasError('required') ) && signup.get('lastname').touched"
+              >
+                <div
+                  class="error"
+                  *ngIf="signup.get('lastname').hasError('required') && signup.get('lastname').touched"
+                >
+                  <i class="material-icons error_icon">error</i>
+                  {{enterLastNameString }}
+                </div>
+              </ion-row>
+
+              <ion-row
+                lines="none"
+                *ngIf="(signup.get('lastname').hasError('trimError') )  && signup.get('lastname').touched"
+              >
+                <div
+                  class="error"
+                  *ngIf="(signup.get('lastname').hasError('trimError') )  && signup.get('lastname').touched"
+                >
+                  <i class="material-icons error_icon">error</i> {{noSpaceString
+                  }}
+                </div>
+              </ion-row>
+            </ion-col>
+          </ion-row>
+
+          <!-- Email Field -->
+          <ion-row class="uderline">
+            <ion-col size="2">
+              <ion-icon
+                name="mail"
+                style="font-size: x-large; margin-top: 10%"
+              ></ion-icon>
+            </ion-col>
+            <ion-col size="10" style="text-align: unset">
+              <ion-item lines="none" class="noBackgroundItem ion-no-padding">
+                <ion-label position="floating">{{emailString}} *</ion-label>
+                <ion-input
+                  #Eemail
+                  type="text"
+                  [(ngModel)]="emailModel"
+                  (keyup.enter)="moveFocus(password)"
+                  formControlName="email"
+                  clearInput
+                ></ion-input>
+              </ion-item>
+              <ion-row lines="none" *ngIf="invalid_email==true">
+                <div class="error">
+                  <i class="material-icons error_icon">error</i>
+                  {{emailErrorString}}
+                </div>
+              </ion-row>
+              <ion-row
+                lines="none"
+                *ngIf="(signup.get('email').hasError('pattern') ) && signup.get('email').touched"
+              >
+                <div class="error">
+                  <i class="material-icons error_icon">error</i>
+                  {{emailErrorString}}
+                </div>
+              </ion-row>
+              <ion-row
+                lines="none"
+                *ngIf="(signup.get('email').hasError('required') ) && signup.get('email').touched"
+              >
+                <div
+                  class="error"
+                  *ngIf="signup.get('email').hasError('required') && signup.get('email').touched"
+                >
+                  <i class="material-icons error_icon">error</i>
+                  {{enterEmailString}}
+                </div>
+              </ion-row>
+            </ion-col>
+          </ion-row>
+
+          <!-- Password Field -->
+
+          <ion-row class="uderline">
+            <ion-col size="2">
+              <ion-icon
+                name="lock-closed"
+                style="font-size: x-large; margin-top: 10%"
+              ></ion-icon>
+            </ion-col>
+            <ion-col size="10">
+              <ion-item lines="none" class="noBackgroundItem ion-no-padding">
+                <ion-row class="ion-no-padding" style="width: 100%">
+                  <ion-col
+                    size="10"
+                    style="text-align: unset"
+                    class="ion-no-padding"
+                  >
+                    <ion-label position="floating"
+                      >{{passwordString}} *</ion-label
+                    >
+                    <ion-input
+                      formControlName="password"
+                      #password
+                      (keyup.enter)="moveFocus(conPassword)"
+                      (input)="check()"
+                      [type]="passwordType"
+                      [(ngModel)]="passwordModel"
+                      clearOnEdit="false"
+                      clearInput
+                    ></ion-input>
+                  </ion-col>
+                  <ion-col size="2">
+                    <ion-icon
+                      button
+                      [name]="passwordIcon"
+                      style="font-size: x-large; padding-top: 35%"
+                      (click)="hideShowPassword()"
+                    ></ion-icon>
+                  </ion-col>
+                </ion-row>
+              </ion-item>
+              <ion-row
+                lines="none"
+                *ngIf="(signup.get('password').hasError('required') ) && signup.get('password').touched"
+              >
+                <div
+                  class="error"
+                  *ngIf="signup.get('password').hasError('required') && signup.get('password').touched"
+                >
+                  <i class="material-icons error_icon">error</i>
+                  {{enterPasswordString }}
+                </div>
+                <div
+                  class="error"
+                  *ngIf="(signup.get('password').hasError('trimError') ) && signup.get('password').touched"
+                >
+                  <i class="material-icons error_icon">error</i>
+                  {{noSpaceString}}
+                </div>
+              </ion-row>
+              <ion-row
+                *ngIf="(signup.get('password').hasError('minlength') )  && signup.get('password').touched"
+              >
+                <div
+                  class="error"
+                  *ngIf="(signup.get('password').hasError('minlength') ) && signup.get('password').touched"
+                >
+                  <i class="material-icons error_icon">error</i>
+                  {{password6charString}}
+                </div>
+              </ion-row>
+              <ion-row
+                *ngIf="(signup.get('password').hasError('maxlength') ) && signup.get('password').touched"
+              >
+                <div
+                  class="error"
+                  *ngIf="(signup.get('password').hasError('maxlength') ) && signup.get('password').touched"
+                >
+                  <i class="material-icons error_icon">error</i>
+                  {{password30charString}}
+                </div>
+              </ion-row>
+              <ion-row
+                *ngIf="(signup.get('password').hasError('pattern') )  && signup.get('password').touched"
+              >
+                <div
+                  class="error"
+                  *ngIf="(signup.get('password').hasError('pattern') ) && signup.get('password').touched"
+                >
+                  <i class="material-icons error_icon">error</i>
+                  {{PatternDoesNotMatchString}}
+                </div>
+              </ion-row>
+            </ion-col>
+          </ion-row>
+
+          <!--Confirm Password Field -->
+          <ion-row class="uderline">
+            <ion-col size="2">
+              <ion-icon
+                name="lock-closed"
+                style="font-size: x-large; margin-top: 10%"
+              ></ion-icon>
+            </ion-col>
+            <ion-col size="10">
+              <ion-item lines="none" class="noBackgroundItem ion-no-padding">
+                <ion-row class="ion-no-padding" style="width: 100%">
+                  <ion-col
+                    size="10"
+                    style="text-align: unset"
+                    class="ion-no-padding"
+                  >
+                    <ion-label position="floating"
+                      >{{newPasswordString}} *</ion-label
+                    >
+                    <ion-input
+                      #conPassword
+                      formControlName="confirmpassword"
+                      [type]="passwordConType"
+                      [(ngModel)]="newPasswordModel"
+                      clearOnEdit="false"
+                    ></ion-input>
+                  </ion-col>
+                  <ion-col size="2">
+                    <ion-icon
+                      button
+                      [name]="passwordConIcon"
+                      style="font-size: x-large; padding-top: 35%"
+                      (click)="hideShowConPassword()"
+                    ></ion-icon>
+                  </ion-col>
+                </ion-row>
+              </ion-item>
+              <ion-row
+                lines="none"
+                *ngIf="(signup.get('confirmpassword').hasError('trimError') )  && signup.get('confirmpassword').touched"
+              >
+                <div
+                  class="error"
+                  *ngIf="(signup.get('confirmpassword').hasError('trimError') )  && signup.get('confirmpassword').touched"
+                >
+                  <ion-icon name="alert-circle"></ion-icon> {{ noSpaceString }}
+                </div>
+              </ion-row>
+              <ion-row
+                lines="none"
+                *ngIf="(signup.get('confirmpassword').hasError('equalTo') )  && signup.get('confirmpassword').touched"
+              >
+                <div
+                  class="error"
+                  *ngIf="(signup.get('confirmpassword').hasError('equalTo') )  && signup.get('confirmpassword').touched"
+                >
+                  <ion-icon name="alert-circle"></ion-icon> {{
+                  passwordNotMatchString }}
+                </div>
+              </ion-row>
+            </ion-col>
+          </ion-row>
+
+          <!-- DOB FIELD -->
+          <ion-row class="uderline">
+            <ion-col size="2">
+              <ion-icon
+                name="calendar"
+                style="font-size: x-large; margin-top: 10%"
+              ></ion-icon>
+            </ion-col>
+            <ion-col size="10" style="text-align: unset">
+              <ion-item lines="none" class="noBackgroundItem ion-no-padding">
+                <ion-label position="floating" style="color: white"
+                  >{{DOBString}}
+                </ion-label>
+                <ion-datetime
+                  #dob
+                  class="picker-custom"
+                  (keyup.enter)="moveFocus(gender)"
+                  [(ngModel)]="dobModel"
+                  min="{{minDate}}"
+                  max="{{maxDate}}"
+                  displayFormat="DD MMMM YYYY"
+                  formControlName="dob"
+                ></ion-datetime>
+              </ion-item>
+              <ion-row
+                lines="none"
+                *ngIf="(signup.get('dob').hasError('required') ) && signup.get('dob').touched"
+              >
+                <div
+                  class="error"
+                  *ngIf="signup.get('dob').hasError('required') && signup.get('dob').touched"
+                >
+                  <i class="material-icons error_icon">error</i>
+                  {{enterDobString }}
+                </div>
+              </ion-row>
+            </ion-col>
+          </ion-row>
+
+          <!-- GENDER FIELD -->
+          <ion-row class="uderline">
+            <ion-col size="2">
+              <ion-icon
+                name="people"
+                style="font-size: x-large; margin-top: 10%"
+              ></ion-icon>
+            </ion-col>
+
+            <ion-col size="10" class="no-padding">
+              <ion-radio-group
+                formControlName="gender"
+                [(ngModel)]="genderModel"
+              >
+                <ion-row>
+                  <ion-item lines="none">
+                    <ion-label style="color: white">{{maleString }}</ion-label>
+                    <ion-radio
+                      #gender
+                      (keyup.enter)="moveFocus(city)"
+                      class="bg-white b-r-24 wid-24p"
+                      slot="start"
+                      value="male"
+                    ></ion-radio>
+                  </ion-item>
+                  <ion-item lines="none">
+                    <ion-label style="color: white"
+                      >{{femaleString }}</ion-label
+                    >
+                    <ion-radio
+                      (keyup.enter)="moveFocus(city)"
+                      class="bg-white b-r-24 wid-24p"
+                      slot="start"
+                      value="female"
+                    ></ion-radio>
+                  </ion-item>
+                </ion-row>
+              </ion-radio-group>
+              <ion-row
+                lines="none"
+                *ngIf="(signup.get('gender').hasError('required') ) && signup.get('gender').touched"
+              >
+                <div
+                  class="error"
+                  *ngIf="signup.get('gender').hasError('required') && signup.get('gender').touched"
+                >
+                  <i class="material-icons error_icon">error</i>
+                  {{selectGenderString }}
+                </div>
+              </ion-row>
+            </ion-col>
+          </ion-row>
+
+          <!-- Country Field -->
+          <ion-row class="uderline" button (click)="gotocountry()">
+            <ion-col size="2">
+              <ion-icon
+                name="location"
+                style="font-size: x-large; margin-top: 10%"
+              ></ion-icon>
+            </ion-col>
+            <ion-col size="10" style="text-align: unset">
+              <ion-item lines="none" class="noBackgroundItem ion-no-padding">
+                <ion-label position="floating"
+                  >{{selectCountryString}} *</ion-label
+                >
+                <ion-input
+                  #countryTag
+                  type="text"
+                  [(ngModel)]="countryModel"
+                  formControlName="country"
+                  readonly="true"
+                >
+                </ion-input>
+              </ion-item>
+              <ion-row
+                lines="none"
+                *ngIf="(signup.get('country').hasError('required') ) && signup.get('country').touched"
+              >
+                <div
+                  class="error"
+                  *ngIf="signup.get('country').hasError('required') && signup.get('country').touched"
+                >
+                  <i class="material-icons error_icon">error</i>
+                  {{pleaseSelectCountrySting }}
+                </div>
+              </ion-row>
+            </ion-col>
+          </ion-row>
+
+          <!-- City Field -->
+
+          <ion-row class="uderline">
+            <ion-col size="2">
+              <ion-icon
+                name="location"
+                style="font-size: x-large; margin-top: 10%"
+              ></ion-icon>
+            </ion-col>
+            <ion-col size="10" style="text-align: unset">
+              <ion-item lines="none" class="noBackgroundItem ion-no-padding">
+                <ion-label position="floating">{{citYString}} *</ion-label>
+                <ion-input
+                  #city
+                  type="text"
+                  [(ngModel)]="cityModel"
+                  (keyup.enter)="moveFocus(countryTag)"
+                  formControlName="city"
+                  clearInput
+                ></ion-input>
+              </ion-item>
+              <ion-row
+                lines="none"
+                *ngIf="(signup.get('city').hasError('required') ) && signup.get('city').touched"
+              >
+                <div
+                  class="error"
+                  *ngIf="signup.get('city').hasError('required') && signup.get('city').touched"
+                >
+                  <i class="material-icons error_icon">error</i>
+                  {{enterCitySting }}
+                </div>
+              </ion-row>
+              <ion-row *ngIf="(signup.get('city').hasError('trimError') )">
+                <div
+                  class="error"
+                  *ngIf="(signup.get('city').hasError('trimError') )"
+                >
+                  <i class="material-icons error_icon">error</i> {{noSpaceString
+                  }}
+                </div>
+              </ion-row>
+            </ion-col>
+          </ion-row>
+
+          <ion-row class="uderline">
+            <ion-item lines="none" style="width: 100%">
+              <ion-label> {{wantsToBeScoutsDisplayText}}</ion-label>
+              <ion-toggle
+                #scoutTag
+                size="small"
+                slot="end"
+                [(ngModel)]="willBeScout"
+                formControlName="scout"
+                (ionChange)="wishToBeScout(willBeScout)"
+              >
+              </ion-toggle>
+            </ion-item>
+            <div
+              lines="none"
+              style="
+                font-size: xx-small;
+                padding-left: 5%;
+                width: 100%;
+                padding-bottom: 2%;
+              "
+            >
+              {{changeScouteAppString}}
+            </div>
+          </ion-row>
+
+          <!-- Agree Terms -->
+          <ion-row class="uderline">
+            <ion-col size="2">
+              <ion-checkbox
+                color="primary"
+                formControlName="terms"
+                [(ngModel)]="termsModel"
+              >
+              </ion-checkbox>
+            </ion-col>
+            <ion-col size="10" class="no-padding">
+              <p class="mrg-10">
+                * {{termsIAcceptString}}
+                <a
+                  style="color: #0096ee"
+                  [routerLink]="['/terms']"
+                  routerDirection="forward"
+                  >{{termsConditionString}}</a
+                >
+                {{termsUsingFeatureString}}
+              </p>
+            </ion-col>
+            <ion-row class="cus-row">
+              <div style="margin: 19px">
+                <re-captcha
+                  (resolved)="resolved($event)"
+                  siteKey="6LdOTJkUAAAAACXeBRTedGPWjpyD5ns_FvNxVj9X"
+                >
+                </re-captcha>
+              </div>
+            </ion-row>
+          </ion-row>
+
+          <!-- REGISTER BUTTON-->
+          <div
+            style="
+              clear: both;
+              width: 100%;
+              float: left;
+              display: flex;
+              justify-content: center;
+            "
+          >
+            <ion-button
+              class="tribationBtn"
+              [disabled]="signup.invalid || recaptcha_value==false"
+              (click)="signUpFun()"
+              style="height: 50px; font-size: 18px; margin-bottom: 5%"
+            >
+              {{registerNowString}}<br
+            /></ion-button>
+          </div>
+
+          <!-- Back To Login CONTAINER-->
+          <div class="ion-text-center go-to-container pad-tp-32 ion-padding">
+            <p class="customgrey mrg-0" [routerLink]="['']">
+              {{alreadyhaveaccountString }}<br /><strong
+                class="white"
+                button
+                (click)="backtologin()"
+              >
+                {{signInString }}
+              </strong>
+            </p>
+          </div>
+        </ion-list>
+      </form>
+    </div>
+  </div>
+</ion-content>

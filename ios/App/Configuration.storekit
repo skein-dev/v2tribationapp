@@ -1,0 +1,34 @@
+{
+  "products" : [
+    {
+      "displayPrice" : "0.99",
+      "familyShareable" : false,
+      "internalID" : "C63F54D3",
+      "localizations" : [
+        {
+          "description" : "",
+          "displayName" : "",
+          "locale" : "en_US"
+        }
+      ],
+      "productID" : "yearlyplan",
+      "referenceName" : "Yearly Plan ",
+      "type" : "Consumable"
+    }
+  ],
+  "settings" : {
+
+  },
+  "subscriptionGroups" : [
+
+  ],
+  "subscriptionOffersKeyPair" : {
+    "id" : "A18A1540",
+    "privateKey" : "MF8CAQEEGJuy2dKRxH8/6/N70njKJtgwU7kJ4LhLNqAKBggqhkjOPQMBAaE0AzIA\nBL1vWdKKfoA5gyjdEVR1Z4wtiV2EymOxREEzk+wniCyiEbNqARyBFDS6Dm4gRKyq\n1A==",
+    "publicKey" : "MEkwEwYHKoZIzj0CAQYIKoZIzj0DAQEDMgAEvW9Z0op+gDmDKN0RVHVnjC2JXYTK\nY7FEQTOT7CeILKIRs2oBHIEUNLoObiBErKrU"
+  },
+  "version" : {
+    "major" : 1,
+    "minor" : 0
+  }
+}

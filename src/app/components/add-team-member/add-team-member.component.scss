@@ -1,0 +1,15 @@
+ion-checkbox {
+  --border-radius: 50%;
+  color: transparent !important;
+  --border-color: transparent !important;
+  --border-color-checked: #181434;
+  --background-checked: #181434;
+  width: 8%;
+  height: auto;
+  padding: 0;
+  margin: 0;
+}
+
+ion-list {
+  margin-bottom: 20% !important;
+}

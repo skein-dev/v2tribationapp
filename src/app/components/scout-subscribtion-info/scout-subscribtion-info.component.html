@@ -1,0 +1,55 @@
+<!-- <ion-content style="--background: #fdfdfd;"> -->
+<ion-content class="tribationBackground">
+  <ion-icon name="close" class="close" (click)="close()"></ion-icon>
+  <div class="logo">
+    <img src="../../../assets/logo2.png" alt="Tribation" />
+  </div>
+
+  <div class="contentMain">
+    <div
+      class="subsHeader"
+      style="color: #fff; margin-top: 10%; font-size: 3.8rem"
+    >
+      {{ scoutsToolString }}
+    </div>
+    <ion-card style="margin-top: 1%; --background: #ffffffa8">
+      <ion-card
+        style="
+          --background: transparent;
+          margin: 0 auto;
+          width: 95%;
+          margin-top: 2%;
+        "
+      >
+        <div class="desc">
+          <ul>
+            <li>{{ scoutFeature1 }}</li>
+            <li>{{ scoutFeature2 }}</li>
+            <li>{{ scoutFeature3 }}</li>
+            <li>
+              {{ scoutFeature4a }}
+              <span style="color: #f00">{{ scoutFeature4b }}</span>
+            </li>
+          </ul>
+        </div>
+      </ion-card>
+      <div class="subsHeader">Subcriprtion Plan</div>
+      <ion-card class="ionCardRate">
+        {{ freeSubsPlan }}
+      </ion-card>
+      <ion-card class="ionCardRate">
+        {{ monthlySubsPlan }}
+      </ion-card>
+      <ion-card class="ionCardRate">
+        <div style="width: 100%">
+          <div style="text-decoration: line-through">
+            {{ yearActualSubsPlan }}
+          </div>
+          <div>
+            {{ yearSubsPlan }}
+          </div>
+        </div>
+      </ion-card>
+    </ion-card>
+  </div>
+</ion-content>

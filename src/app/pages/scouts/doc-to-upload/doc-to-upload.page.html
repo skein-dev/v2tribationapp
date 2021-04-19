@@ -1,0 +1,144 @@
+<ion-header [translucent]="true">
+  <ion-toolbar mode="md">
+    <ion-buttons slot="start">
+      <ion-menu-button autoHide="false" menuToggle></ion-menu-button>
+    </ion-buttons>
+    <!-- <ion-icon slot="start" name="close" class="white fnt-18" (click)="back()"></ion-icon> -->
+    <ion-title
+      mode="md"
+      class="ion-align-self-center"
+      style="color: #0d0439; font-weight: bold; text-align: center"
+      >{{becomeAScoutString}}</ion-title
+    >
+    <ion-icon
+      slot="end"
+      name="information-circle-outline"
+      style="padding-right: 5%; font-size: x-large; color: #0d0439"
+      button
+      (click)="getScoutSubsInfo()"
+    >
+    </ion-icon>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-card *ngIf="disabledoc1==false || disabledoc2 == false">
+    <ion-card-content style="color: #ff5722">
+      {{scoutintro1}}
+    </ion-card-content>
+  </ion-card>
+
+  <ion-card style="margin: 4% 5%">
+    <ion-card-content>
+      <ion-item>
+        <ion-label position="floating">{{firstNameString}}*</ion-label>
+        <ion-input
+          type="text"
+          readonly="true"
+          disabled="true"
+          [(ngModel)]="userDetail.first_name"
+        ></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label position="floating">{{lastNameString}}*</ion-label>
+        <ion-input
+          type="text"
+          readonly="true"
+          disabled="true"
+          [(ngModel)]="userDetail.last_name"
+        ></ion-input>
+      </ion-item>
+      <ion-grid>
+        <ion-row>
+          <input
+            type="file"
+            (change)="handlefileinputIdCard($event)"
+            #userInput
+            multiple
+            accept="image/*,application/pdf"
+            style="display: none"
+          />
+          <ion-col
+            size="6"
+            style="text-align: center; margin-top: 5%"
+            *ngIf="disabledoc1===false"
+            (click)="uploadScoutDocs()"
+          >
+            <div style="height: 100%; padding: 10%">
+              <img
+                src="{{docsToUpld[0].image}}"
+                style="width: 40%; opacity: 0.7"
+              />
+              <div style="font-size: small">
+                <ion-text position="floating"
+                  >{{docsToUpld[0].filename}}</ion-text
+                >
+              </div>
+            </div>
+          </ion-col>
+          <ion-col
+            size="6"
+            style="text-align: center; margin-top: 5%"
+            *ngIf="disabledoc2===false"
+            (click)="uploadScoutDocs()"
+          >
+            <div style="height: 100%; padding: 10%">
+              <img
+                src="{{docsToUpld[1].image}}"
+                style="width: 40%; opacity: 0.7"
+              />
+              <div style="font-size: small">
+                <ion-text position="floating"
+                  >{{docsToUpld[1].filename}}</ion-text
+                >
+              </div>
+            </div>
+          </ion-col>
+          <!-- <ion-col size="6">
+            <div>
+              <img src="{{fileImage}}" (click)="uploadScoutDocs()">
+              <div>
+                <ion-text position="floating">{{documentTwo}}</ion-text>
+              </div>
+            </div>
+          </ion-col> -->
+        </ion-row>
+      </ion-grid>
+    </ion-card-content>
+  </ion-card>
+
+  <ion-card *ngIf="pending == true">
+    <ion-card-content style="color: #999900; text-align: center">
+      {{ pendingAprovalString }}
+    </ion-card-content>
+  </ion-card>
+
+  <ion-card *ngIf="contactUS == true">
+    <ion-card-content style="color: #999900; text-align: center">
+      {{ contactUs4Approval }}
+    </ion-card-content>
+  </ion-card>
+
+  <ion-card *ngIf="disabledoc1==false">
+    <ion-card-content style="color: #ff5722">
+      {{ docToUploadString}}
+    </ion-card-content>
+  </ion-card>
+  <div
+    style="
+      align-items: center;
+      justify-content: center;
+      display: flex;
+      margin-bottom: 10%;
+    "
+  >
+    <ion-button
+      class="save-button tribationBtn"
+      (click)="continuePay()"
+      [disabled]="diasbleContinue"
+      style="height: 50px; font-size: 18px"
+    >
+      {{continueString}}
+    </ion-button>
+  </div>
+</ion-content>

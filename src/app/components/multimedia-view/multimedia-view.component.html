@@ -1,0 +1,115 @@
+<ion-button
+  (click)="close()"
+  style="
+    --background: transparent;
+    position: absolute;
+    margin: 3%;
+    z-index: 1000;
+    border-radius: 100%;
+    top: env(safe-area-inset-top) !important;
+    left: env(safe-area-inset-left) !important;
+  "
+>
+  <ion-icon
+    name="close-circle-outline"
+    class="closeButton"
+    button
+    (click)="close()"
+  ></ion-icon>
+</ion-button>
+<ion-content
+  [forceOverscroll]="false"
+  style="background: #000"
+  fullscreen="true"
+>
+  <ion-grid style="height: 100%; background: #000">
+    <ion-row
+      class="ion-align-items-center ion-justify-content-center"
+      style="height: 100%; flex-direction: column; background: #000"
+    >
+      <ion-slides
+        [options]="sliderOpts"
+        #slider
+        mode="md"
+        (ionSlideDidChange)="slideChanged($event)"
+      >
+        <ion-slide *ngFor="let img of imageArray; let i = index">
+          <img
+            *ngIf="img.post_type == 'image'"
+            class="loading_img"
+            src="{{
+              environment.apiUrl
+            }}v1/api/post/imagecall_mobile_url?imagepath={{ img.asset_url }}"
+          />
+          <video
+            *ngIf="img.post_type == 'video'"
+            style="position: absolute"
+            id="myVideo{{ i }}"
+            controls="controls"
+            controlsList="nodownload nofullscreen"
+            preload="auto"
+            webkit-playsinline="webkit-playsinline"
+            class="videoPlayer"
+          >
+            <source
+              src="https://storage.googleapis.com/tribation_uploads_dev/{{
+                img.asset_url
+              }}"
+              type="video/MP4"
+            />
+          </video>
+          <!-- <video *ngIf="img.post_type == 'video'" inViewport
+                        [inViewportOptions]="{ threshold: [0, 0.65], partial: true }"
+                        (inViewportAction)="onIntersection($event,i)" style="width: 100%; height:auto;bottom: 0;"
+                        id="myVideo{{i}}" controls="controls" disablePictureInPicture
+                        controlsList="nodownload nofullscreen" preload="metadata"
+                        webkit-playsinline="webkit-playsinline" class="videoPlayer">
+                        <source src="https://storage.googleapis.com/tribation_uploads_dev/{{img.asset_url}}"
+                            type="video/mp4" />
+                    </video> -->
+
+          <!-- <video *ngIf="img.post_type == 'video'" inViewport
+                        [inViewportOptions]="{ threshold: [0, 0.65], partial: true }"
+                        (inViewportAction)="onIntersection($event,i)" style="width: 100%; 
+     height:auto;bottom: 0;" id="myVideo" controls="controls" disablePictureInPicture
+                        controlsList="nodownload nofullscreen" preload="metadata"
+                        webkit-playsinline="webkit-playsinline" class="videoPlayer">
+                        <source src="https://storage.googleapis.com/tribation_uploads_dev/{{img.asset_url}}"
+                            type="video/webm" />
+                    </video> -->
+          <!-- <vg-player (onPlayerReady)="onPlayerReady($event)" -->
+          <!-- <vg-player *ngIf="img.post_type == 'video'">
+                        <vg-overlay-play></vg-overlay-play>
+                        <vg-buffering></vg-buffering>
+                        <vg-controls>
+                            <vg-play-pause></vg-play-pause>
+                            <vg-playback-button></vg-playback-button>
+                            <vg-time-display style="display: none;" vgProperty="current" vgFormat="mm:ss">
+                            </vg-time-display>
+                            <vg-scrub-bar style="display: none;">
+                                <vg-scrub-bar-current-time></vg-scrub-bar-current-time>
+                                <vg-scrub-bar-buffering-time></vg-scrub-bar-buffering-time>
+                            </vg-scrub-bar>
+                            <vg-time-display style="display: none;" vgProperty="left" vgFormat="mm:ss">
+                            </vg-time-display>
+                            <vg-time-display vgProperty="total" vgFormat="mm:ss"></vg-time-display>
+                            <vg-mute></vg-mute>
+                            <vg-volume></vg-volume>
+                        </vg-controls>
+
+                        <video class="vid-sty video-media" inViewport
+                            [inViewportOptions]="{ threshold: [0, 0.65], partial: true }"
+                            (inViewportAction)="onIntersection($event,i)" playsinline loop [vgMedia]="media" #media
+                            id="myVideo{{i}}" preload="metadata"
+                            poster="https://storage.googleapis.com/tribation_uploads_dev/{{img.asset_thumb_url}}"
+                            src="https://storage.googleapis.com/tribation_uploads_dev/{{img.asset_url}}" type="video/qt"
+                            *ngIf="img.post_type=='qt' || img.asset_type=='qt'">
+                            <source src="https://storage.googleapis.com/tribation_uploads_dev/{{img.asset_url}}"
+                                type="video/qt">
+                        </video>
+                    </vg-player> -->
+        </ion-slide>
+      </ion-slides>
+    </ion-row>
+  </ion-grid>
+</ion-content>

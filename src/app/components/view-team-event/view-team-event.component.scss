@@ -1,0 +1,193 @@
+.btn-update {
+  width: 94%;
+  margin-left: 10px;
+  --border-radius: 24px;
+  font-size: 18px;
+  --background: #ec5529;
+  color: #ffffff;
+  --background-activated: #ec5529;
+}
+
+ion-datetime {
+  button {
+    position: relative !important;
+  }
+
+  .datetime-text {
+    overflow: visible;
+  }
+
+  flex: 1;
+}
+
+.teamName {
+  color: #ec5529;
+  padding: 3%;
+  margin: auto;
+  text-align: end;
+  border-style: double;
+  background: #fff;
+  font-weight: bold;
+  border-color: #112;
+  border-width: 5px 0px 0px 0px;
+}
+
+ion-fab-button {
+  --background: #ec5529;
+  --background-activated: #ec5529;
+  --background-hover: #ec5529;
+  --background-focused: #ec5529;
+  --color: #fff;
+  --color-activated: #fff;
+  --color-focused: #fff;
+}
+
+.fab-button-disabled {
+  --background: #333 !important;
+  --background-activated: #333 !important;
+  --background-hover: #333 !important;
+  --background-focused: #333 !important;
+}
+
+.claenderAction {
+  margin-top: 2%;
+
+  ion-datetime {
+    display: none !important;
+    visibility: hidden !important;
+  }
+}
+
+.picker-opt {
+  overflow: visible !important;
+  text-overflow: unset !important;
+}
+
+button {
+  overflow: visible !important;
+  text-overflow: unset !important;
+}
+
+.firstTimeBackDrop {
+  position: absolute;
+  --background: #000000bf;
+  background: #000000bf;
+  height: 100%;
+  width: 100%;
+  top: 0;
+  left: 0;
+  z-index: 9999999999999999;
+
+  .hoverText {
+    position: absolute;
+    bottom: 3%;
+    width: 100%;
+    text-align: center;
+    font-size: large;
+    color: #fff;
+  }
+}
+
+#plus {
+  font-size: 3em !important;
+}
+
+.bounce {
+  display: inline-block;
+  position: relative;
+  -moz-animation: bounce 0.5s infinite linear;
+  -o-animation: bounce 0.5s infinite linear;
+  -webkit-animation: bounce 0.5s infinite linear;
+  animation: bounce 0.5s infinite linear;
+  color: #000;
+}
+
+@-webkit-keyframes bounce {
+  0% {
+    top: 0;
+  }
+
+  50% {
+    top: -0.2em;
+  }
+
+  70% {
+    top: -0.3em;
+  }
+
+  100% {
+    top: 0;
+  }
+}
+
+@-moz-keyframes bounce {
+  0% {
+    top: 0;
+  }
+
+  50% {
+    top: -0.2em;
+  }
+
+  70% {
+    top: -0.3em;
+  }
+
+  100% {
+    top: 0;
+  }
+}
+
+@-o-keyframes bounce {
+  0% {
+    top: 0;
+  }
+
+  50% {
+    top: -0.2em;
+  }
+
+  70% {
+    top: -0.3em;
+  }
+
+  100% {
+    top: 0;
+  }
+}
+
+@-ms-keyframes bounce {
+  0% {
+    top: 0;
+  }
+
+  50% {
+    top: -0.2em;
+  }
+
+  70% {
+    top: -0.3em;
+  }
+
+  100% {
+    top: 0;
+  }
+}
+
+@keyframes bounce {
+  0% {
+    top: 0;
+  }
+
+  50% {
+    top: -0.2em;
+  }
+
+  70% {
+    top: -0.3em;
+  }
+
+  100% {
+    top: 0;
+  }
+}

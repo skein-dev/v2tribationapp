@@ -1,0 +1,130 @@
+.content {
+  height: 100%;
+  width: 100%;
+  overflow: auto;
+  margin: auto !important;
+  display: flex;
+  align-items: center !important;
+  justify-content: center !important;
+
+  ion-card {
+    width: 90%;
+    padding-bottom: 3%;
+    overflow: auto;
+  }
+}
+
+.name {
+  --color: #000;
+  width: 80%;
+  color: #000;
+  font-size: x-large;
+  float: left;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  max-width: max-content;
+  white-space: nowrap;
+}
+
+.closeIcon {
+  position: absolute;
+  right: 3%;
+  top: 2%;
+  font-size: xx-large;
+  color: #000;
+  font-weight: 600;
+  z-index: 999;
+}
+
+ion-checkbox {
+  margin: 0;
+  margin-right: 2%;
+  --background-checked: #5c4222;
+  --border-color-checked: #5c4222;
+}
+
+ion-card-title {
+  color: #989898;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+
+  ion-icon {
+    position: absolute;
+    left: 1%;
+    font-size: xxx-large;
+    color: #5c4222a8;
+  }
+}
+
+.is_checked {
+  ion-icon {
+    position: absolute;
+    font-size: xx-large;
+  }
+
+  // color: #5c4222a8;
+}
+
+#photo {
+  background: #ccc;
+}
+
+.avtar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  img {
+    height: 40px;
+    width: 40px;
+    border-radius: 50%;
+  }
+}
+
+.seg_style {
+  border: none !important;
+  // --background    : #bdc1c5;
+  // background-color: #bdc1c5;
+  color: #000 !important;
+  border-radius: 6px !important;
+}
+
+.seg_btn {
+  text-transform: capitalize;
+  // --background-checked: #171434;
+  --color: #ccc;
+  --color-checked: #000;
+  min-width: fit-content;
+  --border-color: unset;
+  --indicator-color: #112 !important;
+}
+
+.female {
+  --background-focused: #ff69b4;
+  --background-hover: #ff69b4;
+  --border-color: #ff69b4;
+  --color: #ff1493;
+  --color-checked: #fff;
+  --color-activated: #fff;
+  --background-activated: #ff1493;
+  --background-checked: #ff1493;
+  --border-color: #ff1493;
+  --indicator-color: #ff1493;
+  --border-radius: 2px;
+}
+
+.male {
+  --background-focused: #3880ff;
+  --background-hover: #3880ff;
+  --border-color: #3880ff;
+  --color: #3880ff;
+  --color-checked: #fff;
+  --color-activated: #fff;
+  --background-activated: #3880ff;
+  --background-checked: #3880ff;
+  --border-color: #3880ff;
+  --indicator-color: #3880ff;
+  --border-radius: 2px;
+}

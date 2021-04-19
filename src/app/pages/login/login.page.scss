@@ -1,0 +1,152 @@
+.pageContent {
+  text-align: -webkit-center;
+  margin: 4% 7%;
+  color: #fff !important;
+  --color: #fff !important;
+}
+
+.logo {
+  width: 100%;
+  // margin: 15%;
+  margin-top: 9%;
+
+  img {
+    max-width: 60%;
+    height: auto;
+  }
+}
+
+ion-row {
+  align-items: center;
+  width: 100%;
+  color: #fff;
+}
+
+ion-col {
+  align-items: center;
+  text-align: center;
+}
+
+.uderline {
+  display: flex;
+  border-bottom-width: 0.1px;
+  border-bottom-style: groove;
+  align-items: center;
+  align-content: center;
+  justify-content: center;
+}
+
+ion-label {
+  --color: #fff !important;
+  color: #fff !important;
+}
+
+.login-button {
+  width: 85%;
+  --border-radius: 24px;
+  margin-top: 2%;
+}
+
+ion-input {
+  --color: #fff !important;
+  color: #fff !important;
+}
+
+.login-input {
+  --background: transparent !important;
+  top: calc(100% - 80%);
+  position: relative;
+
+  .cus-row {
+    border-bottom: 0.1px solid whitesmoke;
+    align-items: center;
+
+    ion-label {
+      font-size: 14px;
+    }
+  }
+
+  .btn-pswrd {
+    position: absolute;
+    right: 10px;
+    --background: transparent !important;
+    color: #ffffff;
+    bottom: 10px;
+  }
+
+  .btn-forget {
+    right: 20px;
+    position: relative;
+    font-size: 14px;
+    color: #898a9f;
+    margin-top: 1rem;
+  }
+
+  .btn-login {
+    width: 100%;
+    height: 50px;
+    --border-radius: 24px;
+    font-size: 18px;
+    --background: #ec5529;
+    color: #ffffff;
+    --background-activated: #ec5529;
+  }
+
+  input[type="text"] {
+    font-size: 14px;
+  }
+
+  input[type="password"] {
+    font-size: 14px;
+  }
+}
+
+.pop {
+  position: absolute;
+  background: #333365f5;
+  --background: #333365f5;
+  width: 100%;
+  height: 100%;
+  z-index: 999999999;
+  top: 0;
+  left: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.popClose {
+  position: absolute;
+  top: 1%;
+  left: 1%;
+  font-size: xx-large;
+  margin: 5%;
+}
+
+.minorContainer {
+  max-height: 90%;
+  overflow: auto;
+  position: absolute;
+  top: 5%;
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  padding: 5% 0;
+  left: 0;
+
+  ion-item {
+    background: #111122cc;
+    --background: #111122cc;
+    margin: 1% 0;
+    border-radius: 10px;
+    border: 0.5px inset #333;
+  }
+}
+
+.passwordBox {
+  background: #111122cc;
+  --background: #111122cc;
+  margin: 1% 0;
+  border-radius: 10px;
+  border: 0.5px inset #333;
+}

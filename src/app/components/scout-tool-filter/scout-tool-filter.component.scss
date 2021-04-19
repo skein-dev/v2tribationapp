@@ -1,0 +1,46 @@
+.flex {
+  display: flex;
+}
+
+.diffItem {
+  border-bottom: 1px inset #ddd;
+}
+
+.title {
+  font-size: large !important;
+  font-weight: 400 !important;
+  --color: #666 !important;
+  color: #666 !important;
+}
+
+ion-item.minMax {
+  float: right;
+
+  // max-width: 35%;
+}
+
+.seg_style {
+  border: none !important;
+  // --background    : #bdc1c5;
+  // background-color: #bdc1c5;
+  color: #000 !important;
+  border-radius: 6px !important;
+}
+
+.seg_btn {
+  text-transform: capitalize;
+  // --background-checked: #171434;
+  --color: #ccc;
+  --color-checked: #000;
+  --border-color: unset;
+  --indicator-color: #112 !important;
+}
+.tribationBtn {
+  border-radius: 50%;
+}
+.lastSearch {
+  position: absolute;
+  right: 2%;
+  z-index: 10999999;
+  font-size: medium;
+}

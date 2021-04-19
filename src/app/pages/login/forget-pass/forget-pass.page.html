@@ -1,0 +1,97 @@
+<ion-content class="tribationBackground">
+  <div class="topBar paddingSafe">
+    <ion-icon
+      slot="start"
+      name="arrow-back"
+      class="white"
+      (click)="backtologin()"
+      style="float: left; font-size: large"
+    >
+    </ion-icon>
+    <ion-title
+      class="white ion-align-self-center"
+      style="float: left; text-transform: capitalize"
+    >
+      {{forgotPassString}}
+    </ion-title>
+  </div>
+
+  <div class="pageContent">
+    <div style="text-align: center">
+      <div class="logo">
+        <img src="../../../assets/logo2.png" alt="Tribation" />
+      </div>
+      <div style="margin-left: 20%; margin-right: 20%; color: #8f8f8f">
+        {{enterEmailToResetString}}
+      </div>
+      <div style="margin: 8%; text-align: center">
+        <form [formGroup]="forgotPass">
+          <ion-list class="noBackgroundItem">
+            <!-- email Field -->
+            <ion-row class="uderline">
+              <ion-col size="2">
+                <ion-icon
+                  name="mail-sharp"
+                  style="font-size: x-large; margin-top: 10%"
+                ></ion-icon>
+              </ion-col>
+              <ion-col size="10" style="text-align: unset">
+                <ion-item lines="none" class="noBackgroundItem ion-no-padding">
+                  <ion-label position="floating">{{emaiLString}}</ion-label>
+                  <ion-input
+                    type="text"
+                    [(ngModel)]="email"
+                    formControlName="email"
+                    clearInput
+                  ></ion-input>
+                </ion-item>
+                <ion-row
+                  lines="none"
+                  *ngIf="(forgotPass.get('email').hasError('required') ) && forgotPass.get('email').touched"
+                >
+                  <div
+                    class="error"
+                    *ngIf="forgotPass.get('email').hasError('required') && forgotPass.get('email').touched"
+                  >
+                    <i class="material-icons error_icon">error</i>
+                    {{enterEmail }}
+                  </div>
+                </ion-row>
+                <ion-row
+                  lines="none"
+                  *ngIf="(forgotPass.get('email').hasError('pattern') ) && forgotPass.get('email').touched"
+                >
+                  <div
+                    class="error"
+                    *ngIf="forgotPass.get('email').hasError('pattern') && forgotPass.get('email').touched"
+                  >
+                    <i class="material-icons error_icon">error</i>
+                    {{notValidEmail }}
+                  </div>
+                </ion-row>
+              </ion-col>
+            </ion-row>
+          </ion-list>
+        </form>
+        <!-- Send Button -->
+        <div
+          style="
+            clear: both;
+            width: 100%;
+            float: left;
+            display: flex;
+            justify-content: center;
+          "
+        >
+          <ion-button
+            class="send-button tribationBtn"
+            [disabled]="forgotPass.invalid"
+            (click)="sendEmail()"
+            style="height: 50px; font-size: 18px"
+            >{{sendString}}</ion-button
+          >
+        </div>
+      </div>
+    </div>
+  </div>
+</ion-content>

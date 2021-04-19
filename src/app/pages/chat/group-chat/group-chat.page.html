@@ -1,0 +1,396 @@
+<ion-header mode="md">
+  <ion-toolbar mode="md" style="color: #0d0439 !important">
+    <ion-icon
+      slot="start"
+      name="arrow-back"
+      class="fnt-18"
+      style="font-weight: bolder; color: #0d0439"
+      button
+      (click)="back()"
+    >
+    </ion-icon>
+    <ion-col
+      size="12"
+      class="ion-activatable namePersonChatWith"
+      style="float: left; margin-left: 8px"
+      button
+      (click)="groupDetail()"
+    >
+      <div>
+        <div slot="start" style="float: left" *ngIf="groupDetails.type==1">
+          <ion-avatar
+            slot="start"
+            style="width: 50px; height: 50px; margin-right: 10px"
+          >
+            <img
+              *ngIf="teamPic!=''"
+              src="{{environment.apiUrl}}v1/api/post/imagecall_mobile_url?imagepath=team/{{groupDetails.id}}/{{teamPic}}"
+              style="border-radius: 15%"
+            />
+            <img
+              *ngIf="teamPic==''"
+              src="{{environment.apiUrl}}v1/api/post/imagecall_mobile_url?imagepath=profile/cover1.jpg"
+              style="border-radius: 15%"
+            />
+          </ion-avatar>
+        </div>
+        <div slot="start" style="float: left" *ngIf="groupDetails.type==2">
+          <ion-avatar
+            slot="start"
+            *ngIf="groupDetails.type==2"
+            style="width: 50px; height: 50px; margin-right: 10px"
+          >
+            <img
+              *ngIf="teamPic!=''"
+              src="{{environment.apiUrl}}v1/api/post/imagecall_mobile_url?imagepath=groupchat/{{groupDetails.id}}/{{teamPic}}"
+              style="border-radius: 15%"
+            />
+            <img
+              *ngIf="teamPic==''"
+              src="{{environment.apiUrl}}v1/api/post/imagecall_mobile_url?imagepath=profile/cover1.jpg"
+              style="border-radius: 15%"
+            />
+          </ion-avatar>
+        </div>
+
+        <div slot="start" style="float: left">
+          <div
+            style="
+              font-size: large;
+              font-weight: bolder;
+              text-align-last: start;
+            "
+          >
+            {{(teamName | slice:0:20)+(teamName.length > 20 ? "...":"") }}
+          </div>
+          <div style="font-size: small; text-align-last: start">
+            {{(groupMembString | slice:0:40)+(groupMembString.length > 40 ?
+            "...":"") }}
+          </div>
+        </div>
+      </div>
+    </ion-col>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content
+  #content
+  (ionScroll)="logScrolling($event)"
+  [scrollEvents]="true"
+  style="--background: #fff !important; overflow: hidden"
+>
+  <ion-infinite-scroll
+    threshold="700px"
+    (ionInfinite)="loadMoreMessage($event)"
+    *ngIf="limitReached === false"
+    position="top"
+  >
+    <ion-infinite-scroll-content
+      loadingSpinner="bubbles"
+      loadingText=""
+    ></ion-infinite-scroll-content>
+  </ion-infinite-scroll>
+  <div class="chatting-container" style="padding-bottom: 10px">
+    <div
+      style="
+        display: flex;
+        justify-content: center;
+        width: 100%;
+        margin-top: 32px;
+        margin-bottom: 10px;
+      "
+    >
+      <div class="p_head">
+        <span style="margin: 14px; font-size: 14px; color: white"
+          >{{groupCreated}}</span
+        >
+      </div>
+    </div>
+    <ion-row
+      *ngFor="let chat of groupChatArray; let m=index;"
+      style="justify-content: center"
+      class="bottomRow"
+    >
+      <!-- <h1 *ngIf="m>0">minus::{{groupChatArray[m-1].date}}</h1>
+      <h1>date::{{chat.date}}</h1> -->
+
+      <div *ngIf="chat.date != ''">
+        <ion-col size="4" class="ion-text-center" *ngIf="m ==0">
+          <div
+            style="
+              color: #000;
+              border: 2px solid lightgray;
+              background: lightgray;
+              width: 100px;
+              border-radius: 40px;
+              box-shadow: 7px 6px 8px grey;
+            "
+          >
+            {{chat.date}}
+          </div>
+        </ion-col>
+
+        <ion-col
+          size="4"
+          class="ion-text-center"
+          *ngIf="m > 0 && (groupChatArray[m-1].date !== chat.date)"
+        >
+          <div
+            style="
+              color: #000;
+              border: 2px solid lightgray;
+              background: lightgray;
+              width: 100px;
+              border-radius: 40px;
+              box-shadow: 7px 6px 8px grey;
+            "
+          >
+            {{chat.date}}
+          </div>
+        </ion-col>
+      </div>
+      <ion-col size="12">
+        <div
+          class="container-fluid"
+          *ngFor="let message of chat.messages; let i=index;"
+          style="clear: both"
+        >
+          <div *ngIf="message.msg_type === 3" class="messageTypeInfo">
+            <div class="p_head">
+              <span style="margin: 14px"
+                >{{message.first_name}} {{message.last_name}}
+                {{joinedGrpString}}</span
+              >
+            </div>
+          </div>
+          <div *ngIf="message.msg_type === 2" class="messageTypeInfo">
+            <div class="p_head">
+              <span style="margin: 14px"
+                >{{message.first_name}} {{message.last_name}}
+                {{leftGrpString}}</span
+              >
+            </div>
+          </div>
+          <div *ngIf="message.msg_type === 5" class="messageTypeInfo">
+            <div class="p_head">
+              <span style="margin: 14px"
+                >{{message.first_name}} {{message.last_name}}
+                {{groupChatRemoved}}</span
+              >
+            </div>
+          </div>
+          <!-- Received Messages Container -->
+          <div
+            class="received"
+            style="display: block !important; max-width: 70%"
+            *ngIf="message.fromid !== userDetail.id"
+          >
+            <ion-row>
+              <ion-card
+                class="mrg-5 received-card rec-msg-cont"
+                *ngIf="(message.content!= null || message.media!= null)"
+              >
+                <ion-card-header
+                  class="chat_header"
+                  [ngStyle]="{'color' : message.color}"
+                  *ngIf="((i !== 0) && (chat.messages[i-1].first_name !== message.first_name)) || (i == 0)"
+                >
+                  {{message.first_name}}
+                </ion-card-header>
+                <ion-img
+                  *ngIf="message.media!='' && message.msg_type==1"
+                  (click)="openMultiMedia(message.media, i, message.fromid)"
+                  class="msg_img loading_img"
+                  src="{{environment.apiUrl}}v1/api/post/imagecall_mobile_url?imagepath=message/{{message.fromid}}/{{message.media_url_thumb}}"
+                  style="padding-top: 10px"
+                >
+                </ion-img>
+                <p class="rcvedtext-msg selectable">{{message.content}}</p>
+                <ion-input
+                  *ngIf="message.recent"
+                  #myStyle
+                  style="width: 0px; height: 0px; z-index: -999"
+                ></ion-input>
+                <ion-text class="rcved-msg-time_grpCht">
+                  {{message.created | date :'shortTime'}}</ion-text
+                >
+              </ion-card>
+            </ion-row>
+          </div>
+          <!-- Ends Received Messages Container -->
+          <!-- Sent Messages Container -->
+          <div
+            class="sent-by-me-direct-chat"
+            style="display: block !important; max-width: 70%"
+            *ngIf="message.fromid === userDetail.id"
+          >
+            <ion-row>
+              <ion-card
+                class="sent-by-me-card b-r-o"
+                *ngIf="(message.content!= null || message.media!= null)"
+              >
+                <!-- <ion-card-header class="chat_header" [ngStyle]="{'color' : message.color}"
+                  *ngIf="((i !== 0) && (chat.messages[i-1].first_name !== message.first_name)) || (i == 0)">
+                  {{message.first_name}}
+                </ion-card-header> -->
+                <ion-img
+                  *ngIf="message.media!='' && message.msg_type==1"
+                  (click)="openMultiMedia(message.media, i, message.fromid)"
+                  class="msg_img loading_img"
+                  src="{{environment.apiUrl}}v1/api/post/imagecall_mobile_url?imagepath=message/{{userDetail.id}}/{{message.media_url_thumb}}"
+                  style="padding-top: 10px"
+                >
+                </ion-img>
+                <p
+                  *ngIf="(message.msg_type==0 || message.msg_type==1) && (message.content != 'undefined')"
+                  class="mytext-msg selectable"
+                >
+                  {{message.content}}
+                </p>
+                <ion-input
+                  *ngIf="message.recent"
+                  #myStyle
+                  style="width: 0px; height: 0px; z-index: -999"
+                ></ion-input>
+                <div style="width: 100%">
+                  <ion-text class="chat_time_me">
+                    {{message.created | date :'shortTime'}}</ion-text
+                  >
+                  <ion-icon
+                    name="time-outline"
+                    class="sentMarkClass"
+                    *ngIf="message.sent == 0 && message.msg_status < 2"
+                  ></ion-icon>
+                  <ion-icon
+                    name="checkmark-outline"
+                    class="sentMarkClass"
+                    *ngIf="message.sent == 1 && message.msg_status < 2"
+                  ></ion-icon>
+                  <!-- <ion-icon name="checkmark-outline" class="sentMarkClass" *ngIf="message.msg_status == 1"></ion-icon> -->
+                  <ion-icon
+                    name="checkmark-done-outline"
+                    class="sentMarkClass"
+                    *ngIf="message.msg_status == 2"
+                  ></ion-icon>
+                  <ion-icon
+                    name="checkmark-done-outline"
+                    class="sentMarkClass"
+                    style="color: #ec5529"
+                    *ngIf="message.msg_status == 3"
+                  ></ion-icon>
+                </div>
+              </ion-card>
+            </ion-row>
+          </div>
+          <!-- Ends Sent Messages Container -->
+        </div>
+      </ion-col>
+    </ion-row>
+    <ion-input #myStyle readonly="true" style="height: 5px"></ion-input>
+  </div>
+  <ion-fab
+    vertical="bottom"
+    horizontal="end"
+    slot="fixed"
+    (click)="scrollToBottomOnInit()"
+    button
+    *ngIf="showButton==true"
+  >
+    <ion-fab-button size="small" class="tribationBtn">
+      <ion-icon name="chevron-down"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
+</ion-content>
+<ion-footer
+  style="
+    z-index: 999;
+    background: #fff;
+    --background: #fff;
+    padding: unset !important;
+  "
+>
+  <ion-row
+    class="message_row paddingSafe"
+    *ngIf="onlineMode==true"
+    style="background: #d9d8da !important"
+  >
+    <div
+      align-self:
+      flex-start
+      class="chat_icons avatar-upload"
+      *ngIf="chatInput==''  && imagearray.length==0"
+      (click)="presentActionSheet()"
+    >
+      <ion-icon name="camera" class="i-in-cam"></ion-icon>
+    </div>
+    <div
+      size="1"
+      align-self:
+      flex-start
+      class="chat_icons avatar-upload"
+      *ngIf="chatInput!=''"
+    ></div>
+    <ion-textarea
+      autocapitalize="sentences"
+      rows="1"
+      id="messageInputBox"
+      autocomplete="on"
+      wrap="soft"
+      style="font-size: medium; --padding-start: 10px"
+      autocorrect="on"
+      spellcheck="on"
+      #messageToSendBox
+      class=""
+      placeholder="{{saySomethingString}}"
+      (ionFocus)="openKeyboard()"
+      [(ngModel)]="chatInput"
+      required
+    >
+    </ion-textarea>
+    <div
+      align-self:
+      flex-end
+      style="display: flex; align-items: center"
+      *ngIf="chatInput!='' || imageurls.length !== 0"
+      button
+      (click)="sendMessageFun(chatInput)"
+    >
+      <ion-icon name="send" class="i-in-send"></ion-icon>
+    </div>
+  </ion-row>
+</ion-footer>
+
+<div style="margin-left: 20px">
+  <ion-row *ngIf="showLoadingImage == true">
+    <ion-col size="4" style="padding: 2px">
+      <div>
+        <div size="12" class="imageInTextBox">
+          <img size=" 3" src="../../../assets/spinnerImageLoad.gif" />
+        </div>
+      </div>
+    </ion-col>
+  </ion-row>
+  <ion-row *ngIf="imagearray.length!=0">
+    <ion-col
+      size="4"
+      *ngFor="let imagepost of imagearray;index as i"
+      style="padding: 2px"
+    >
+      <div>
+        <ion-card style="height: 60px; width: 60px; margin: 5px">
+          <ion-img
+            [src]="imagepost"
+            style="height: 100%; width: 100%"
+          ></ion-img>
+        </ion-card>
+        <ion-icon
+          name="close"
+          *ngIf="imagearray[i]!=''"
+          (click)="removeimg(i)"
+          class="closeIcon"
+        >
+        </ion-icon>
+      </div>
+    </ion-col>
+  </ion-row>
+</div>

@@ -1,0 +1,87 @@
+<ion-content>
+  <form [formGroup]="createTeam">
+    <div
+      [ngStyle]="{'background-image': 'url('+ imageprofile +')'}"
+      style="
+        height: 50%;
+        width: 100%;
+        background-repeat: no-repeat;
+        background-size: 100% 100%;
+        background-size: cover;
+      "
+    >
+      <div
+        class="container-fluid"
+        style="background: rgba(0, 0, 0, 0.6) !important; height: 300px"
+      ></div>
+    </div>
+    <div class="icons paddingSafe">
+      <ion-icon
+        name="arrow-back"
+        class="white div_cover_Pic"
+        style="float: left"
+        (click)="back()"
+      >
+      </ion-icon>
+      <!-- <input type="file" hidden id="uploadProfile" accept="image/*" class="hide inputfile"
+        (change)="handlefileinputProfile($event.target.files)" /> -->
+      <div style="float: right">
+        <ion-icon
+          name="camera"
+          class="white div_cover_Pic"
+          (click)="presentActionSheet()"
+        ></ion-icon>
+      </div>
+    </div>
+
+    <ion-item>
+      <ion-label class="mrg-0" position="floating"
+        >{{typeTeamNameString}}
+      </ion-label>
+      <ion-input type="text" maxlength="20" formControlName="teamName">
+      </ion-input>
+    </ion-item>
+    <ion-item
+      lines="none"
+      *ngIf="createTeam.get('teamName').hasError('required')  && createTeam.get('teamName').touched"
+    >
+      <div
+        class="error"
+        *ngIf="createTeam.get('teamName').hasError('required') && createTeam.get('teamName').touched"
+      >
+        <i class="material-icons error_icon" style="width: 24px">errorr</i>
+        {{mustEnterTeamnameString}}
+      </div>
+    </ion-item>
+    <ion-item
+      lines="none"
+      *ngIf="(createTeam.get('teamName').hasError('pattern') ) && createTeam.get('teamName').touched"
+    >
+      <div
+        class="error"
+        *ngIf="createTeam.get('teamName').hasError('pattern') && createTeam.get('teamName').touched"
+      >
+        <i class="material-icons error_icon" style="width: 24px">error</i>
+        {{noSpaceString}}
+      </div>
+    </ion-item>
+
+    <!-- Team description -->
+    <ion-item>
+      <ion-label class="mrg-0" position="floating"
+        >{{typeTeamDescString}}</ion-label
+      >
+      <ion-input type="text" formControlName="teamDescription"> </ion-input>
+    </ion-item>
+    <!-- CreateTeam BUTTON-->
+    <div class="create-button pad-tp-32">
+      <ion-button
+        class="tribationBtn ion-text-wrap"
+        [disabled]="createTeam.invalid"
+        (click)="addMembers()"
+      >
+        {{nextString}}
+      </ion-button>
+    </div>
+  </form>
+</ion-content>

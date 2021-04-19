@@ -1,0 +1,100 @@
+<ion-content class="tribationBackground slideInleft">
+  <ion-item
+    lines="none"
+    class="noBackgroundItem paddingSafe"
+    style="margin-top: 3%; margin-bottom: 10%"
+  >
+    <ion-icon
+      slot="start"
+      name="arrow-back"
+      class="white fnt-18 ion-no-padding"
+      style="margin: 0px"
+      (click)="back()"
+    >
+    </ion-icon>
+    <ion-title mode="md" class="ion-align-self-center white"
+      >{{deleteAccString}}</ion-title
+    >
+  </ion-item>
+  <div class="fullWidthDisplayCenter custom-algn-center">
+    <ion-avatar style="width: 80px; height: 80px">
+      <img
+        *ngIf="this.profileImageURL!=null"
+        src="{{environment.apiUrl}}v1/api/post/imagecall_mobile_url?imagepath={{this.profileImageURL}}"
+      />
+      <img
+        *ngIf="this.profileImageURL==null"
+        src="{{environment.apiUrl}}v1/api/post/imagecall_mobile_url?imagepath=profile/default.png"
+      />
+    </ion-avatar>
+  </div>
+  <h4 class="white ion-text-center" style="margin: 0px">
+    {{profileFirstname}} {{profileLastName}}
+  </h4>
+  <small class="white custom-algn-center ion-text-center">
+    [ {{profileEmailId}} ]
+  </small>
+  <small class="white custom-algn-center ion-text-center">
+    <ion-icon name="location"></ion-icon>&nbsp;
+    <span style="text-transform: capitalize">{{profileCity}}</span>
+  </small>
+  <!--=========== Header Ends ============-->
+
+  <div class="fullWidthDisplayCenter white" style="margin-top: 15%; width: 90%">
+    <div *ngIf="accessGained === false">
+      <div style="padding: 5%">
+        <ion-label style="font-size: larger">{{enterPasswordString}}</ion-label>
+      </div>
+      <ion-item
+        lines="none"
+        class="noBackgroundItem"
+        style="border-bottom: 0.1px solid #d3d2d5"
+      >
+        <ion-input
+          [(ngModel)]="password"
+          enterkeyhint="done"
+          type="password"
+          placeholder="{{passwordString}}"
+          (ionChange)="passwordEntered()"
+        >
+        </ion-input>
+      </ion-item>
+      <div
+        *ngIf="noMatch===true"
+        style="
+          margin-top: 4%;
+          width: 100%;
+          font-size: small;
+          text-align: right;
+          color: #f00;
+          display: flex;
+          align-items: center;
+          justify-content: flex-end;
+        "
+      >
+        <ion-icon
+          name="alert-circle"
+          style="font-size: x-large; margin-right: 5px"
+        ></ion-icon>
+        {{passwordNotVerifyString}}
+      </div>
+      <div style="margin: 10% auto; text-align: center">
+        <ion-button
+          class="tribationBtn"
+          disabled="{{submitBtton}}"
+          (click)="verifyPass()"
+          >{{submitString}}</ion-button
+        >
+      </div>
+    </div>
+
+    <div *ngIf="accessGained === true">
+      <div class="msgDelete">{{deleteAccmessageString}}</div>
+      <div style="text-align: center">
+        <ion-button color="danger" (click)="deleteUsr()"
+          >{{confirmDeleteString}}</ion-button
+        >
+      </div>
+    </div>
+  </div>
+</ion-content>

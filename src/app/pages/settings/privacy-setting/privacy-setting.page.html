@@ -1,0 +1,194 @@
+<ion-header [translucent]="true">
+  <ion-toolbar mode="md">
+    <ion-icon
+      slot="start"
+      name="arrow-back"
+      class="fnt-18"
+      (click)="back()"
+    ></ion-icon>
+    <ion-title
+      mode="md"
+      class="ion-align-self-center"
+      style="text-align: center"
+      >{{privacySettingsString}}</ion-title
+    >
+  </ion-toolbar>
+</ion-header>
+<!--=========== Header Ends ============-->
+
+<ion-content class="slideInleft" *ngIf="goodToGo===true">
+  <ion-card class="ion-no-padding">
+    <ion-list class="noBackgroundItem">
+      <!-- Anyone Can View MY Profile -->
+      <ion-item lines="none" (click)="viewProfile.click()">
+        <i
+          #viewProfile
+          (click)="canViewProfile($event)"
+          interface="popover"
+          class="fa fa-angle-down pop fa-2x"
+          slot="end"
+        ></i>
+        <ion-label>{{ canViewProfileDisplayText }}</ion-label>
+        <ion-select
+          interface="popover"
+          [hidden]="canViewProfileShow"
+          #canViewProfileTag
+          [(ngModel)]="canViewProfileModel"
+          (ionChange)="canViewProfileChange(canViewProfileModel)"
+        >
+          <ion-select-option value="anyone">{{anyoneString}}</ion-select-option>
+          <ion-select-option value="fans">{{fansString}}</ion-select-option>
+          <ion-select-option value="friends of friends"
+            >{{friendsOfFriendsString}}</ion-select-option
+          >
+          <ion-select-option value="friends"
+            >{{friendsString}}</ion-select-option
+          >
+        </ion-select>
+      </ion-item>
+
+      <!-- Anyone Can Comment on my Post -->
+      <ion-item lines="none" (click)="commentPost.click()">
+        <i
+          #commentPost
+          (click)="canCommentPosts($event)"
+          interface="popover"
+          class="fa fa-angle-down pop fa-2x"
+          slot="end"
+        ></i>
+        <ion-label>{{ canCommentPostsDisplayText }} </ion-label>
+        <ion-select
+          interface="popover"
+          [hidden]="canCommentPostsShow"
+          #canCommentPostsTag
+          [(ngModel)]="canCommentPostsModel"
+          (ionChange)="canCommentPostsChange(canCommentPostsModel)"
+        >
+          <ion-select-option value="anyone">{{anyoneString}}</ion-select-option>
+          <ion-select-option value="fans">{{fansString}}</ion-select-option>
+          <ion-select-option value="friends of friends"
+            >{{friendsOfFriendsString}}</ion-select-option
+          >
+          <ion-select-option value="friends"
+            >{{friendsString}}</ion-select-option
+          >
+        </ion-select>
+      </ion-item>
+
+      <!--  -->
+      <ion-item lines="none" (click)="friendlist.click()">
+        <i
+          #friendlist
+          (click)="canSeeFriendsList($event)"
+          interface="popover"
+          class="fa fa-angle-down pop fa-2x"
+          slot="end"
+        ></i>
+        <ion-label>{{ canSeeFriendsListDisplayText }}</ion-label>
+        <ion-select
+          interface="popover"
+          [hidden]="canSeeFriendsListShow"
+          #canSeeFriendsListTag
+          [(ngModel)]="canSeeFriendsListModel"
+          (ionChange)="canSeeFriendsListChange(canSeeFriendsListModel)"
+        >
+          <ion-select-option value="anyone">{{anyoneString}}</ion-select-option>
+          <ion-select-option value="fans">{{fansString}}</ion-select-option>
+          <ion-select-option value="friends of friends"
+            >{{friendsOfFriendsString}}</ion-select-option
+          >
+          <ion-select-option value="friends"
+            >{{friendsString}}</ion-select-option
+          >
+        </ion-select>
+      </ion-item>
+
+      <!--  -->
+      <ion-item lines="none" (click)="followerlist.click()">
+        <i
+          #followerlist
+          (click)="canseefollowerslist($event)"
+          interface="popover"
+          class="fa fa-angle-down pop fa-2x"
+          slot="end"
+        ></i>
+        <ion-label>{{ canseefollowerslistDisplayText }}</ion-label>
+        <ion-select
+          interface="popover"
+          [hidden]="canseefollowerslistShow"
+          #canseefollowerslistTag
+          [(ngModel)]="canseefollowerslistModel"
+          (ionChange)="canseefollowerslistChange(canseefollowerslistModel)"
+        >
+          <ion-select-option value="anyone">{{anyoneString}}</ion-select-option>
+          <ion-select-option value="fans">{{fansString}}</ion-select-option>
+          <ion-select-option value="friends of friends"
+            >{{friendsOfFriendsString}}</ion-select-option
+          >
+          <ion-select-option value="friends"
+            >{{friendsString}}</ion-select-option
+          >
+        </ion-select>
+      </ion-item>
+
+      <!--  -->
+      <ion-item lines="none" (click)="friendreq.click()">
+        <i
+          #friendreq
+          (click)="cansendfriendreq($event)"
+          interface="popover"
+          class="fa fa-angle-down pop fa-2x"
+          slot="end"
+        ></i>
+        <ion-label>{{ cansendfriendreqDisplayText }}</ion-label>
+        <ion-select
+          interface="popover"
+          [hidden]="cansendfriendreqShow"
+          #cansendfriendreqTag
+          [(ngModel)]="cansendfriendreqModel"
+          (ionChange)="cansendfriendreqChange(cansendfriendreqModel)"
+        >
+          <ion-select-option value="anyone">{{anyoneString}}</ion-select-option>
+          <ion-select-option value="no one">{{noOneString}}</ion-select-option>
+          <ion-select-option value="friends of friends"
+            >{{friendsOfFriendsString}}</ion-select-option
+          >
+        </ion-select>
+      </ion-item>
+
+      <!--  -->
+      <ion-list class="customRadioItem">
+        <ion-radio-group [(ngModel)]="newsletterModel">
+          <ion-item lines="none">
+            <ion-label>{{newsletterAcceptString}}</ion-label>
+            <ion-radio value="1"></ion-radio>
+          </ion-item>
+          <ion-item lines="none">
+            <ion-label>{{unsubcribeNewsletterString}}</ion-label>
+            <ion-radio value="0"></ion-radio>
+          </ion-item>
+        </ion-radio-group>
+      </ion-list>
+
+      <ion-item lines="none">
+        <ion-label> {{wantsToBeScoutsDisplayText}}</ion-label>
+        <ion-toggle
+          #scoutTag
+          size="small"
+          slot="end"
+          [(ngModel)]="willBeScout"
+          (ionChange)="wishToBeScout(willBeScout)"
+        >
+        </ion-toggle>
+      </ion-item>
+    </ion-list>
+  </ion-card>
+  <div class="ion-text-center">
+    <ion-button class="tribationBtn" (click)="save()"
+      >{{saveString}}</ion-button
+    >
+  </div>
+</ion-content>
+<ion-footer>
+  <div button (click)="deleteUser()" class="deleteAcc">{{deleteAccString}}</div>
+</ion-footer>

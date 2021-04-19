@@ -1,0 +1,95 @@
+<ion-content mode="ios">
+  <ion-searchbar
+    placeholder="{{ searchString }}"
+    [(ngModel)]="searchTerm"
+    showCancelButton="never"
+    (ionChange)="search(searchTerm)"
+  ></ion-searchbar>
+  <div style="display: flex; justify-content: center">
+    <div style="font-size: xx-large">{{ sportData.sportsName }}</div>
+    &nbsp;
+    <img
+      src="../../../assets/sports/{{ sportData.sportsIcon }}.png"
+      style="height: 50px; width: 50px"
+    />
+  </div>
+  <ion-card>
+    <ion-list *ngIf="!positionsList">
+      <ion-item>
+        <ion-skeleton-text
+          animated
+          style="width: 96%; height: 20px"
+        ></ion-skeleton-text>
+      </ion-item>
+      <ion-item>
+        <ion-skeleton-text
+          animated
+          style="width: 96%; height: 20px"
+        ></ion-skeleton-text>
+      </ion-item>
+      <ion-item>
+        <ion-skeleton-text
+          animated
+          style="width: 96%; height: 20px"
+        ></ion-skeleton-text>
+      </ion-item>
+      <ion-item>
+        <ion-skeleton-text
+          animated
+          style="width: 96%; height: 20px"
+        ></ion-skeleton-text>
+      </ion-item>
+      <ion-item>
+        <ion-skeleton-text
+          animated
+          style="width: 96%; height: 20px"
+        ></ion-skeleton-text>
+      </ion-item>
+      <ion-item>
+        <ion-skeleton-text
+          animated
+          style="width: 96%; height: 20px"
+        ></ion-skeleton-text>
+      </ion-item>
+      <ion-item>
+        <ion-skeleton-text
+          animated
+          style="width: 96%; height: 20px"
+        ></ion-skeleton-text>
+      </ion-item>
+      <ion-item>
+        <ion-skeleton-text
+          animated
+          style="width: 96%; height: 20px"
+        ></ion-skeleton-text>
+      </ion-item>
+      <ion-item>
+        <ion-skeleton-text
+          animated
+          style="width: 96%; height: 20px"
+        ></ion-skeleton-text>
+      </ion-item>
+      <ion-item>
+        <ion-skeleton-text
+          animated
+          style="width: 96%; height: 20px"
+        ></ion-skeleton-text>
+      </ion-item>
+    </ion-list>
+
+    <ion-list *ngIf="positionsList">
+      <ion-radio-group>
+        <ion-item *ngFor="let position of listOfPostions" mode="ios">
+          <ion-radio
+            (click)="select(position)"
+            value="position.id"
+            slot="end"
+            [(ngModel)]="position.id"
+          >
+          </ion-radio>
+          <ion-label>&nbsp;{{ position.name }}</ion-label>
+        </ion-item>
+      </ion-radio-group>
+    </ion-list>
+  </ion-card>
+</ion-content>

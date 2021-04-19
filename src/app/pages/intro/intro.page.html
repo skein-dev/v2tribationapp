@@ -1,0 +1,45 @@
+<ion-content>
+  <ion-slides pager="true" style="height: 100%" [options]="slideOptions">
+    <ion-slide *ngFor="let slide of introSlides;let i=index">
+      <div style="height: 100%; padding-top: 10%">
+        <div>
+          <img class="img_slide" src="{{slide.image}}" />
+        </div>
+        <div style="padding-top: 5%">
+          <div *ngIf="slide.last!='1'" class="content">{{slide.content}}</div>
+          <div style="padding: 0px">
+            <ion-button
+              style="color: #0098f3; font-size: 22px"
+              class="getStartedButton"
+              *ngIf="slide.last=='1'"
+              fill="clear"
+              (click)="navToLogin()"
+              >{{slide.content}}<i class="material-icons"> directions_run </i>
+              <i class="material-icons"> keyboard_arrow_right </i></ion-button
+            >
+          </div>
+        </div>
+      </div>
+      <div class="skipButton">
+        <ion-button
+          *ngIf="slide.last!='1'"
+          style="color: #424242; text-transform: none; float: left"
+          fill="clear"
+          (click)="navToLogin()"
+        >
+          {{skipString}}
+        </ion-button>
+        <ion-button
+          *ngIf="slide.last!='1'"
+          style="color: #0098f3; text-transform: none; float: right"
+          fill="clear"
+          (click)="nextSlide(i)"
+          >{{nextString}}<i class="material-icons">keyboard_arrow_right</i>
+        </ion-button>
+      </div>
+    </ion-slide>
+  </ion-slides>
+</ion-content>
+<ion-button (click)="navToLogin()" *ngIf="!introSlides || introSlides===null">
+  Close
+</ion-button>

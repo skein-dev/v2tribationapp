@@ -1,0 +1,9 @@
+{
+  "name": "tribation",
+  "integrations": {
+    "capacitor": {},
+    "cordova": {}
+  },
+  "type": "angular",
+  "id": "71445ddc"
+}

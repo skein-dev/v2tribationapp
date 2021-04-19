@@ -1,0 +1,448 @@
+ion-avatar {
+  width: 42px;
+  height: 42px;
+}
+
+.colContent {
+  --padding-start: 0;
+  --padding-end: 0;
+  --padding-top: 0;
+  --padding-bottom: 0;
+  padding-left: 0;
+  padding-right: 0;
+  padding-top: 0;
+  padding-bottom: 0;
+  min-height: 50px;
+  justify-content: center;
+}
+
+.shardPersonItem {
+  display: flex;
+  align-items: center;
+  width: 89%;
+  margin: auto;
+  border: #dfdfdf solid 2px;
+  border-top: unset;
+  border-bottom-left-radius: 9px;
+  border-bottom-right-radius: 9px;
+  background: #1111221a;
+}
+
+.colLikeShare {
+  display: flex;
+  justify-content: center;
+  font-size: x-large;
+  --color: #333;
+  color: #333;
+  align-items: center;
+
+  span {
+    font-size: medium;
+  }
+}
+
+.loading_img {
+  background: transparent url(../../../assets/spinner.gif) center no-repeat;
+  width: 100%;
+  justify-content: center;
+  overflow: hidden;
+  position: relative;
+}
+
+.topBar {
+  margin-top: 20px;
+  // height: max-content;
+  // max-width: 100%;
+  // padding: 3%;
+  // margin-top: 24%;
+  // overflow: auto;
+}
+
+.cover {
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+  height: 30%;
+  width: 100%;
+  background-repeat: no-repeat;
+  background-position-x: center;
+  background-position-y: center;
+}
+
+.customTagPop {
+  width: max-content;
+  padding: 3%;
+  max-height: 200px;
+  overflow: auto;
+  position: absolute;
+  z-index: 9999;
+  margin-top: -1%;
+  border: #ec5529 outset 0.1px;
+
+  div {
+    width: 100%;
+  }
+}
+.videoPlayButtonSingle {
+  height: 100%;
+  width: 100%;
+  clear: both;
+  position: absolute;
+  top: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  ion-icon {
+    // position      : absolute;
+    // top           : 50%;
+    // left          : 46%;
+    // transform  : translate(-50%, -50%);
+    font-weight: bold;
+    color: #fff;
+    font-size: 3.5rem;
+  }
+}
+
+.photoHolder {
+  height: 160px;
+  // width           : 175px;
+  margin: auto;
+  overflow: auto;
+  float: left;
+  // display: flex;
+  // align-content: center;
+  // justify-items: center;
+}
+
+.videoPlayButton {
+  height: 160px;
+  width: 175px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: absolute;
+  float: left;
+  // background   : #000;
+  // padding   : 2%;
+  // position     : absolute;
+  // top       : 50%;
+  // left      : 50%;
+}
+
+.videoPlayButton ion-icon {
+  // transform  : translate(-50%, -50%);
+  font-weight: bold;
+  z-index: 9999999999999999999;
+  color: #fff;
+  font-size: xx-large;
+}
+
+.insideCover {
+  background: rgba(0, 0, 0, 0.55) !important;
+  display: flex;
+  height: 100%;
+  // border-bottom: #ec5529 double 3px;
+  width: 100%;
+}
+
+.avtr_and_name {
+  // display   : flex;
+  width: 100%;
+  align-items: center;
+  margin: auto;
+  position: absolute;
+  top: 23%;
+}
+
+.topBarMyInfo {
+  display: flex;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  --background: transparent;
+
+  ion-icon {
+    font-size: xx-large;
+    padding: 3px 6px;
+  }
+}
+
+.myProfile_av {
+  display: flex;
+  color: #fff;
+  background: #000000;
+  border-radius: 100%;
+  font-size: large;
+  padding: 3px;
+  position: absolute;
+  left: 56%;
+  bottom: 6%;
+  z-index: 9999999;
+}
+
+.customTagPop {
+  div:active {
+    background: #cfcfcf75;
+    color: #4c8dff;
+    --background: #cfcfcf75;
+    --color: #4c8dff;
+    padding: 1px;
+    border-radius: 5px;
+  }
+}
+
+.selectable {
+  -webkit-user-select: text;
+  -moz-user-select: text;
+  -ms-user-select: text;
+  user-select: text;
+  font-size: medium;
+  padding: 2%;
+  // font-variant-caps: unicase;
+  color: #111;
+}
+
+ion-segment {
+  // border-left: #2f2f2f double 1px;
+  // border-right: #2f2f2f double 1px;
+  --background: #e7e6eb;
+  border-radius: 12px;
+}
+
+ion-segment-button {
+  --background: #e7e6eb;
+  --color: #9e9bb0;
+  // --background-focused: #c2741a;
+  // --background-checked: #c2741a;
+  // --background-hover: #c2741a;
+  // --border-color: #112;
+  // --indicator-color: #ec5529;
+  --color-checked: #0d0439;
+  --color-hover: #0d0439;
+  font-size: 14px;
+  --border-radius: 12px;
+  padding: 1px 0px;
+}
+
+.mainMedia {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  padding-top: 5%;
+}
+
+.divider {
+  width: 5%;
+  height: 160px;
+  float: left;
+}
+
+.acceptRequest {
+  --background: #112 !important;
+  padding-right: 3%;
+}
+
+.deleteRequest {
+  color: black;
+  --background: #dadce4;
+}
+
+// .photoItem {
+//     float        : left;
+//     width        : 45%;
+//     height       : fit-content;
+//     margin-bottom: 15px;
+
+//     img {
+//         height       : 160px;
+//         width        : 175px;
+//         object-fit   : cover;
+//         border-radius: 5px;
+//     }
+// }
+
+.profileIcon {
+  display: flex;
+  padding: 15px 20px;
+  border: 1px solid #9e9bb0;
+  border-radius: 12px;
+  float: left;
+
+  ion-icon {
+    color: #0d0439;
+    font-size: x-large;
+    padding: 0px;
+    margin: 0px;
+    clear: both;
+  }
+
+  .text {
+    font-size: 16px;
+    padding-left: 5px;
+    color: #0d0439;
+  }
+}
+.messageIcon {
+  float: right;
+  display: flex;
+  padding: 15px 20px;
+  border-radius: 12px;
+  border: 1px solid #ec5529;
+  background-color: #ec5529;
+
+  ion-icon {
+    margin: 0px;
+    clear: both;
+    padding: 0px;
+    color: #ffffff;
+    font-size: x-large;
+  }
+
+  .text {
+    font-size: 16px;
+    color: #ffffff;
+    padding-left: 5px;
+  }
+}
+.myfriendBar {
+  margin-top: 120px;
+}
+
+.unfriendBar {
+  color: #0d0439;
+  padding: 0px 3%;
+  z-index: 999999;
+  margin-top: 120px;
+  width: 100%;
+  height: 65px;
+}
+
+.personal_Media {
+  width: 95%;
+  margin-left: auto;
+  overflow: hidden;
+  align-items: center;
+  justify-content: center;
+  height: fit-content;
+
+  .photoItem {
+    float: left;
+    width: 45%;
+    display: flex;
+    height: fit-content;
+    margin-bottom: 15px;
+
+    img {
+      height: 160px;
+      width: 175px;
+      object-fit: cover;
+      border-radius: 5px;
+    }
+
+    video {
+      height: 160px;
+      width: 175px;
+      object-fit: cover;
+      border-radius: 5px;
+    }
+
+    ion-icon {
+      position: absolute;
+      font-weight: bold;
+      color: #fff;
+      font-size: xx-large;
+    }
+  }
+}
+
+.album1 {
+  // display: flex;
+  width: 300px;
+  height: auto;
+  margin: auto;
+}
+
+div#photos1 {
+  column-count: 2;
+  max-width: 100%;
+  display: unset;
+}
+
+.photoHolder1 {
+  float: left;
+  width: max-content;
+  overflow: hidden;
+  height: 170px;
+  display: flex;
+}
+
+.emptyCard {
+  width: 145px;
+  float: left;
+  overflow: hidden;
+  height: 170px;
+  display: block;
+}
+
+.kkk {
+  max-width: 100%;
+  overflow: hidden;
+}
+
+.photoHolder1 img {
+  width: 145px;
+  height: 145px;
+  object-fit: cover;
+  border-radius: 5px;
+  margin: 3px 5px;
+  margin-right: 0px;
+  float: left;
+}
+
+.videoPlayButton {
+  font-size: xx-large;
+  display: flex;
+  position: absolute;
+  width: 145px;
+  height: 145px;
+  align-items: center;
+  justify-content: center;
+}
+
+.friendItem {
+  margin-top: 15px;
+  border: 1px solid #fff;
+  border-radius: 20px;
+  background-color: #ffffff;
+  box-shadow: 0px 4px 24px rgba(13, 4, 57, 0.1);
+}
+
+.dot-online {
+  height: 18px;
+  width: 18px;
+  background-color: #5cb85c;
+  border-radius: 50%;
+  border: 3px solid #fff;
+  z-index: 9999;
+  opacity: 5;
+  position: absolute;
+  left: 55.5%;
+  bottom: 2%;
+}
+
+.dot-offline {
+  height: 18px;
+  width: 18px;
+  background-color: grey;
+  border-radius: 50%;
+  border: 3px solid #fff;
+  z-index: 9999;
+  opacity: 5;
+  position: absolute;
+  left: 55.5%;
+  bottom: 2%;
+}

@@ -1,0 +1,64 @@
+<ion-header [translucent]="true">
+  <ion-toolbar mode="md">
+    <ion-icon
+      slot="start"
+      name="arrow-back"
+      class="white fnt-18"
+      (click)="back()"
+    ></ion-icon>
+    <ion-title mode="md" class="ion-align-self-center">{{
+      addEventString
+    }}</ion-title>
+  </ion-toolbar>
+</ion-header>
+<!--=========== Header Ends ============-->
+<ion-content>
+  <ion-card>
+    <ion-item>
+      <ion-label position="floating">{{ eventTitleString }} *</ion-label>
+      <ion-input
+        (ionBlur)="titleValid()"
+        (keyup.enter)="setFocus(b)"
+        [(ngModel)]="eventTitle"
+      ></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label position="floating">{{ eventDescString }} *</ion-label>
+      <ion-textarea
+        #b
+        (ionBlur)="descValid()"
+        (keyup.enter)="setFocus(c)"
+        [(ngModel)]="eventDescription"
+      ></ion-textarea>
+    </ion-item>
+    <ion-item>
+      <ion-label position="floating">{{ eventVenueString }} *</ion-label>
+      <ion-input
+        #c
+        (ionBlur)="venuValid()"
+        (keyup.enter)="d.open()"
+        [(ngModel)]="eventVenu"
+      ></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label position="floating">{{ eventDateString }}*</ion-label>
+      <ion-datetime
+        #d
+        (ionChange)="x()"
+        [min]="minDate"
+        [(ngModel)]="eventDate"
+        [max]="maxDate"
+        displayFormat="MMM DD YYYY"
+      ></ion-datetime>
+    </ion-item>
+  </ion-card>
+  <div class="create-button pad-tp-32">
+    <ion-button
+      class="tribationBtn"
+      [disabled]="disableBtn"
+      (click)="eventAdd()"
+      >{{ submitString }}</ion-button
+    >
+  </div>
+</ion-content>

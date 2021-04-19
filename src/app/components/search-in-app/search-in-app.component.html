@@ -1,0 +1,129 @@
+<ion-header [translucent]="true">
+  <ion-toolbar mode="md">
+    <ion-icon
+      slot="start"
+      name="close"
+      class="fnt-18"
+      (click)="back()"
+    ></ion-icon>
+    <ion-title mode="md" class="ion-align-self-center">{{
+      searchString
+    }}</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="bgcolor">
+  <div class="frnd_pad" style="padding-top: 3%">
+    <!-- Search Bar -->
+    <div class="search_bar">
+      <ion-searchbar
+        #searchBox
+        class="search_bar ion-no-padding"
+        color="light"
+        [(ngModel)]="searchTerm"
+        mode="ios"
+        (ionChange)="search(searchTerm)"
+        placeholder="{{ searchString }}"
+        showCancelButton="never"
+        style="width: 95%; margin: auto"
+      >
+      </ion-searchbar>
+    </div>
+
+    <!-- Before Type -->
+    <div
+      class="before-type"
+      style="text-align: center"
+      text-center
+      *ngIf="searchTerm == ''"
+    >
+      <ion-icon
+        color="primary"
+        name="arrow-up"
+        class="white fnt-18 bounce ion-text-center"
+      ></ion-icon>
+      <div class="search-any">
+        <ion-icon name="search" class="white fnt-18 emptysearchicon"></ion-icon>
+      </div>
+      <p class="black emptytxt">{{ findFriendsGroupsString }}</p>
+    </div>
+
+    <div
+      *ngIf="searchTerm != '' && userListLength == 0"
+      class="text-center"
+      style="top: calc(100% - 54%); position: relative"
+    >
+      <ion-icon
+        name="people"
+        style="color: #181434 !important; font-size: 50px !important"
+      ></ion-icon>
+      <p style="color: #181434 !important">{{ noFriendsListString }}</p>
+    </div>
+
+    <div class="container">
+      <!-- After Type (Searched) -->
+      <div padding *ngIf="searchTerm != '' && userListLength > 0">
+        <ion-list>
+          <!-- <ion-item-sliding (ionSwipe)="unFriend(frnd.id,frnd.name)" *ngFor="let frnd of listOfUser"> -->
+
+          <ion-item-sliding *ngFor="let frnd of listOfUser">
+            <ion-item>
+              <ion-avatar slot="start">
+                <img
+                  *ngIf="frnd.profile_img_url != ''"
+                  button
+                  (click)="friendDetail(frnd.id)"
+                  src="{{
+                    environment.apiUrl
+                  }}v1/api/post/imagecall_mobile_url?imagepath=profile/{{
+                    frnd.id
+                  }}/{{ frnd.profile_img_url }}"
+                />
+                <img
+                  *ngIf="frnd.profile_img_url == ''"
+                  button
+                  (click)="friendDetail(frnd.id)"
+                  src="../assets/defaultProfile.png"
+                />
+              </ion-avatar>
+              <ion-label>
+                <h2
+                  class="ion-text-wrap capital"
+                  button
+                  (click)="friendDetail(frnd.id)"
+                >
+                  {{ frnd.title }}
+                </h2>
+                <p class="para_size" style="text-transform: capitalize">
+                  <ion-icon name="pin" class="icon_location"></ion-icon
+                  ><span *ngIf="frnd.country_code != '0'">
+                    {{ frnd.city }}, {{ frnd.country_code }} </span
+                  ><span
+                    *ngIf="
+                      frnd.country_code == '0' ||
+                      frnd.country_code == '' ||
+                      frnd.country_code == 'null'
+                    "
+                  >
+                    {{ frnd.city }}</span
+                  >
+                </p>
+              </ion-label>
+              <ion-icon
+                style="font-size: x-large; color: #ec5529"
+                name="chatbox-ellipses-outline"
+                (click)="rootMsgPage(frnd.id)"
+              >
+              </ion-icon>
+            </ion-item>
+
+            <!-- <ion-item-options>
+              <ion-button class="unfrnd-btn capital ion-text-wrap" color="danger" expand="full"
+                (click)="unFriend(frnd.id,frnd.name)">{{unfriendString}}</ion-button>
+            </ion-item-options> -->
+          </ion-item-sliding>
+        </ion-list>
+      </div>
+    </div>
+  </div>
+</ion-content>

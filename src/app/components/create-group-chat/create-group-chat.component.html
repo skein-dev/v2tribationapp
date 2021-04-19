@@ -1,0 +1,73 @@
+<ion-content>
+  <div class="max-h-200 icons paddingSafe">
+    <ion-icon
+      name="arrow-back"
+      class="white div_cover_Pic"
+      style="float: left"
+      (click)="back()"
+    >
+    </ion-icon>
+    <input
+      type="file"
+      id="uploadProfile"
+      accept="image/*"
+      class="hide inputfile"
+      (change)="handlefileinputProfile($event.target.files)"
+    />
+    <div style="float: right">
+      <ion-icon
+        name="camera"
+        class="white div_cover_Pic"
+        (click)="presentActionSheet()"
+      ></ion-icon>
+    </div>
+  </div>
+
+  <div style="height: 40%; width: 100%">
+    <div
+      [ngStyle]="{ 'background-image': 'url(' + wallImage + ')' }"
+      class="wallCover"
+    >
+      <div class="insideCover"></div>
+    </div>
+    <div
+      style="
+        position: absolute;
+        right: 3%;
+        top: 37%;
+        color: #fff;
+        font-weight: 500;
+        font-size: smaller;
+        font-style: italic;
+      "
+    >
+      {{ selectedMembersString }}:&nbsp;{{ ids.length }}
+    </div>
+  </div>
+
+  <ion-card-content class="mainContent">
+    <ion-item lines="none">
+      <ion-label position="floating">{{ groupNameString }} </ion-label>
+      <ion-input
+        maxlength="20"
+        [(ngModel)]="groupName"
+        (ionChange)="formatString(groupName)"
+      ></ion-input>
+    </ion-item>
+    <!-- Team description -->
+    <ion-item lines="none">
+      <ion-label position="floating">{{ DescString }}</ion-label>
+      <ion-input [(ngModel)]="groupDec"></ion-input>
+    </ion-item>
+  </ion-card-content>
+
+  <div class="create-button">
+    <ion-button
+      class="tribationBtn ion-text-wrap"
+      [disabled]="groupName === ''"
+      (click)="createGroupChat()"
+    >
+      {{ createChatGroupString }}
+    </ion-button>
+  </div>
+</ion-content>

@@ -1,0 +1,149 @@
+<ion-header [translucent]="true">
+  <ion-toolbar mode="md">
+    <ion-icon
+      slot="start"
+      name="arrow-back"
+      class="fnt-18"
+      (click)="back()"
+    ></ion-icon>
+    <ion-title
+      mode="md"
+      class="ion-align-self-center"
+      style="text-align: center"
+      >{{notificationSettingsString}}</ion-title
+    >
+  </ion-toolbar>
+</ion-header>
+<!--=========== Header Ends ============-->
+<ion-content class="slideInleft">
+  <ion-card>
+    <ion-list class="noBackgroundItem">
+      <ion-item lines="none">
+        <ion-label> {{friendRequestNotiString}}</ion-label>
+        <ion-toggle
+          size="small"
+          slot="end"
+          [(ngModel)]="friendRequestNoti"
+          (ionChange)="notiSettingChange(friendRequestNoti,1)"
+        >
+        </ion-toggle>
+      </ion-item>
+
+      <ion-item lines="none">
+        <ion-label> {{friendAcceptNotiString}}</ion-label>
+        <ion-toggle
+          size="small"
+          slot="end"
+          [(ngModel)]="friendAcceptNoti"
+          (ionChange)="notiSettingChange(friendAcceptNoti,2)"
+        >
+        </ion-toggle>
+      </ion-item>
+
+      <ion-item lines="none">
+        <ion-label> {{likeNotiString}}</ion-label>
+        <ion-toggle
+          size="small"
+          slot="end"
+          [(ngModel)]="likeNoti"
+          (ionChange)="notiSettingChange(likeNoti,3)"
+        ></ion-toggle>
+      </ion-item>
+
+      <ion-item lines="none">
+        <ion-label> {{commentNotiString}}</ion-label>
+        <ion-toggle
+          size="small"
+          slot="end"
+          [(ngModel)]="commentNoti"
+          (ionChange)="notiSettingChange(commentNoti,4)"
+        ></ion-toggle>
+      </ion-item>
+
+      <ion-item lines="none">
+        <ion-label> {{mentionNotiString}}</ion-label>
+        <ion-toggle
+          size="small"
+          slot="end"
+          [(ngModel)]="mentionNoti"
+          (ionChange)="notiSettingChange(mentionNoti,5)"
+        ></ion-toggle>
+      </ion-item>
+
+      <ion-item lines="none">
+        <ion-label> {{teamCreateNotiString}}</ion-label>
+        <ion-toggle
+          size="small"
+          slot="end"
+          [(ngModel)]="teamCreateNoti"
+          (ionChange)="notiSettingChange(teamCreateNoti,7)"
+        >
+        </ion-toggle>
+      </ion-item>
+
+      <ion-item lines="none">
+        <ion-label> {{eventCreatNotiString}}</ion-label>
+        <ion-toggle
+          size="small"
+          slot="end"
+          [(ngModel)]="eventCreatNoti"
+          (ionChange)="notiSettingChange(eventCreatNoti,8)"
+        >
+        </ion-toggle>
+      </ion-item>
+
+      <ion-item lines="none">
+        <ion-label> {{eventDeleteNotiString}}</ion-label>
+        <ion-toggle
+          size="small"
+          slot="end"
+          [(ngModel)]="eventDeleteNoti"
+          (ionChange)="notiSettingChange(eventDeleteNoti,9)"
+        >
+        </ion-toggle>
+      </ion-item>
+
+      <!-- <ion-item lines="none">
+        <ion-label> {{groupAcceptNotiString}}</ion-label>
+        <ion-toggle size="small" slot="end" [(ngModel)]="groupAcceptNoti" (ionChange)="notiSettingChange(groupAcceptNoti)">
+        </ion-toggle>
+      </ion-item>
+
+      <ion-item lines="none">
+        <ion-label> {{groupInviteNotiString}}</ion-label>
+        <ion-toggle size="small" slot="end" [(ngModel)]="groupInviteNoti" (ionChange)="notiSettingChange(groupInviteNoti)">
+        </ion-toggle>
+      </ion-item>
+
+      <ion-item lines="none">
+        <ion-label> {{scoutAcceptNotiString}}</ion-label>
+        <ion-toggle size="small" slot="end" [(ngModel)]="scoutAcceptNoti" (ionChange)="notiSettingChange(scoutAcceptNoti,6)">
+        </ion-toggle>
+      </ion-item> -->
+
+      <ion-item lines="none">
+        <ion-label> {{eventUpdateNotiString}}</ion-label>
+        <ion-toggle
+          size="small"
+          slot="end"
+          [(ngModel)]="eventUpdateNoti"
+          (ionChange)="notiSettingChange(eventUpdateNoti,10)"
+        >
+        </ion-toggle>
+      </ion-item>
+
+      <ion-item lines="none" style="border-bottom: unset">
+        <ion-label> {{messageNotiString}}</ion-label>
+        <ion-toggle
+          size="small"
+          slot="end"
+          [(ngModel)]="messageNoti"
+          (ionChange)="notiSettingChange(messageNoti,11)"
+        ></ion-toggle>
+      </ion-item>
+    </ion-list>
+  </ion-card>
+  <!-- <ion-button (click)="registerPushNative()">
+    Click me
+  </ion-button> -->
+</ion-content>

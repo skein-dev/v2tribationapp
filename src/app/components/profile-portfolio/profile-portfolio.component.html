@@ -1,0 +1,668 @@
+<!-- style="--background:#ec5529 !important;background:#ec5529 !important;" -->
+<ion-header [translucent]="true">
+  <ion-toolbar mode="md" style="display: flex">
+    <ion-icon
+      slot="start"
+      name="arrow-back"
+      class="fnt-18"
+      (click)="back()"
+    ></ion-icon>
+    <ion-title
+      mode="md"
+      class="ion-align-self-center"
+      style="padding-left: 35%; font-weight: bold;"
+      >{{ portfolioString }}</ion-title
+    >
+
+    <div
+      slot="end"
+      *ngIf="showEdit"
+      style="
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-right: 3%;
+        font-size: xx-large;
+      "
+    >
+      <ion-button
+        fill="clear"
+        (click)="editBlock = !editBlock"
+        slot="start"
+        class="ion-no-padding ion-no-margin"
+        style="float: left; margin-right: 24px"
+      >
+        <ion-icon
+          *ngIf="editBlock === false"
+          name="pencil"
+          style="color: #0d0439"
+        ></ion-icon>
+        <ion-icon
+          name="checkmark-done"
+          *ngIf="editBlock === true"
+          color="success"
+        ></ion-icon>
+      </ion-button>
+      <ion-icon
+        button
+        (click)="addSectionFun()"
+        name="add-circle-outline"
+        style="padding-right: 4%; float: right"
+      >
+      </ion-icon>
+    </div>
+    <ion-select
+      #addSection
+      [(ngModel)]="addSectionVal"
+      [interfaceOptions]="customAlertOptions"
+      interface="popover"
+      (ionChange)="addThisSection()"
+      style="max-width: 20px"
+      hidden
+    >
+      <ion-select-option
+        value="workHistory"
+        *ngIf="userDetails.user_type === 'scout'"
+      >
+        {{ workHistoryString }}
+      </ion-select-option>
+      <ion-select-option value="teamHistory">
+        {{ teamHistoryString }}
+      </ion-select-option>
+      <ion-select-option value="formalTraning">
+        {{ sportsString }}
+      </ion-select-option>
+      <ion-select-option value="education">
+        {{ educationString }}
+      </ion-select-option>
+      <!-- <ion-select-option value="highlits">
+        {{highlitsString}}
+      </ion-select-option> -->
+      <ion-select-option value="statistics">
+        {{ statisticsString }}
+      </ion-select-option>
+      <ion-select-option value="awards">
+        {{ awardsString }}
+      </ion-select-option>
+      <ion-select-option value="aspirations" *ngIf="!userAspiration">
+        {{ aspirationsString }}
+      </ion-select-option>
+    </ion-select>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content *ngIf="userInfo">
+  <ion-card
+    style="background-color: #ec552942"
+    *ngIf="isScout === true && isMinor === true && isGuarded === true"
+  >
+    <ion-card-header class="panel-heading">
+      <div
+        class="panel-title"
+        data-toggle="collapse"
+        data-target="#collapseOne"
+      >
+        {{ GuardedByString }}
+      </div>
+    </ion-card-header>
+    <div id="collapseOne" class="panel-collapse collapse">
+      <ion-row>
+        <ion-col size="3">
+          <ion-row (click)="openPortfolio(userDetails.id)">
+            <div class="prospectAvtar ion-text-center">
+              <ion-avatar>
+                <img src="../../../assets/defaultProfile.png" />
+              </ion-avatar>
+            </div>
+          </ion-row>
+        </ion-col>
+        <ion-col size="9">
+          <ion-row style="justify-content: space-between">
+            <div
+              style="font-weight: 900; color: #000; font-size: medium"
+              (click)="openPortfolio(userDetails.id)"
+            >
+              {{ userStatus.first_name }} {{ userStatus.last_name }}
+            </div>
+            <div
+              class="chat"
+              button
+              (click)="sendChat(userStatus.guardianUserId)"
+            >
+              <ion-icon
+                name="chatbox-ellipses"
+                slot="end"
+                class="tribationColor fnt-18"
+              ></ion-icon>
+            </div>
+          </ion-row>
+          <ion-row>
+            <div style="font-size: small">
+              <ion-icon name="location"></ion-icon>
+              {{ userStatus.city }}, {{ userStatus.country }}
+            </div>
+          </ion-row>
+        </ion-col>
+      </ion-row>
+    </div>
+  </ion-card>
+
+  <ion-card style="border: double #112 5px" (click)="editProfile(userInfo)">
+    <ion-card-header>
+      <ion-card-title>
+        <ion-icon name="information-circle-outline"></ion-icon>
+        &nbsp;{{ infoBlockString }}
+      </ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      <div class="editDelete" *ngIf="editBlock === true">
+        <ion-button
+          fill="clear"
+          class="ion-no-padding ion-no-margin"
+          style="float: left"
+        >
+          <ion-icon
+            slot="start"
+            name="pencil"
+            style="color: #0d0439"
+            class="ion-no-padding ion-no-margin"
+          >
+          </ion-icon>
+        </ion-button>
+      </div>
+      <ion-row>
+        <ion-col size="3">
+          <ion-avatar>
+            <img
+              *ngIf="userInfo.profileImg != ''"
+              src="{{
+                environment.apiUrl
+              }}v1/api/post/imagecall_mobile_url?imagepath=profile/{{
+                userInfo.id
+              }}/{{ userInfo.profileImg }}"
+            />
+            <img
+              *ngIf="userInfo.profileImg == ''"
+              src="../../../assets/defaultProfile.png"
+            />
+          </ion-avatar>
+        </ion-col>
+        <ion-col size="9">
+          <ion-row>
+            <div class="name">
+              {{ userInfo.firstName }}&nbsp;{{ userInfo.lastName }}
+            </div>
+            <div
+              style="
+                float: left;
+                margin-left: 3%;
+                margin-top: 1.5%;
+                text-transform: capitalize;
+              "
+            >
+              ({{ userInfo.gender }}
+              <span *ngIf="userInfo.age">,&nbsp;{{ userInfo.age }}</span>
+              )
+            </div>
+          </ion-row>
+
+          <ion-row>
+            <ion-icon name="location" style="margin-top: 1%"></ion-icon>
+            <span *ngIf="userInfo.city">&nbsp;{{ userInfo.city }}</span>
+            <span *ngIf="userInfo.stateProvince"
+              >,&nbsp;{{ userInfo.stateProvince }}</span
+            >
+            <span *ngIf="userInfo.country">,&nbsp;{{ userInfo.country }}</span>
+          </ion-row>
+          <ion-row *ngIf="userInfo.height || userInfo.weight">
+            <ion-col
+              size="5"
+              style="white-space: nowrap"
+              *ngIf="userInfo.height"
+              >{{ heightString }}:&nbsp;
+              <span style="white-space: break-spaces">
+                {{ userInfo.height }}{{ userInfo.heightUnit }}</span
+              >
+            </ion-col>
+            <ion-col
+              size="5"
+              style="white-space: nowrap"
+              *ngIf="userInfo.weight"
+              >{{ weightString }}:&nbsp;
+              <span style="white-space: break-spaces">
+                {{ userInfo.weight }}{{ userInfo.weightUnit }}</span
+              >
+            </ion-col>
+          </ion-row>
+        </ion-col>
+      </ion-row>
+    </ion-card-content>
+  </ion-card>
+
+  <div *ngIf="userAspiration">
+    <ion-card class="styleCard">
+      <ion-card-header>
+        <ion-card-title>
+          <ion-icon name="person-circle"></ion-icon>
+          &nbsp;{{ aspirationsString }}
+        </ion-card-title>
+      </ion-card-header>
+      <ion-card-content
+        class="ion-no-padding ion-text-center"
+        style="padding: 5%"
+        (click)="editAspItem(0, userAspiration)"
+      >
+        <div class="editDelete" *ngIf="editBlock === true">
+          <ion-button
+            fill="clear"
+            class="ion-no-padding ion-no-margin"
+            style="float: left"
+          >
+            <ion-icon
+              slot="start"
+              name="pencil"
+              style="color: #0d0439"
+              class="ion-no-padding ion-no-margin"
+            >
+            </ion-icon>
+          </ion-button>
+        </div>
+        <div>" {{ userAspiration.text }} "</div>
+      </ion-card-content>
+    </ion-card>
+  </div>
+
+  <ion-card *ngIf="userWorkHistory.length > 0" class="styleCard">
+    <ion-card-header>
+      <ion-card-title>
+        <ion-icon name="albums"></ion-icon>
+        &nbsp;{{ workHistoryString }}
+      </ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      <ul>
+        <ion-row
+          *ngFor="let workItem of userWorkHistory; let w = index"
+          style="text-transform: capitalize"
+          (click)="editWorkItem(w, workItem)"
+        >
+          <div class="editDelete" *ngIf="editBlock === true">
+            <ion-button
+              fill="clear"
+              class="ion-no-padding ion-no-margin"
+              style="float: left"
+            >
+              <ion-icon
+                slot="start"
+                name="pencil"
+                style="color: #0d0439"
+                class="ion-no-padding ion-no-margin"
+              >
+              </ion-icon>
+            </ion-button>
+          </div>
+          <div
+            style="
+              width: 100%;
+              padding-bottom: 6%;
+              padding-top: 4%;
+              border-bottom: #ccc 0.1px solid;
+            "
+          >
+            <li>
+              <b style="float: left"
+                >{{ workItem.jobTitle }}&nbsp;{{ atStiing }}&nbsp;{{
+                  workItem.employer
+                }}</b
+              >
+              <span style="float: right"
+                ><i
+                  >({{ workItem.dateTo }}&nbsp;-&nbsp;{{
+                    workItem.dateFrom
+                  }})</i
+                ></span
+              >
+            </li>
+            <ion-row
+              *ngIf="workItem.decsribtion"
+              style="text-transform: initial; margin: 2%; margin-bottom: 0"
+            >
+              {{ workItem.decsribtion }}
+            </ion-row>
+          </div>
+        </ion-row>
+      </ul>
+    </ion-card-content>
+  </ion-card>
+
+  <ion-card *ngIf="userFormalTraning.length > 0" class="styleCard">
+    <ion-card-header>
+      <ion-card-title>
+        <ion-icon name="star"></ion-icon>
+        &nbsp;{{ sportString }}
+      </ion-card-title>
+    </ion-card-header>
+    <ion-card-content class="ion-no-padding ion-text-capitalize">
+      <ion-card
+        *ngFor="let formalTrainItem of userFormalTraning; let f = index"
+        style="padding: 2% 5%"
+        (click)="editFormalItem(f, formalTrainItem)"
+      >
+        <div class="editDelete" *ngIf="editBlock === true">
+          <ion-button
+            fill="clear"
+            class="ion-no-padding ion-no-margin"
+            style="float: left"
+          >
+            <ion-icon
+              slot="start"
+              name="pencil"
+              style="color: #0d0439"
+              class="ion-no-padding ion-no-margin"
+            >
+            </ion-icon>
+          </ion-button>
+        </div>
+        <ion-row
+          style="
+            margin-bottom: 3%;
+            font-size: large;
+            --color: #000 !important;
+            color: #000 !important;
+          "
+        >
+          <b>{{ formalTrainItem.academyName }}</b></ion-row
+        >
+        <ion-row style="margin-bottom: 3%">
+          <div style="width: 100%; text-align: center">
+            <span style="float: left">
+              {{ levelString }}:
+              <b *ngIf="formalTrainItem.level !== null">{{
+                formalTrainItem.level
+              }}</b
+              ><b *ngIf="formalTrainItem.level === null">N/A</b></span
+            >
+            ||
+            <span style="float: right">
+              {{ instructorString }}:
+              <b *ngIf="formalTrainItem.instructor !== null">{{
+                formalTrainItem.instructor
+              }}</b
+              ><b *ngIf="formalTrainItem.instructor === null">N/A</b></span
+            >
+          </div>
+        </ion-row>
+        <ion-row style="margin-bottom: 3%">
+          <div style="width: 100%; text-align: center">
+            <span style="float: left" *ngIf="formalTrainItem.dateFrom"
+              ><i
+                >({{ formalTrainItem.dateFrom }}&nbsp;-&nbsp;{{
+                  formalTrainItem.dateTo
+                }})</i
+              ></span
+            >
+            <span style="float: right">
+              <b>{{ formalTrainItem.sportsName }} </b>
+              <img
+                src="../../../assets/sports/{{
+                  formalTrainItem.sportsIcon
+                }}.png"
+                style="height: 30px; width: 30px"
+              />
+            </span>
+          </div>
+        </ion-row>
+        <ion-row>
+          <span style="width: 100%" *ngIf="formalTrainItem.description">
+            {{ formalTrainItem.description }}
+          </span>
+        </ion-row>
+      </ion-card>
+    </ion-card-content>
+  </ion-card>
+
+  <ion-card *ngIf="userAwards.length > 0" class="styleCard">
+    <ion-card-header>
+      <ion-card-title>
+        <ion-icon name="ribbon-sharp"></ion-icon>
+        &nbsp;{{ awardsString }}
+      </ion-card-title>
+    </ion-card-header>
+    <ion-card-content class="ion-no-padding">
+      <ion-card
+        *ngFor="let awardItem of userAwards; let a = index"
+        style="padding: 4% 0"
+        (click)="editAwardItem(a, awardItem)"
+      >
+        <div class="editDelete" *ngIf="editBlock === true">
+          <ion-button
+            fill="clear"
+            class="ion-no-padding ion-no-margin"
+            style="float: left"
+          >
+            <ion-icon
+              slot="start"
+              name="pencil"
+              style="color: #0d0439"
+              class="ion-no-padding ion-no-margin"
+            >
+            </ion-icon>
+          </ion-button>
+        </div>
+        <ion-row
+          *ngIf="awardItem.awardName"
+          style="
+            font-size: large;
+            --color: #000 !important;
+            color: #000 !important;
+            font-weight: bold;
+            margin: 3% 0px 2% 2%;
+          "
+        >
+          {{ awardItem.awardName }}
+        </ion-row>
+        <ion-row style="margin-bottom: 2%; padding: 0 2%">
+          <ion-col size="6" *ngIf="awardItem.adwardedBy"
+            >By: {{ awardItem.adwardedBy }}</ion-col
+          >
+          <ion-col size="1" *ngIf="awardItem.adwardedBy && awardItem.date"
+            >||</ion-col
+          >
+          <ion-col size="5" style="text-align: right" *ngIf="awardItem.date"
+            >On: {{ awardItem.date }}</ion-col
+          >
+        </ion-row>
+      </ion-card>
+    </ion-card-content>
+  </ion-card>
+
+  <ion-card *ngIf="userTeamHistory.length > 0" class="styleCard">
+    <ion-card-header>
+      <ion-card-title>
+        <ion-icon mode="ios" src="../../../assets/UserThree.svg"></ion-icon>
+        &nbsp;{{ teamHistoryString }}
+      </ion-card-title>
+    </ion-card-header>
+    <ion-card-content class="ion-no-padding ion-text-capitalize">
+      <ion-card
+        *ngFor="let teamHisItem of userTeamHistory; let t = index"
+        style="padding: 2% 5%"
+        (click)="editTeamItem(t, teamHisItem)"
+      >
+        <div class="editDelete" *ngIf="editBlock === true">
+          <ion-button
+            fill="clear"
+            class="ion-no-padding ion-no-margin"
+            style="float: left"
+          >
+            <ion-icon
+              slot="start"
+              name="pencil"
+              style="color: #0d0439"
+              class="ion-no-padding ion-no-margin"
+            >
+            </ion-icon>
+          </ion-button>
+        </div>
+        <ion-row
+          style="
+            margin-bottom: 3%;
+            font-size: large;
+            --color: #000 !important;
+            color: #000 !important;
+          "
+        >
+          <b>{{ teamHisItem.teamName }}</b></ion-row
+        >
+        <ion-row style="margin-bottom: 3%">
+          <div style="width: 100%; text-align: center">
+            <span style="float: left">
+              {{ positionString }}: <b>{{ teamHisItem.positionName }}</b></span
+            >
+            ||
+            <span style="float: right">
+              {{ coachString }}:
+              <b *ngIf="teamHisItem.coach !== null">{{ teamHisItem.coach }}</b
+              ><b *ngIf="teamHisItem.coach == null">N/A</b></span
+            >
+          </div>
+        </ion-row>
+        <ion-row style="margin-bottom: 3%">
+          <div style="width: 100%; text-align: center">
+            <span style="float: left" *ngIf="teamHisItem.dateFrom"
+              ><i
+                >({{ teamHisItem.dateFrom }}&nbsp;-&nbsp;{{
+                  teamHisItem.dateTo
+                }})</i
+              ></span
+            >
+            <span style="float: right">
+              <b>{{ teamHisItem.sportsName }} </b>
+              <img
+                src="../../../assets/sports/{{ teamHisItem.sportsIcon }}.png"
+                style="height: 30px; width: 30px"
+              />
+            </span>
+          </div>
+        </ion-row>
+        <ion-row>
+          <span style="width: 100%" *ngIf="teamHisItem.description">
+            {{ teamHisItem.description }}
+          </span>
+        </ion-row>
+      </ion-card>
+    </ion-card-content>
+  </ion-card>
+
+  <ion-card *ngIf="userEducation.length > 0" class="styleCard">
+    <ion-card-header>
+      <ion-card-title>
+        <ion-icon name="school"></ion-icon>
+        &nbsp;{{ educationString }}
+      </ion-card-title>
+    </ion-card-header>
+    <ion-card-content class="ion-no-padding">
+      <ion-card
+        *ngFor="let educationItem of userEducation; let e = index"
+        style="padding: 4% 0"
+        (click)="editEduItem(e, educationItem)"
+      >
+        <div class="editDelete" *ngIf="editBlock === true">
+          <ion-button
+            fill="clear"
+            class="ion-no-padding ion-no-margin"
+            style="float: left"
+          >
+            <ion-icon
+              slot="start"
+              name="pencil"
+              style="color: #0d0439"
+              class="ion-no-padding ion-no-margin"
+            >
+            </ion-icon>
+          </ion-button>
+        </div>
+        <ion-row
+          style="
+            font-size: large;
+            --color: #000 !important;
+            color: #000 !important;
+            font-weight: bold;
+            margin: 3% 0px 2% 2%;
+          "
+        >
+          {{ educationItem.schoolName }}
+        </ion-row>
+        <ion-row style="margin-bottom: 2%; padding: 0 2%">
+          <ion-col size="4" *ngIf="educationItem.level"
+            >{{ levelString }}:&nbsp;<span>{{
+              educationItem.level
+            }}</span></ion-col
+          >
+          <ion-col
+            size="8"
+            *ngIf="educationItem.dateFrom && educationItem.level"
+            >||<i *ngIf="educationItem.dateFrom" style="float: right"
+              >({{ educationItem.dateTo }}&nbsp;-&nbsp;{{
+                educationItem.dateFrom
+              }})</i
+            >
+          </ion-col>
+        </ion-row>
+        <ion-row *ngIf="educationItem.description">
+          <span style="width: 100%; padding: 0 3%">
+            {{ educationItem.description }}
+          </span>
+        </ion-row>
+      </ion-card>
+    </ion-card-content>
+  </ion-card>
+
+  <ion-card *ngIf="userStats" class="styleCard">
+    <ion-card-header>
+      <ion-card-title>
+        <ion-icon name="analytics"></ion-icon>
+        &nbsp;{{ statisticsString }}
+      </ion-card-title>
+    </ion-card-header>
+    <ion-card-content class="ion-no-padding">
+      <ion-card
+        *ngFor="let statItem of userStats.entries; let s = index"
+        style="padding: 4% 0"
+        (click)="editStatItem(s, statItem)"
+      >
+        <div class="editDelete" *ngIf="editBlock === true">
+          <ion-button
+            fill="clear"
+            class="ion-no-padding ion-no-margin"
+            style="float: left"
+          >
+            <ion-icon
+              slot="start"
+              name="pencil"
+              style="color: #0d0439"
+              class="ion-no-padding ion-no-margin"
+            >
+            </ion-icon>
+          </ion-button>
+        </div>
+        <ion-row
+          style="
+            font-size: large;
+            --color: #000 !important;
+            color: #000 !important;
+            font-weight: bold;
+            margin: 3% 0px 2% 2%;
+          "
+        >
+          {{ statItem.key }}
+        </ion-row>
+        <ion-row style="margin-bottom: 2%; padding: 0 2%">
+          {{ statItem.value }}
+        </ion-row>
+      </ion-card>
+    </ion-card-content>
+  </ion-card>
+</ion-content>
+
+<!-- <ion-icon name="medal-outline"></ion-icon> -->

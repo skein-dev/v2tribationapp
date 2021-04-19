@@ -1,0 +1,16 @@
+.coverImg {
+  display: flex;
+  width: 100%;
+  padding: 2%;
+  align-items: center;
+
+  img {
+    border-radius: 5px;
+  }
+}
+
+.msg {
+  height: 90%;
+  display: flex;
+  align-items: center;
+}

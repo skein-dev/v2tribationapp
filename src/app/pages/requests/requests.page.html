@@ -1,0 +1,665 @@
+<ion-header [translucent]="true">
+  <ion-toolbar mode="md">
+    <ion-buttons slot="start">
+      <ion-menu-button autoHide="false" menuToggle></ion-menu-button>
+    </ion-buttons>
+    <ion-title
+      mode="md"
+      class="ion-align-self-center"
+      style="font-weight: bold; padding-left: 30%;"
+      >{{requestsString}}</ion-title
+    >
+  </ion-toolbar>
+</ion-header>
+
+<!-- <ion-content *ngIf="noRequest==true">
+  <div class="noReq ion-text-capitalize ion-text-center" style="margin-top:42% ;">
+    <ion-icon mode="ios" src="../../../assets/UserThree.svg" style="font-size: 900%;color: #0d0439;"></ion-icon>
+    <div style="margin-top:-8%;">{{noRequestsString}}</div>
+  </div>
+</ion-content> -->
+
+<ion-content>
+  <ion-segment
+    class="seg_style"
+    (ionChange)="segmentChanged($event)"
+    [(ngModel)]="checkedsegment"
+    *ngIf="regularUser === true"
+  >
+    <ion-segment-button class="seg_btn" value="friend">
+      <ion-row>
+        <ion-col>
+          <ion-label style="padding: 0; margin: 1%"
+            >{{friendReqString}}</ion-label
+          >
+        </ion-col>
+        <ion-col *ngIf="unreadFrndReq === true">
+          <ion-icon name="ellipse" style="font-size: medium"></ion-icon>
+        </ion-col>
+      </ion-row>
+    </ion-segment-button>
+
+    <ion-segment-button class="seg_btn" value="groupChat">
+      <ion-row>
+        <ion-col>
+          <ion-label style="padding: 0; margin: 1%"
+            >{{groupChatReqString}}</ion-label
+          >
+        </ion-col>
+        <ion-col *ngIf="unreadGrpReq === true">
+          <ion-icon name="ellipse" style="font-size: medium"></ion-icon>
+        </ion-col>
+      </ion-row>
+    </ion-segment-button>
+
+    <ion-segment-button class="seg_btn" value="team">
+      <ion-row>
+        <ion-col>
+          <ion-label style="padding: 0; margin: 1%"
+            >{{teamReqString}}</ion-label
+          >
+        </ion-col>
+        <ion-col *ngIf="unreadTeamReq === true">
+          <ion-icon name="ellipse" style="font-size: medium"></ion-icon>
+        </ion-col>
+      </ion-row>
+    </ion-segment-button>
+
+    <ion-segment-button class="seg_btn" value="guardian">
+      <ion-row>
+        <ion-col>
+          <ion-label style="padding: 0; margin: 1%"
+            >{{guardianReqString}}</ion-label
+          >
+        </ion-col>
+        <!-- <ion-col *ngIf="unreadFrndReq === true">
+        <ion-icon name="ellipse" style="font-size: medium;"></ion-icon>
+        </ion-col> -->
+      </ion-row>
+    </ion-segment-button>
+  </ion-segment>
+  <div [ngSwitch]="checkedsegment">
+    <!-- Friend Request -->
+    <div *ngSwitchCase="'friend'">
+      <div
+        class="noReq ion-text-capitalize ion-text-center"
+        style="margin-top: 10%"
+        *ngIf="friendReqList.length === 0"
+      >
+        <ion-icon
+          mode="ios"
+          src="../../../assets/UserThree.svg"
+          style="font-size: 900%; color: #0d0439"
+        ></ion-icon>
+        <div style="color: #0d0439">{{noFriendReqString}}</div>
+      </div>
+      <ion-card *ngIf="friendReqList.length>0" class="cardMaxHeight">
+        <ion-card-header>
+          <div class="frndReqBorderBtm">
+            {{friendReqString}} ({{friendRequests.length}})
+          </div>
+        </ion-card-header>
+        <ion-card-content>
+          <div class="search_bar">
+            <ion-searchbar
+              class="search_bar ion-no-padding"
+              color="light"
+              [(ngModel)]="searchFriendsTerm"
+              mode="ios"
+              (ionChange)="searchFrndReq(searchFriendsTerm)"
+              placeholder="{{searchString}}"
+              showCancelButton="never"
+              style="width: 100%"
+            >
+            </ion-searchbar>
+          </div>
+          <div *ngIf="friendRequests.length==0">
+            <h6 style="text-align: center">{{noFriendReqString}}</h6>
+          </div>
+
+          <ion-list>
+            <ion-item-sliding
+              *ngFor="let item of friendRequests ; let i = index;"
+              class="reqListMargin"
+            >
+              <ion-item
+                lines="none"
+                style="align-items: start; border-radius: 11px"
+              >
+                <ion-avatar
+                  class="frnd_avatar"
+                  slot="start"
+                  style="height: 68%"
+                  (click)="friendDetail(item.id)"
+                >
+                  <img
+                    *ngIf="item.profile_img_url!=''"
+                    src="{{environment.apiUrl}}v1/api/post/imagecall_mobile_url?imagepath=profile/{{item.id}}/{{item.profile_img_url_thump}}"
+                  />
+                  <img
+                    *ngIf="item.profile_img_url==''"
+                    src="../../../assets/defaultProfile.png"
+                  />
+                </ion-avatar>
+
+                <div style="width: 80%">
+                  <ion-label (click)="friendDetail(item.id)"
+                    >{{item.sender_name}}</ion-label
+                  >
+                  <ion-button
+                    (click)="acceptFrndReq(item.id,i)"
+                    class="acceptRequest"
+                    >{{acceptString}}
+                  </ion-button>
+                  <ion-button
+                    (click)="deleteFrndReq(item.id,i)"
+                    class="deleteRequest"
+                    >{{deleteString}}</ion-button
+                  >
+                </div>
+                <div style="width: 20%">
+                  <span class="topright">{{getTimeFromNow(item.created)}}</span>
+                </div>
+              </ion-item>
+
+              <ion-item-options
+                side="start"
+                (ionSwipe)="acceptFrndReq(item.id,i)"
+                style="background-color: #3880ff"
+              >
+                <ion-item-option>
+                  <ion-icon
+                    slot="icon-only"
+                    (click)="acceptFrndReq(item.id,i)"
+                    name="checkmark-circle"
+                  >
+                  </ion-icon>
+                </ion-item-option>
+              </ion-item-options>
+              <ion-item-options
+                side="end"
+                (ionSwipe)="deleteFrndReq(item.id,i)"
+                style="background-color: #eb445a"
+              >
+                <ion-item-option color="danger">
+                  <ion-icon
+                    slot="icon-only"
+                    (click)="deleteFrndReq(item.id,i)"
+                    name="close-circle"
+                  >
+                  </ion-icon>
+                </ion-item-option>
+              </ion-item-options>
+            </ion-item-sliding>
+          </ion-list>
+        </ion-card-content>
+      </ion-card>
+    </div>
+
+    <!-- Team Request -->
+    <div *ngSwitchCase="'team'">
+      <div
+        class="noReq ion-text-capitalize ion-text-center"
+        style="margin-top: 10%"
+        *ngIf="teamReqList.length === 0"
+      >
+        <ion-icon
+          mode="ios"
+          src="../../../assets/UserThree.svg"
+          style="font-size: 900%; color: #0d0439"
+        ></ion-icon>
+        <div style="color: #0d0439">{{noTeamReqString}}</div>
+      </div>
+      <ion-card *ngIf="teamReqList.length>0" class="cardMaxHeight">
+        <ion-card-header>
+          <div class="frndReqBorderBtm">
+            {{teamReqString}} ({{teamRequests.length}})
+          </div>
+        </ion-card-header>
+        <ion-card-content>
+          <div class="search_bar">
+            <ion-searchbar
+              class="search_bar ion-no-padding"
+              color="light"
+              [(ngModel)]="searchTeamTerm"
+              mode="ios"
+              (ionChange)="searchTeamReq(searchTeamTerm)"
+              placeholder="{{searchString}}"
+              showCancelButton="never"
+              style="width: 100%"
+            >
+            </ion-searchbar>
+          </div>
+
+          <div *ngIf="teamRequests.length==0">
+            <h6 style="text-align: center">{{noTeamReqString}}</h6>
+          </div>
+
+          <ion-list>
+            <ion-item-sliding
+              *ngFor="let item of teamRequests; let i = index;"
+              class="reqListMargin"
+            >
+              <ion-item
+                lines="none"
+                style="align-items: start; border-radius: 11px"
+              >
+                <ion-avatar
+                  class="frnd_avatar"
+                  slot="start"
+                  style="height: 68%"
+                >
+                  <img src="../../../assets/defaultProfile.png" />
+                </ion-avatar>
+                <div style="width: 80%">
+                  <ion-label>{{item.team_name}}</ion-label>
+                  <ion-button
+                    (click)="acceptTeamReq(item, i)"
+                    class="acceptRequest"
+                    >{{acceptString}}</ion-button
+                  >
+                  <ion-button
+                    (click)="deleteTeamReq(item, i)"
+                    class="deleteRequest"
+                    >{{deleteString}}</ion-button
+                  >
+                </div>
+                <div style="width: 20%">
+                  <span class="topright">{{getTimeFromNow(item.created)}}</span>
+                </div>
+              </ion-item>
+
+              <ion-item-options
+                side="start"
+                (ionSwipe)="acceptTeamReq(item, i)"
+                style="background-color: #3880ff"
+              >
+                <ion-item-option>
+                  <ion-icon
+                    slot="icon-only"
+                    (click)="acceptTeamReq(item, i)"
+                    name="checkmark-circle"
+                  >
+                  </ion-icon>
+                </ion-item-option>
+              </ion-item-options>
+
+              <ion-item-options
+                side="end"
+                (ionSwipe)="deleteTeamReq(item, i)"
+                style="background-color: #eb445a"
+              >
+                <ion-item-option color="danger">
+                  <ion-icon
+                    slot="icon-only"
+                    (click)="deleteTeamReq(item, i)"
+                    name="close-circle"
+                  >
+                  </ion-icon>
+                </ion-item-option>
+              </ion-item-options>
+            </ion-item-sliding>
+          </ion-list>
+        </ion-card-content>
+      </ion-card>
+    </div>
+
+    <!-- Group chat Request -->
+    <div *ngSwitchCase="'groupChat'">
+      <div
+        class="noReq ion-text-capitalize ion-text-center"
+        style="margin-top: 10%"
+        *ngIf="groupReqList.length === 0"
+      >
+        <ion-icon
+          mode="ios"
+          src="../../../assets/UserThree.svg"
+          style="font-size: 900%; color: #0d0439"
+        ></ion-icon>
+        <div style="color: #0d0439">{{noGrpReqString}}</div>
+      </div>
+      <ion-card *ngIf="groupReqList.length>0" class="cardMaxHeight">
+        <ion-card-header>
+          <div class="frndReqBorderBtm">
+            {{groupChatReqString}} ({{groupChatRequests.length}})
+          </div>
+        </ion-card-header>
+        <ion-card-content>
+          <div class="search_bar">
+            <ion-searchbar
+              class="search_bar ion-no-padding"
+              color="light"
+              [(ngModel)]="searchGrpChatTerm"
+              mode="ios"
+              (ionChange)="searchGrpReq(searchGrpChatTerm)"
+              placeholder="{{searchString}}"
+              showCancelButton="never"
+              style="width: 100%"
+            >
+            </ion-searchbar>
+          </div>
+
+          <div *ngIf="groupChatRequests.length==0">
+            <h6 style="text-align: center; color: #0d0439">
+              {{noGrpReqString}}
+            </h6>
+          </div>
+
+          <ion-list>
+            <ion-item-sliding
+              *ngFor="let item of groupChatRequests; let i = index;"
+              class="reqListMargin"
+            >
+              <ion-item
+                lines="none"
+                style="align-items: start; border-radius: 11px"
+              >
+                <ion-avatar
+                  class="frnd_avatar"
+                  slot="start"
+                  style="height: 68%"
+                >
+                  <img src="../../../assets/defaultProfile.png" />
+                </ion-avatar>
+                <div style="width: 80%">
+                  <ion-label>{{item.group_name}}</ion-label>
+                  <ion-button
+                    (click)="acceptGrpReq(item.teamid,item.group_master, i, item.group_name)"
+                    class="acceptRequest"
+                  >
+                    {{acceptString}}
+                  </ion-button>
+                  <ion-button
+                    (click)="deleteGrpReq(item.teamid,item.group_master, i)"
+                    class="deleteRequest"
+                  >
+                    {{deleteString}}
+                  </ion-button>
+                </div>
+                <div style="width: 20%">
+                  <span class="topright">{{getTimeFromNow(item.created)}}</span>
+                </div>
+              </ion-item>
+
+              <ion-item-options
+                side="end"
+                (ionSwipe)="acceptGrpReq(item.teamid,item.group_master, i , item.group_name)"
+                style="background-color: #3880ff"
+              >
+                <ion-item-option>
+                  <ion-icon
+                    slot="icon-only"
+                    (click)="acceptGrpReq(item.teamid,item.group_master, i, item.group_name)"
+                    name="checkmark-circle"
+                  >
+                  </ion-icon>
+                </ion-item-option>
+              </ion-item-options>
+
+              <ion-item-options
+                side="start"
+                (ionSwipe)="deleteGrpReq(item.teamid,item.group_master, i)"
+                style="background-color: #eb445a"
+              >
+                <ion-item-option color="danger">
+                  <ion-icon
+                    slot="icon-only"
+                    (click)="deleteGrpReq(item.teamid,item.group_master, i)"
+                    name="close-circle"
+                  >
+                  </ion-icon>
+                </ion-item-option>
+              </ion-item-options>
+            </ion-item-sliding>
+          </ion-list>
+        </ion-card-content>
+      </ion-card>
+    </div>
+
+    <!-- Guardian Request -->
+    <div *ngSwitchCase="'guardian'">
+      <div
+        class="noReq ion-text-capitalize ion-text-center"
+        style="margin-top: 10%"
+        *ngIf="guardianReqList.length === 0 && showGuardData === false"
+      >
+        <ion-icon
+          mode="ios"
+          src="../../../assets/UserThree.svg"
+          style="font-size: 900%; color: #0d0439"
+        ></ion-icon>
+        <div>{{noGuardReqString}}</div>
+      </div>
+      <ion-card
+        *ngIf="guardianReqList.length>0 && this.userStatus.isGuardedAthlete === false"
+        class="cardMaxHeight"
+      >
+        <ion-card-header>
+          <div class="frndReqBorderBtm">
+            {{guardianReqString}} ({{guardianRequests.length}})
+          </div>
+        </ion-card-header>
+        <ion-card-content>
+          <div class="search_bar">
+            <ion-searchbar
+              class="search_bar ion-no-padding"
+              color="light"
+              [(ngModel)]="searchGuardReqTerm"
+              mode="ios"
+              (ionChange)="searchGrpReq(searchGuardReqTerm)"
+              placeholder="{{searchString}}"
+              showCancelButton="never"
+              style="width: 100%"
+            >
+            </ion-searchbar>
+          </div>
+
+          <div *ngIf="guardianRequests.length==0">
+            <h6 style="text-align: center">{{noGuardReqString}}</h6>
+          </div>
+
+          <ion-list *ngIf="isMinor === false">
+            <ion-item-sliding
+              *ngFor="let item of guardianRequests; let i = index;"
+              class="reqListMargin"
+            >
+              <ion-item
+                lines="none"
+                style="align-items: start; border-radius: 11px"
+              >
+                <ion-avatar
+                  class="frnd_avatar"
+                  slot="start"
+                  style="height: 68%"
+                  (click)="friendDetail(item.athleteUserId)"
+                >
+                  <img
+                    *ngIf="item.profile_img_url!=''"
+                    src="{{environment.apiUrl}}v1/api/post/imagecall_mobile_url?imagepath=profile/{{item.athleteUserId}}/{{item.profile_img_url_thump}}"
+                  />
+                  <img
+                    *ngIf="item.profile_img_url==''"
+                    src="../../../assets/defaultProfile.png"
+                  />
+                </ion-avatar>
+                <div style="width: 80%">
+                  <ion-label (click)="friendDetail(item.athleteUserId)"
+                    >{{item.first_name}} {{item.last_name}}
+                  </ion-label>
+                  <ion-button
+                    (click)="acceptGuardReq(item, i)"
+                    class="acceptRequest"
+                  >
+                    {{acceptString}}
+                  </ion-button>
+                  <ion-button
+                    (click)="deleteGuardReq(item, i)"
+                    class="deleteRequest"
+                  >
+                    {{deleteString}}
+                  </ion-button>
+                </div>
+                <div style="width: 20%">
+                  <span class="topright"
+                    >{{getTimeFromNow(item.createdAt)}}</span
+                  >
+                </div>
+              </ion-item>
+
+              <ion-item-options
+                side="end"
+                (ionSwipe)="acceptGuardReq(item.id, i)"
+                style="background-color: #3880ff"
+              >
+                <ion-item-option>
+                  <ion-icon
+                    slot="icon-only"
+                    (click)="acceptGuardReq(item.id, i)"
+                    name="checkmark-circle"
+                  >
+                  </ion-icon>
+                </ion-item-option>
+              </ion-item-options>
+
+              <ion-item-options
+                side="start"
+                (ionSwipe)="deleteGuardReq(item.id, i)"
+                style="background-color: #eb445a"
+              >
+                <ion-item-option color="danger">
+                  <ion-icon
+                    slot="icon-only"
+                    (click)="deleteGuardReq(item.id, i)"
+                    name="close-circle"
+                  >
+                  </ion-icon>
+                </ion-item-option>
+              </ion-item-options>
+            </ion-item-sliding>
+          </ion-list>
+
+          <ion-list
+            *ngIf="userStatus.isGuardedAthlete === false && userStatus.isMinor === true"
+          >
+            <ion-item-sliding
+              *ngFor="let item of guardianRequests; let i = index;"
+              class="reqListMargin"
+            >
+              <ion-item
+                lines="none"
+                style="align-items: start; border-radius: 11px"
+              >
+                <ion-avatar
+                  class="frnd_avatar"
+                  slot="start"
+                  style="height: 68%"
+                  (click)="friendDetail(item.guardianUserId)"
+                >
+                  <img
+                    *ngIf="item.profile_img_url!=''"
+                    src="{{environment.apiUrl}}v1/api/post/imagecall_mobile_url?imagepath=profile/{{item.guardianUserId}}/{{item.profile_img_url_thump}}"
+                  />
+                  <img
+                    *ngIf="item.profile_img_url==''"
+                    src="../../../assets/defaultProfile.png"
+                  />
+                </ion-avatar>
+                <div style="width: 80%">
+                  <ion-label (click)="friendDetail(item.guardianUserId)"
+                    >{{item.first_name}} {{item.last_name}}
+                  </ion-label>
+                  <ion-button
+                    style="width: 50%; --background: #112 !important"
+                    *ngIf="isPending === true"
+                    disabled="true"
+                    >{{pendingString}}..</ion-button
+                  >
+                  <ion-button
+                    (click)="cancelGuardreq(item.id, i)"
+                    class="deleteRequest"
+                    >{{cancelString}}
+                  </ion-button>
+                </div>
+                <div style="width: 20%">
+                  <span class="topright"
+                    >{{getTimeFromNow(item.createdAt)}}</span
+                  >
+                </div>
+              </ion-item>
+
+              <ion-item-options
+                side="start"
+                (ionSwipe)="cancelGuardreq(item.id, i)"
+                style="background-color: #eb445a"
+              >
+                <ion-item-option color="danger">
+                  <ion-icon
+                    slot="icon-only"
+                    (click)="cancelGuardreq(item.id, i)"
+                    name="close-circle"
+                  >
+                  </ion-icon>
+                </ion-item-option>
+              </ion-item-options>
+            </ion-item-sliding>
+          </ion-list>
+        </ion-card-content>
+      </ion-card>
+
+      <ion-card
+        *ngIf="showGuardData === true"
+        (click)="goToProfile(userStatus.guardianData.guardianUserId)"
+      >
+        <ion-card-header>
+          <div class="frndReqBorderBtm">{{guardianReqString}}</div>
+        </ion-card-header>
+        <ion-card-content>
+          <div>
+            <div
+              class="ion-text-center"
+              style="display: flex; justify-content: center"
+            >
+              <ion-avatar style="display: flex; width: 100px; height: 100px">
+                <img
+                  *ngIf="userStatus.guardianData.profile_img_url_thump === null"
+                  class="profile-img"
+                  src="../../../assets/defaultProfile.png"
+                />
+                <img
+                  *ngIf="userStatus.guardianData.profile_img_url_thump !== null"
+                  class="profile-img"
+                  src="{{environment.apiUrl}}v1/api/post/imagecall_mobile_url?imagepath=profile/{{userStatus.guardianData.guardianUserId}}/{{userStatus.guardianData.profile_img_url_thump}}"
+                />
+              </ion-avatar>
+            </div>
+
+            <div style="width: 100%; text-align: center">
+              <div style="color: #000; font-size: large">
+                <b
+                  >{{userStatus.guardianData.first_name}}
+                  {{userStatus.guardianData.last_name}}</b
+                >
+              </div>
+              <small style="color: #000; display: block">
+                <ion-icon name="location"></ion-icon>&nbsp;
+                <span style="text-transform: capitalize"
+                  >{{userStatus.guardianData.city}},
+                </span>
+                <span
+                  *ngIf="userStatus.guardianData.stateProvince"
+                  style="text-transform: capitalize"
+                  >{{userStatus.guardianData.stateProvince}},</span
+                >
+                <span
+                  *ngIf="userStatus.guardianData.country_code"
+                  style="text-transform: capitalize"
+                  >{{userStatus.guardianData.country_code}}</span
+                >
+              </small>
+            </div>
+          </div>
+        </ion-card-content>
+      </ion-card>
+    </div>
+  </div>
+</ion-content>

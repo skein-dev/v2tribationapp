@@ -1,0 +1,258 @@
+<ion-header [translucent]="true" *ngIf="scoutStatus !== false">
+  <ion-toolbar mode="md">
+    <ion-buttons slot="start">
+      <ion-menu-button
+        autoHide="false"
+        style="color: #0d0439"
+        menuToggle
+      ></ion-menu-button>
+    </ion-buttons>
+    <ion-title
+      mode="md"
+      class="ion-align-self-center"
+      style="color: #0d0439; font-weight: bold; text-align: center"
+      >{{scoutsToolString}}</ion-title
+    >
+    <ion-icon
+      button
+      (click)="filter()"
+      slot="end"
+      name="filter-outline"
+      class="fnt-18"
+      style="margin-right: 4%; color: #0d0439"
+    ></ion-icon>
+  </ion-toolbar>
+  <div class="customScroll" *ngIf="nothingToShow === false">
+    <ion-button
+      (click)="clearStoringFun()"
+      fill="clear"
+      style="
+        text-transform: capitalize;
+        padding: 0px;
+        margin: 0px;
+        width: 60px;
+        float: left;
+        color: #ec5529;
+      "
+    >
+      {{clearString}}
+    </ion-button>
+
+    <ion-button class="filterButton">
+      <!-- <ion-button (click)="ageSort()" class="filterButton"> -->
+      <ion-icon name="close-circle-sharp" class="close-icon"></ion-icon>
+      {{ageString}}
+      <!-- <div
+        *ngIf="clearSorting===false && ageFilter === true"
+        class="iconFilter"
+      >
+        <ion-icon
+          slot="end"
+          name="arrow-up"
+          *ngIf="ageSortVal==='asc'"
+        ></ion-icon>
+        <ion-icon
+          slot="end"
+          name="arrow-down"
+          *ngIf="ageSortVal==='dec'"
+        ></ion-icon>
+      </div> -->
+    </ion-button>
+    <ion-button class="filterButton">
+      <!-- <ion-button (click)="heightSort()" class="filterButton"> -->
+      <ion-icon name="close-circle-sharp" class="close-icon"></ion-icon>
+      {{heightString}}
+      <!-- <div
+        *ngIf="clearSorting===false && heightFilter === true"
+        class="iconFilter"
+      >
+        <ion-icon
+          slot="end"
+          name="arrow-up"
+          *ngIf="heightSortVal==='asc'"
+        ></ion-icon>
+        <ion-icon
+          slot="end"
+          name="arrow-down"
+          *ngIf="heightSortVal==='dec'"
+        ></ion-icon>
+      </div> -->
+    </ion-button>
+    <ion-button class="filterButton">
+      <!-- <ion-button (click)="weightSort()" class="filterButton"> -->
+      <ion-icon name="close-circle-sharp" class="close-icon"></ion-icon>
+      {{weightString}}
+      <!-- <div
+        *ngIf="clearSorting===false && weightFilter === true"
+        class="iconFilter"
+      >
+        <ion-icon
+          slot="end"
+          name="arrow-up"
+          *ngIf="weightSortVal==='asc'"
+        ></ion-icon>
+        <ion-icon
+          slot="end"
+          name="arrow-down"
+          *ngIf="weightSortVal==='dec'"
+        ></ion-icon>
+      </div> -->
+    </ion-button>
+    <span
+      style="width: 6px; height: 20px; float: right; display: inline-table"
+    ></span>
+  </div>
+</ion-header>
+
+<ion-content *ngIf="nothingToShow === true && scoutStatus !== false">
+  <div
+    style="text-align: center; font-size: large; padding: 10%; margin-top: 10%"
+  >
+    {{noProspectString}}
+  </div>
+</ion-content>
+
+<ion-content *ngIf="nothingToShow === false">
+  <ion-card
+    *ngFor="let prospect of prospectsList"
+    (click)="openPortfolio(prospect)"
+  >
+    <ion-row>
+      <ion-col size="2">
+        <div class="prospectAvtar ion-text-center">
+          <ion-avatar>
+            <ion-img
+              *ngIf="prospect.profile_img_url!=''"
+              src="{{environment.apiUrl}}v1/api/post/imagecall_mobile_url?imagepath=profile/{{this.prospect.id}}/{{this.prospect.profile_img_url}}"
+            >
+            </ion-img>
+            <img
+              *ngIf="prospect.profile_img_url==''"
+              src="../../../assets/defaultProfile.png"
+            />
+          </ion-avatar>
+        </div>
+      </ion-col>
+      <ion-col size="8">
+        <div class="name">
+          {{prospect.first_name}}&nbsp;{{prospect.last_name}}
+        </div>
+        <div class="location" *ngIf="prospect.country || prospect.city">
+          <ion-icon name="location-outline"></ion-icon>
+          {{prospect.city}}
+          <span *ngIf="prospect.country && prospect.city">,</span>
+          {{prospect.country}}
+        </div>
+      </ion-col>
+      <ion-col size="2">
+        <div
+          class="chat"
+          button
+          (click)="sendChat(prospect.id)"
+          style="padding: 15px"
+        >
+          <ion-icon
+            name="chatbox-ellipses-outline"
+            slot="end"
+            class="tribationColor fnt-18"
+          ></ion-icon>
+        </div>
+      </ion-col>
+    </ion-row>
+    <ion-row class="person">
+      <ion-col size="3" class="personalData">
+        <div class="personalTitle">{{sexString}}</div>
+        <span class="personalDetail" style="text-transform: capitalize"
+          >{{prospect.gender}}</span
+        >
+      </ion-col>
+      <ion-col size="3" class="personalData">
+        <div class="personalTitle">{{ageString}}</div>
+        <span class="personalDetail" *ngIf="prospect.age"
+          >&nbsp;{{prospect.age}}</span
+        >
+      </ion-col>
+      <ion-col size="3" class="personalData">
+        <div class="personalTitle">{{heightString}}</div>
+        <div *ngIf="prospect.height" class="personalDetail">
+          <span> {{prospect.height}}</span>
+          <span class="unit">{{prospect.height_unit}}</span>
+        </div>
+      </ion-col>
+      <ion-col size="3" class="personalData">
+        <div class="personalTitle">{{weightString}}</div>
+        <div *ngIf="prospect.weight" class="personalDetail">
+          <span> {{prospect.weight}}</span>
+          <span class="unit">{{prospect.weight_unit}}</span>
+        </div>
+      </ion-col>
+    </ion-row>
+    <div class="personInfo">
+      <ion-row *ngIf="prospect.latestTeam">
+        <ion-col size="12">
+          <div class="info">info</div>
+          <div class="personData" *ngIf="prospect.latestTeam.player_pos">
+            {{prospect.latestTeam.player_pos}}
+          </div>
+          <div class="personData" *ngIf="prospect.latestTeam.team_name">
+            {{prospect.latestTeam.team_name}}
+          </div>
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col size="6">
+          <div
+            *ngIf="prospect.experienceInYears"
+            style="
+              font-size: 14px;
+              border-radius: 50px;
+              background-color: #e7e6eb;
+              text-align: center;
+              padding: 3px;
+              display: flex;
+            "
+          >
+            <ion-icon name="star-outline" style="font-size: large"></ion-icon>
+            <span style="color: #0d0439"
+              >&nbsp;{{expString}}:&nbsp;{{prospect.experienceInYears}}&nbsp;{{yearsString}}</span
+            >
+          </div>
+        </ion-col>
+        <ion-col size="6">
+          <div
+            *ngIf="prospect.sportsIconClass"
+            style="
+              font-size: 14px;
+              border-radius: 50px;
+              background-color: #e7e6eb;
+              text-align: center;
+              padding: 3px;
+              display: flex;
+            "
+          >
+            <img
+              src="../../../assets/sports/{{prospect.sportsIconClass}}.png"
+              style="height: 32px; width: 32px"
+            />
+            <span style="color: #0d0439">{{prospect.sports}}</span>
+          </div>
+        </ion-col>
+      </ion-row>
+    </div>
+  </ion-card>
+
+  <div class="col"></div>
+  <!-- <div *ngIf="limitReached === true"
+      style="width: 100%;text-align: center;text-decoration: underline;font-style: italic;font-size: large;padding-bottom: 10%;padding-top: 5%;">
+      {{endOfSearchResultString}}</div> -->
+  <ion-infinite-scroll
+    threshold="100px"
+    (ionInfinite)="loadMore($event)"
+    *ngIf="limitReached === false"
+  >
+    <ion-infinite-scroll-content
+      loadingSpinner="bubbles"
+      loadingText=""
+    ></ion-infinite-scroll-content>
+  </ion-infinite-scroll>
+</ion-content>

@@ -1,0 +1,58 @@
+<ion-header [translucent]="true">
+  <ion-toolbar mode="md">
+    <ion-icon
+      slot="start"
+      name="arrow-back"
+      class="fnt-18"
+      (click)="back()"
+    ></ion-icon>
+    <ion-title
+      mode="md"
+      class="ion-align-self-center"
+      style="text-align: center"
+      >{{reportString}}</ion-title
+    >
+  </ion-toolbar>
+</ion-header>
+<!--=========== Header Ends ============-->
+
+<!--=========== Page Content Starts ==========-->
+<ion-content class="reportaproblem-container slideInleft">
+  <ion-card style="margin-top: 5%">
+    <ion-card-content>
+      <ion-item>
+        <ion-select
+          placeholder="{{selectString}}"
+          cancelText="{{cancelString}}"
+          interface="action-sheet"
+          style="--placeholder-opacity: 1; display: contents"
+          enterkeyhint="send"
+          [(ngModel)]="reportprblm"
+          (ionChange)="reportChange(reportprblm)"
+        >
+          <ion-select-option value="1"
+            >{{reportSpamAbuseString}}</ion-select-option
+          >
+          <ion-select-option value="2"
+            >{{reportProblemString}}</ion-select-option
+          >
+        </ion-select>
+      </ion-item>
+
+      <ion-item>
+        <textarea
+          style="height: 12em; border: none; width: 100%"
+          placeholder="{{describeHereString}}"
+          [(ngModel)]="repotdesc"
+        ></textarea>
+      </ion-item>
+    </ion-card-content>
+  </ion-card>
+
+  <ion-button
+    style="margin-top: 1em !important"
+    class="tribationBtn ion-text-wrap"
+    (click)="clickedStar()"
+    >{{submitString}}
+  </ion-button>
+</ion-content>

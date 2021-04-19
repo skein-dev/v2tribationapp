@@ -1,0 +1,96 @@
+<ion-header mode="md">
+  <ion-toolbar mode="md">
+    <ion-buttons slot="start">
+      <ion-menu-button autoHide="false" menuToggle></ion-menu-button>
+    </ion-buttons>
+    <div style="display: flex; padding-left: 25%">
+      <ion-title class="ion-align-self-center" style="font-weight: bold"
+        >{{settingsString}}</ion-title
+      >
+      <!-- <img slot="end" class="pos-r-6 wid-all-29" routerLink="searchin-app" src="assets/icons/{{peoplesearch}}" /> -->
+      <!-- <ion-icon name="search" button style="font-size: x-large;color: #bfbfbf;" [routerLink]="['/searchin-app']">
+      </ion-icon> -->
+      <!-- <ion-button (click)="google()" shape="round">
+        G
+      </ion-button>
+      <ion-button (click)="apple()" shape="round">
+        A
+      </ion-button> -->
+    </div>
+  </ion-toolbar>
+</ion-header>
+
+<!--=========== Header Ends ============-->
+<!--=========== Page Content Starts ==========-->
+<ion-content class="settings-container">
+  <ion-list class="setting-list ion-padding" mode="ios">
+    <!-- Account SECTION -->
+    <ion-list-header class="settings-header">
+      <ion-label *ngIf="!accountString">
+        <ion-skeleton-text
+          animated
+          style="width: 90%; height: 20px"
+        ></ion-skeleton-text>
+      </ion-label>
+
+      <ion-label *ngIf="accountString">{{accountString}}</ion-label>
+    </ion-list-header>
+
+    <ion-item
+      lines="none"
+      detail="true"
+      routerLink="edit-profile"
+      *ngIf="userDetail.user_type==='regular' || userDetail.user_type==='verified' "
+    >
+      {{editProfileString}}
+    </ion-item>
+
+    <ion-item
+      lines="none"
+      detail="false"
+      (click)="scoutCantEdit()"
+      *ngIf="userDetail.user_type==='scout' "
+    >
+      {{editProfileString}}
+    </ion-item>
+
+    <ion-item lines="none" routerLink="change-password" detail="true">
+      {{changePasswordString}}
+    </ion-item>
+
+    <ion-item lines="none" routerLink="privacy-setting" detail="true">
+      {{privacySecurityString}}
+    </ion-item>
+
+    <!-- Settings SECTION -->
+    <ion-list-header class="settings-header">
+      <ion-label>{{settingsString}}</ion-label>
+    </ion-list-header>
+    <ion-item lines="none" detail="true" routerLink="language">
+      {{languageString}}
+    </ion-item>
+    <ion-item lines="none" detail="true" routerLink="notification-setting">
+      {{notificationsString}}
+    </ion-item>
+
+    <!-- ABOUT SECTION -->
+    <ion-list-header class="settings-header">
+      <ion-label>{{aboutString}}</ion-label>
+    </ion-list-header>
+    <ion-item lines="none" detail="true" routerLink="help-center">
+      {{helpCenterString}}
+    </ion-item>
+    <ion-item lines="none" detail="true" routerLink="report-aproblem">
+      {{reportProblemString}}
+    </ion-item>
+    <!-- <ion-item lines="none" detail="true" routerLink="about-tribation">
+      {{aboutTribationString}}
+    </ion-item> -->
+  </ion-list>
+  <!-- <ion-footer style="display: flex; justify-content: center;">
+    <div style="width:33%;height:auto;padding-top: 6%;padding-bottom:5%;" (click)="aboutTribation()">
+      <img src="../../../assets/logo2.png" alt="Tribation">
+     <div style="text-align-last: center;"><ion-label style="font-size: larger;">version 1.1.03</ion-label></div> 
+    </div>
+  </ion-footer> -->
+</ion-content>

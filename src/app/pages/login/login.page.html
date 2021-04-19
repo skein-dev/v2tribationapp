@@ -1,0 +1,436 @@
+<ion-content class="tribationBackground" *ngIf="1===321">
+  <div class="pageContent" *ngIf="logInOrNot===false">
+    <div class="logo">
+      <img src="../../../assets/logo2.png" alt="Tribation" />
+    </div>
+
+    <div class="login-input" id="loginInput">
+      <form [formGroup]="log">
+        <ion-list class="noBackgroundItem">
+          <!-- Username Field -->
+          <ion-row class="uderline">
+            <ion-col size="2">
+              <ion-icon
+                name="person"
+                style="font-size: x-large; margin-top: 10%"
+              ></ion-icon>
+            </ion-col>
+            <ion-col size="10" style="text-align: unset">
+              <ion-item lines="none" class="noBackgroundItem ion-no-padding">
+                <ion-label position="floating">{{emaiL}}</ion-label>
+                <ion-input
+                  type="text"
+                  [(ngModel)]="username"
+                  (keyup.enter)="moveFocus(b)"
+                  formControlName="username"
+                  clearInput
+                ></ion-input>
+              </ion-item>
+            </ion-col>
+          </ion-row>
+
+          <!-- Password Field --->
+          <ion-row class="uderline">
+            <ion-col size="2">
+              <ion-icon
+                name="lock-closed"
+                style="font-size: x-large; margin-top: 10%"
+              ></ion-icon>
+            </ion-col>
+            <ion-col size="10">
+              <ion-item lines="none" class="noBackgroundItem ion-no-padding">
+                <ion-row class="ion-no-padding">
+                  <ion-col
+                    size="10"
+                    style="text-align: unset"
+                    class="ion-no-padding"
+                  >
+                    <ion-label style="color: #fff" position="floating"
+                      >{{passworD}}</ion-label
+                    >
+                    <ion-input
+                      formControlName="password"
+                      #b
+                      (keyup.enter)="rootpage()"
+                      (click)="emailCheck()"
+                      [type]="passwordType"
+                      [(ngModel)]="pswrd"
+                      clearOnEdit="false"
+                    ></ion-input>
+                  </ion-col>
+                  <ion-col size="2">
+                    <ion-icon
+                      button
+                      [name]="passwordIcon"
+                      style="font-size: x-large; padding-top: 35%"
+                      (click)="hideShowPassword()"
+                    ></ion-icon>
+                  </ion-col>
+                </ion-row>
+              </ion-item>
+            </ion-col>
+          </ion-row>
+        </ion-list>
+
+        <div button (click)="resetPass()" style="float: right; margin-top: 5%">
+          {{forgotPassString}}?
+        </div>
+        <!-- Login Button -->
+        <div
+          style="
+            clear: both;
+            width: 100%;
+            float: left;
+            display: flex;
+            justify-content: center;
+            z-index: 999999;
+          "
+        >
+          <ion-button
+            #c
+            class="login-button tribationBtn"
+            [disabled]="log.invalid"
+            *ngIf="buttonLogin===true"
+            (click)="rootpage()"
+            style="height: 50px; font-size: 18px; z-index: 9999999"
+          >
+            {{signInString}}
+          </ion-button>
+        </div>
+      </form>
+
+      <div style="clear: both; text-align: center; padding-top: 10%">
+        <div style="color: #aaa">{{dontHaveAccString}}</div>
+        <div
+          style="margin-top: 5%; color: #fff !important"
+          button
+          (click)="signup()"
+        >
+          {{signUpString}}
+        </div>
+      </div>
+    </div>
+  </div>
+</ion-content>
+
+<ion-content class="tribationBackground" *ngIf="1===1">
+  <div class="pop fadeInUpQuick" *ngIf="showMyMinnorlist === true">
+    <div
+      class="popClose white"
+      button
+      (click)="closeMinorPop()"
+      style="z-index: 1000000000000000000"
+    >
+      <ion-icon name="close"></ion-icon>
+    </div>
+    <div class="minorContainer">
+      <div *ngIf="selectedOne===false" style="width: 70%">
+        <ion-searchbar
+          class="search_bar ion-no-padding"
+          [(ngModel)]="searchTerm"
+          mode="ios"
+          placeholder="{{searchString}}"
+          showCancelButton="never"
+          *ngIf="minorList.length>4"
+          (ionChange)="setFilteredItem(searchTerm)"
+          style="
+            width: 95%;
+            margin: auto;
+            --background: #00000099;
+            --color: #fff;
+          "
+        >
+        </ion-searchbar>
+
+        <ion-list class="noBackgroundItem">
+          <ion-item
+            *ngFor="let minor of filteredMinorList"
+            lines="none"
+            button
+            (click)="logMeInAs(minor)"
+            button
+          >
+            <ion-avatar slot="start">
+              <img
+                *ngIf="minor.profile_img_url_thump!=null"
+                src="{{environment.apiUrl}}v1/api/post/imagecall_mobile_url?imagepath=profile/{{minor.id}}/{{minor.profile_img_url_thump}}"
+              />
+              <img
+                *ngIf="minor.profile_img_url_thump==null"
+                src="{{environment.apiUrl}}v1/api/post/imagecall_mobile_url?imagepath=profile/default.png"
+              />
+            </ion-avatar>
+            <ion-label>
+              <h2 class="ion-text-wrap capital">{{minor.name}}</h2>
+              <p class="para_size" style="text-transform: capitalize">
+                <ion-icon name="location" class="icon_location"></ion-icon
+                ><span *ngIf="minor.country">
+                  {{minor.city}}, {{minor.country}} </span
+                ><span *ngIf="!minor.country"> {{minor.city}}</span>
+              </p>
+            </ion-label>
+            <!-- <ion-icon style="font-size: x-large;" name="chatbubbles" class="black" (click)="rootMsgPage(minor.id)">
+            </ion-icon> -->
+          </ion-item>
+        </ion-list>
+      </div>
+
+      <div *ngIf="selectedOne===true" style="margin-top: 30%; width: 85%">
+        <ion-item *ngIf="7===1">
+          <ion-avatar slot="start">
+            <img
+              *ngIf="slectedMinor.profile_img_url_thump!=null"
+              src="{{environment.apiUrl}}v1/api/post/imagecall_mobile_url?imagepath=profile/{{slectedMinor.id}}/{{slectedMinor.profile_img_url_thump}}"
+            />
+            <img
+              *ngIf="slectedMinor.profile_img_url_thump==null"
+              src="{{environment.apiUrl}}v1/api/post/imagecall_mobile_url?imagepath=profile/default.png"
+            />
+          </ion-avatar>
+          <ion-label>
+            <h2 class="ion-text-wrap capital">{{slectedMinor.name}}</h2>
+            <p class="para_size" style="text-transform: capitalize">
+              <ion-icon name="location" class="icon_location"></ion-icon
+              ><span *ngIf="slectedMinor.country">
+                {{slectedMinor.city}}, {{slectedMinor.country}} </span
+              ><span *ngIf="!slectedMinor.country"> {{slectedMinor.city}}</span>
+            </p>
+          </ion-label>
+        </ion-item>
+        <div
+          class="passwordBox"
+          style="
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 5% 0;
+            text-align: center;
+          "
+          *ngIf="1===1"
+        >
+          <div>
+            <ion-avatar style="width: 65px; margin: auto; height: 65px">
+              <img
+                *ngIf="slectedMinor.profile_img_url_thump!=null"
+                src="{{environment.apiUrl}}v1/api/post/imagecall_mobile_url?imagepath=profile/{{slectedMinor.id}}/{{slectedMinor.profile_img_url_thump}}"
+              />
+              <img
+                *ngIf="slectedMinor.profile_img_url_thump==null"
+                src="{{environment.apiUrl}}v1/api/post/imagecall_mobile_url?imagepath=profile/default.png"
+              />
+            </ion-avatar>
+            <ion-label>
+              <h2 class="ion-text-wrap capital">{{slectedMinor.name}}</h2>
+              <p class="para_size" style="text-transform: capitalize">
+                <ion-icon name="location" class="icon_location"></ion-icon
+                ><span *ngIf="slectedMinor.country">
+                  {{slectedMinor.city}}, {{slectedMinor.country}} </span
+                ><span *ngIf="!slectedMinor.country">
+                  {{slectedMinor.city}}</span
+                >
+              </p>
+            </ion-label>
+          </div>
+        </div>
+
+        <div class="passwordBox">
+          <div
+            style="width: 100%; text-align: center; color: #ccc; margin: 5% 0"
+          >
+            {{confirmPassOwnString}}
+          </div>
+          <ion-row
+            style="display: flex; align-items: center; width: 90%; margin: auto"
+          >
+            <ion-col size="10">
+              <ion-input
+                (keyup.enter)="minorLogin()"
+                [type]="passwordType"
+                [(ngModel)]="pawwordForMinor"
+                clearOnEdit="false"
+                style="--background: #112; border-radius: 5px"
+              >
+              </ion-input>
+            </ion-col>
+            <ion-col size="2">
+              <ion-icon
+                button
+                [name]="passwordIcon"
+                style="font-size: x-large"
+                (click)="hideShowPassword()"
+              ></ion-icon>
+            </ion-col>
+          </ion-row>
+
+          <div
+            style="
+              display: flex;
+              align-items: center;
+              justify-content: center;
+              margin-bottom: 10%;
+            "
+          >
+            <ion-button
+              class="login-button tribationBtn"
+              [disabled]="pawwordForMinor.length > 20 || pawwordForMinor.length < 6"
+              (click)="minorLogin()"
+              style="height: 50px; font-size: 18px; z-index: 9999999"
+            >
+              {{signInString}}
+            </ion-button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="pageContent" *ngIf="logInOrNot===false">
+    <div class="logo">
+      <img src="../../../assets/logo2.png" alt="Tribation" />
+    </div>
+    <div
+      style="
+        clear: both;
+        width: 100%;
+        text-align: center;
+        margin-top: 5%;
+        color: #ec5529 !important;
+      "
+      *ngIf="avilableMinors===true"
+    >
+      <div
+        style="
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          font-size: large;
+        "
+        button
+        (click)="popMinorList()"
+      >
+        {{loginAsMinorString}}&nbsp;<ion-icon
+          name="enter"
+          style="font-size: xx-large"
+        ></ion-icon>
+      </div>
+    </div>
+    <div class="login-input" id="loginInput">
+      <form [formGroup]="log">
+        <ion-list class="noBackgroundItem">
+          <!-- Username Field -->
+          <ion-row class="uderline">
+            <ion-col size="2">
+              <ion-icon
+                name="person"
+                style="font-size: x-large; margin-top: 10%"
+              ></ion-icon>
+            </ion-col>
+            <ion-col size="10" style="text-align: unset">
+              <ion-item lines="none" class="noBackgroundItem ion-no-padding">
+                <ion-label position="floating">{{emaiL}}</ion-label>
+                <ion-input
+                  type="text"
+                  [(ngModel)]="username"
+                  (keyup.enter)="moveFocus(b)"
+                  formControlName="username"
+                  clearInput
+                ></ion-input>
+              </ion-item>
+            </ion-col>
+          </ion-row>
+
+          <!-- Password Field --->
+          <ion-row class="uderline">
+            <ion-col size="2">
+              <ion-icon
+                name="lock-closed"
+                style="font-size: x-large; margin-top: 10%"
+              ></ion-icon>
+            </ion-col>
+            <ion-col size="10">
+              <ion-item lines="none" class="noBackgroundItem ion-no-padding">
+                <ion-row class="ion-no-padding">
+                  <ion-col
+                    size="10"
+                    style="text-align: unset"
+                    class="ion-no-padding"
+                  >
+                    <ion-label style="color: #fff" position="floating"
+                      >{{passworD}}</ion-label
+                    >
+                    <ion-input
+                      formControlName="password"
+                      #b
+                      (keyup.enter)="rootpage()"
+                      (click)="emailCheck()"
+                      [type]="passwordType"
+                      [(ngModel)]="pswrd"
+                      clearOnEdit="false"
+                    ></ion-input>
+                  </ion-col>
+                  <ion-col size="2">
+                    <ion-icon
+                      button
+                      [name]="passwordIcon"
+                      style="font-size: x-large; padding-top: 35%"
+                      (click)="hideShowPassword()"
+                    ></ion-icon>
+                  </ion-col>
+                </ion-row>
+              </ion-item>
+            </ion-col>
+          </ion-row>
+        </ion-list>
+
+        <div
+          button
+          (click)="resetPass()"
+          style="width: 100%; text-align: right; margin-top: 1%"
+        >
+          {{forgotPassString}}?
+        </div>
+        <!-- Login Button -->
+        <div
+          style="
+            clear: both;
+            width: 100%;
+            float: left;
+            display: flex;
+            justify-content: center;
+            z-index: 999999;
+          "
+        >
+          <ion-button
+            #c
+            class="login-button tribationBtn"
+            [disabled]="log.invalid"
+            *ngIf="buttonLogin===true"
+            (click)="rootpage()"
+            style="height: 50px; font-size: 18px; z-index: 9999999"
+          >
+            {{signInString}}
+          </ion-button>
+        </div>
+      </form>
+
+      <div style="clear: both; text-align: center; padding-top: 1%">
+        <div style="color: #aaa">{{dontHaveAccString}}</div>
+        <div
+          style="margin-top: 1%; color: #fff !important"
+          button
+          (click)="signup()"
+        >
+          {{signUpString}}
+        </div>
+      </div>
+
+      <div
+        button
+        (click)="changeLanguage()"
+        style="width: 100%; text-align: right; margin-top: 1%"
+      >
+        {{languageString}}
+      </div>
+    </div>
+  </div>
+</ion-content>

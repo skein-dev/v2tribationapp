@@ -1,0 +1,40 @@
+{
+  "appId": "com.tribation.sportapp",
+  "appName": "Tribation",
+  "bundledWebRuntime": false,
+  "npmClient": "npm",
+  "webDir": "www",
+  "plugins": {
+    "SplashScreen": {
+      "launchShowDuration": 1000,
+      "launchAutoHide": false,
+      "androidScaleType": "CENTER_CROP",
+      "backgroundColor": "#112",
+      "androidSpinnerStyle": "large",
+      "iosSpinnerStyle": "small",
+      "androidSplashResourceName": "splash",
+      "spinnerColor": "#f79120",
+      "showSpinner": true
+    },
+    "PushNotifications": {
+      "presentationOptions": [
+        "badge",
+        "sound",
+        "alert"
+      ]
+    },
+    "GoogleAuth": {
+      "scopes": [
+        "profile",
+        "email"
+      ],
+      "serverClientId": "726234007471-akfpsa0iknsa3j76qj9449lbpr32fnu9.apps.googleusercontent.com"
+    }
+  },
+  "ios": {
+    "cordovaLinkerFlags": [
+      "-ObjC"
+    ]
+  },
+  "cordova": {}
+}

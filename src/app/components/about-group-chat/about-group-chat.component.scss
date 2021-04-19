@@ -1,0 +1,53 @@
+.groupAbout-container {
+  .max-h-200 {
+    max-height: 200px;
+  }
+  .abt-addGrp {
+    border-bottom: 1px solid #eaeaea;
+    margin-bottom: 10px;
+    padding: 0;
+    .inside-addGrp {
+      background: #181434;
+      color: white;
+      padding: 5px;
+      border-radius: 24px;
+      text-align: center;
+      margin-right: 5px;
+      font-size: 18px;
+    }
+  }
+  .abt-grpcustitem {
+    padding-top: 10px;
+  }
+}
+.div_cover_Pic {
+  background: #000;
+  border-radius: 50%;
+  font-size: x-large !important;
+  padding: 2px;
+}
+
+.icons {
+  position: fixed;
+  width: 100%;
+  top: 0;
+  padding: 2%;
+}
+
+.memberName {
+  font-size: large;
+  display: flex;
+  align-items: center;
+}
+ion-avatar {
+  float: left;
+  width: 30px;
+  height: 30px;
+  margin-right: 5px;
+  img {
+    color: #fff;
+  }
+}
+ion-item.item-has-focus > ion-label {
+  color: #ec5529 !important;
+}

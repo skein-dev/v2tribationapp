@@ -1,0 +1,31 @@
+.starOnTop {
+  font-size: large;
+  color: #ff0;
+  position: absolute;
+  top: 3px;
+  left: 3px;
+}
+
+.seg_style {
+  --background: #fff;
+  --background-checked: #ec5529;
+  --background-focused: #ec5529;
+  width: min-content;
+  --background-hover: #ec5529;
+  --color-checked: #fff;
+  --border-radius: 5px;
+  border-style: inset;
+  --color: #000;
+}
+
+.radioBut {
+  font-size: x-large;
+  color: #ec5529;
+
+  ion-radio {
+    --color-checked: #444444;
+    --color: #999999;
+    --border-width: 1px;
+    --border-style: double;
+  }
+}

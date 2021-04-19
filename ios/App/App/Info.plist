@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CFBundleDevelopmentRegion</key>
+	<string>en</string>
+	<key>CFBundleDisplayName</key>
+	<string>Tribation</string>
+	<key>CFBundleExecutable</key>
+	<string>$(EXECUTABLE_NAME)</string>
+	<key>CFBundleIdentifier</key>
+	<string>$(PRODUCT_BUNDLE_IDENTIFIER)</string>
+	<key>CFBundleInfoDictionaryVersion</key>
+	<string>6.0</string>
+	<key>CFBundleLocalizations</key>
+	<array>
+		<string>en</string>
+		<string>de</string>
+		<string>nl</string>
+		<string>fr</string>
+		<string>it</string>
+		<string>pt-BR</string>
+	</array>
+	<key>CFBundleName</key>
+	<string>$(PRODUCT_NAME)</string>
+	<key>CFBundlePackageType</key>
+	<string>APPL</string>
+	<key>CFBundleShortVersionString</key>
+	<string>$(MARKETING_VERSION)</string>
+	<key>CFBundleURLTypes</key>
+	<array>
+		<dict>
+			<key>CFBundleURLName</key>
+			<string>com.getcapacitor.capacitor</string>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>capacitor</string>
+			</array>
+			<key>REVERSED_CLIENT_ID</key>
+			<array>
+				<string>$REVERSED_CLIENT_ID</string>
+			</array>
+		</dict>
+		<dict>
+			<key>CFBundleTypeRole</key>
+			<string>Editor</string>
+			<key>CFBundleURLIconFile</key>
+			<string></string>
+			<key>CFBundleURLName</key>
+			<string>REVERSED_CLIENT_ID</string>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>com.googleusercontent.apps.726234007471-ofq0cppj6ovdelped9gitkj0gkkfgpdu</string>
+			</array>
+		</dict>
+	</array>
+	<key>CFBundleVersion</key>
+	<string>$(CURRENT_PROJECT_VERSION)</string>
+	<key>ITSAppUsesNonExemptEncryption</key>
+	<false/>
+	<key>IonApi</key>
+	<string>$UPDATE_API</string>
+	<key>IonAppId</key>
+	<string>$APP_ID</string>
+	<key>IonChannelName</key>
+	<string>$CHANNEL_NAME</string>
+	<key>IonMaxVersions</key>
+	<string>$MAX_STORE</string>
+	<key>IonMinBackgroundDuration</key>
+	<string>$MIN_BACKGROUND_DURATION</string>
+	<key>IonUpdateMethod</key>
+	<string>$UPDATE_METHOD</string>
+	<key>LSRequiresIPhoneOS</key>
+	<true/>
+	<key>NSAppTransportSecurity</key>
+	<dict>
+		<key>NSAllowsArbitraryLoads</key>
+		<true/>
+	</dict>
+	<key>NSCalendarsUsageDescription</key>
+	<string>To display and remind you of events and allow creating new ones for team events.</string>
+	<key>NSCameraUsageDescription</key>
+	<string>To take pictures and videos to upload and share in your feed, in messaging and to change your profile picture.</string>
+	<key>NSContactsUsageDescription</key>
+	<string>$CONTACTS_USAGE_DESCRIPTION</string>
+	<key>NSLocationAlwaysUsageDescription</key>
+	<string>Always allow Geolocation?</string>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>Allow Geolocation?</string>
+	<key>NSMicrophoneUsageDescription</key>
+	<string>To Record Audio With Video</string>
+	<key>NSPhotoLibraryAddUsageDescription</key>
+	<string>To store pictures and videos in the library to use in your feed, messaging or profile.</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>To be able to upload and share videos and pictures in your feed, in messaging and to change your profile picture.</string>
+	<key>UILaunchStoryboardName</key>
+	<string>LaunchScreen</string>
+	<key>UIMainStoryboardFile</key>
+	<string>Main</string>
+	<key>UIRequiredDeviceCapabilities</key>
+	<array>
+		<string>armv7</string>
+	</array>
+	<key>UIStatusBarStyle</key>
+	<string>UIStatusBarStyleLightContent</string>
+	<key>UISupportedInterfaceOrientations</key>
+	<array>
+		<string>UIInterfaceOrientationPortrait</string>
+	</array>
+	<key>UISupportedInterfaceOrientations~ipad</key>
+	<array>
+		<string>UIInterfaceOrientationPortrait</string>
+		<string>UIInterfaceOrientationPortraitUpsideDown</string>
+		<string>UIInterfaceOrientationLandscapeLeft</string>
+		<string>UIInterfaceOrientationLandscapeRight</string>
+	</array>
+	<key>UIViewControllerBasedStatusBarAppearance</key>
+	<true/>
+</dict>
+</plist>

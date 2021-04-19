@@ -1,0 +1,17 @@
+div.scrollmenu {
+  overflow: auto;
+  white-space: nowrap;
+}
+
+.customPadding {
+  padding: 2px 2px 0px 0px;
+}
+
+.customButtonSport {
+  --background: #fff;
+  --background-focused: #fff;
+  --background-hover: #fff;
+  --background-activated: #fff;
+  color: #0d0439;
+  font-weight: bolder;
+}

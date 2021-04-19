@@ -1,0 +1,43 @@
+.searchbar-input-container {
+  .sc-ion-searchbar-ios {
+    height: 28px !important;
+    contain: strict;
+  }
+}
+
+.search_bar {
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+.seg_style {
+  border: none !important;
+  --background: #bdc1c5;
+  background-color: #bdc1c5;
+  color: white !important;
+  border-radius: 6px !important;
+}
+
+.seg_btn {
+  text-transform: capitalize;
+  --background-checked: #171434;
+  color: #fff !important;
+  --border-color: unset;
+  --indicator-color: #112;
+}
+
+img {
+  border-radius: 5px;
+}
+
+.ownerBadge {
+  float: left;
+
+  img {
+    float: left;
+    height: 20px;
+    justify-content: center;
+    align-content: center;
+    align-self: center;
+  }
+}

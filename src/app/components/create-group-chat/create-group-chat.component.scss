@@ -1,0 +1,62 @@
+.max-h-200 {
+  max-height: 200px;
+}
+
+.div_cover_Pic {
+  background: #000;
+  border-radius: 50%;
+  font-size: x-large !important;
+  padding: 2px;
+}
+
+.icons {
+  position: fixed;
+  width: 100%;
+  top: 0;
+  padding: 4%;
+}
+
+.wallCover {
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+  background-color: #ec5529;
+  height: 100%;
+  width: 100%;
+  background-repeat: no-repeat;
+  background-position-x: center;
+  background-position-y: center;
+}
+
+.insideCover {
+  background: rgba(0, 0, 0, 0.65) !important;
+  display: flex;
+  height: 100%;
+  width: 100%;
+}
+
+ion-item.item-has-focus > ion-label {
+  color: #ec5529 !important;
+}
+
+.tribationBtn {
+  width: 95% !important;
+  margin-left: 10px !important;
+  margin-right: 10px !important;
+  height: 50px !important;
+  --border-radius: 24px !important;
+  font-size: 18px !important;
+}
+
+.create-button {
+  position: absolute;
+  bottom: 5%;
+  width: 100%;
+}
+
+.mainContent {
+  ion-item {
+    border-bottom: #cfcfcf solid 1px;
+  }
+}

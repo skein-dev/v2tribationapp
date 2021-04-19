@@ -1,0 +1,275 @@
+.ld-img {
+  position: absolute;
+  top: 4px;
+}
+
+.i-icon {
+  left: -20px;
+  top: -15px;
+}
+
+.chat_time1 {
+  display: inline;
+  color: #666 !important;
+  font-size: 12px;
+}
+
+.rec-msg-cont {
+  color: black;
+  float: left;
+  margin-right: 10px;
+  margin-bottom: 3px;
+}
+
+.chat_time2 {
+  float: right;
+  color: #666 !important;
+  margin: -5px 10px;
+  font-size: 12px;
+}
+
+.rec-msg-cont1 {
+  color: black;
+  margin-right: 10px;
+}
+
+.i-in-cam {
+  font-size: 21px;
+  position: relative;
+  color: #4e4e50;
+  margin: 12px 12px;
+  vertical-align: middle;
+}
+
+.i-in-gal {
+  font-size: 26px;
+  position: relative;
+  color: #4e4e50;
+  vertical-align: middle;
+}
+
+.i-in-send {
+  font-size: 30px;
+  color: #2fa6cc;
+  float: right;
+  padding-right: 10px;
+}
+
+.chat_image_main {
+  width: 76px !important;
+  margin-right: 4px;
+  position: relative;
+  height: 65px;
+  border-radius: 11px;
+  opacity: 0.8;
+}
+
+.container-img {
+  padding-right: 0px;
+  padding-left: 0px;
+  margin-right: auto;
+  margin-left: auto;
+}
+
+.in-pad {
+  padding-left: 1px !important;
+  margin: 3px !important;
+}
+
+.time-rcvd {
+  font-size: 10px !important;
+  float: left !important;
+  margin-left: 10px;
+  color: black;
+}
+
+.time-sent {
+  font-size: 10px !important;
+  float: right !important;
+  margin-right: 10px;
+  // color       : #bfbaba !important;
+  // font-size   : 11px !important;
+  // float       : right !important;
+  // margin-right: 10px;
+  // margin-top  : -7px;
+  // padding     : 3px;
+}
+
+.time-sent-img {
+  color: #bfbaba !important;
+  font-size: 10px !important;
+  float: right !important;
+  margin-right: 10px;
+}
+
+.fab_align {
+  position: fixed;
+  z-index: 1;
+  left: 40%;
+  top: 10%;
+}
+
+.time_pad {
+  padding: 10px;
+}
+
+.profileimg {
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  margin-top: 8px;
+}
+
+.chattincon {
+  height: 14px;
+  width: 17px;
+  background: #848588;
+  position: relative;
+  bottom: 61px;
+  left: 55px;
+}
+
+.chat_in_icon {
+  transform: translate(-50%, -50%);
+  -ms-transform: translate(-50%, -50%);
+  background-color: transparent;
+  color: var(--ion-color-primary-contrast);
+  font-size: 16px;
+  position: relative;
+  top: 4px;
+  right: -8px;
+}
+
+.namePersonChatWith {
+  display: flex;
+  text-align: center;
+  // justify-content: center;
+  padding: 0em;
+  align-items: baseline;
+}
+
+.chatting-container {
+  -webkit-user-select: text;
+  -moz-user-select: text;
+  -ms-user-select: text;
+  user-select: text;
+}
+
+.time-rcvd-img {
+  font-size: 11px !important;
+  float: right !important;
+  margin-right: 13px;
+  color: dimgrey;
+}
+
+.chatdetailimga {
+  border-radius: 7px;
+}
+
+.infinite-loading {
+  margin-left: 0;
+  margin-right: 0;
+  margin-top: 0;
+  margin-bottom: 32px;
+  display: block;
+  width: 100%;
+}
+
+.chat_cancel_icon {
+  position: absolute;
+  margin-top: 29px;
+  font-size: 18px;
+  background: #d4d0d0;
+  border-radius: 20px;
+  z-index: 9;
+}
+
+.chat_remove_icon {
+  position: absolute;
+  margin-top: 2px;
+  font-size: 18px;
+  background: #d4d0d0;
+  border-radius: 20px;
+  margin-left: -20px;
+}
+
+.chat_time {
+  float: right;
+  color: #666 !important;
+  font-weight: normal !important;
+  font-size: 12px;
+  margin-top: 3px;
+  margin-left: 20px;
+}
+
+.chat_content {
+  padding: 0px;
+  margin-top: -15px;
+}
+
+.chat_content1 {
+  padding: 0px;
+  margin-top: -15px;
+  // margin-left: 10px;
+}
+
+.rcved-msg-time_grpCht {
+  float: right;
+  font-weight: normal !important;
+  font-size: 11px;
+  color: #000000 !important;
+  margin: 6px;
+}
+
+.messageTypeInfo {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  margin-top: 5px;
+}
+
+.chat_time_me {
+  // float: right;
+  font-weight: normal !important;
+  font-size: 11px;
+  color: #bfbaba !important;
+  margin: 6px;
+}
+
+.chat_header {
+  margin-bottom: -20px;
+  font-size: 16px;
+  font-weight: bold;
+  margin-top: -12px;
+  color: #dc7708;
+}
+
+.p_head {
+  color: navajowhite;
+  background: #f9b56a;
+  border-radius: 8px;
+  text-align: center;
+  max-width: 70%;
+}
+.rcved-msg-time {
+  margin: 10px;
+}
+.closeIcon {
+  font-size: x-large !important;
+  background: #112;
+  color: #fff;
+  --color: #fff;
+  font-weight: unset !important;
+  margin-top: -77px;
+  position: absolute;
+  margin-left: 55px;
+  border-radius: 50%;
+  padding: 2px;
+}
+.bottomRow {
+  margin-top: -9px;
+}
+.sentMarkClass {
+  margin: 7px;
+  float: right !important;
+}

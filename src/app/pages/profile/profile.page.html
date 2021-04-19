@@ -1,0 +1,797 @@
+<ion-content
+  #contentMain
+  forceOverscroll="true"
+  scrollY="true"
+  (ionScroll)="logScrolling($event)"
+  [scrollEvents]="true"
+  mode="ios"
+>
+  <ion-refresher
+    slot="fixed"
+    (ionRefresh)="doRefresh($event)"
+    style="z-index: 1; --color: #112; color: #112"
+  >
+    <ion-refresher-content refreshingSpinner="crescent">
+    </ion-refresher-content>
+  </ion-refresher>
+  <ion-fab
+    *ngIf="showGoTop"
+    vertical="bottom"
+    horizontal="end"
+    slot="fixed"
+    class="ion-no-padding noBackgroundItem"
+    style="padding: 3% 1% 3% 3%"
+    (click)="contentMain.scrollToTop(500)"
+  >
+    <ion-icon
+      name="chevron-up-circle"
+      style="--color: #ec5529; color: #ec5529; font-size: xx-large"
+    ></ion-icon>
+  </ion-fab>
+
+  <div
+    class="cover white"
+    [ngStyle]="{'background-image': 'url('+ coverUrl +')'}"
+  >
+    <div class="insideCover">
+      <ion-item
+        lines="none"
+        class="topBarMyInfo noBackgroundItem white paddingSafe"
+      >
+        <ion-icon
+          slot="start"
+          name="arrow-back"
+          class="white"
+          (click)="back()"
+        ></ion-icon>
+        <div slot="end" buttton style="color: #fff">
+          <ion-icon
+            src="../../../assets/iconsSvg/ellipsis-vertical.svg"
+            *ngIf="userDetail.id===profileId"
+            style="font-size: x-large"
+            (click)="profileOwnerAction()"
+          >
+          </ion-icon>
+          <ion-icon
+            *ngIf="userDetail.id!==profileId"
+            src="../../../assets/iconsSvg/ellipsis-vertical.svg"
+            style="font-size: x-large"
+            (click)="actionOnOtherUser()"
+          ></ion-icon>
+        </div>
+      </ion-item>
+    </div>
+  </div>
+
+  <div class="avtr_and_name" *ngIf="userProfileDetail">
+    <div
+      class="ion-text-center"
+      style="display: flex; justify-content: center; position: relative"
+    >
+      <ion-avatar style="display: flex; width: 100px; height: 100px">
+        <img
+          style="border: 5px solid #fff"
+          class="profile-img"
+          *ngIf="userProfileDetail.profile_img_url!=''"
+          src="{{environment.apiUrl}}v1/api/post/imagecall_mobile_url?imagepath=profile/{{userProfileDetail.id}}/{{profilepicUrl}}"
+          (click)="viewProfileImage(profilepicUrl,'image')"
+        />
+        <img
+          class="profile-img"
+          *ngIf="userProfileDetail.profile_img_url==''"
+          src="../../../assets/defaultProfile.png"
+        />
+      </ion-avatar>
+      <div
+        class="myProfile_av"
+        button
+        (click)="presentActionSheetProfile()"
+        *ngIf="userDetail.id===profileId && userDetail.scout_status!=='active'"
+      >
+        <ion-icon name="camera"></ion-icon>
+      </div>
+      <div *ngIf="userDetail.id!==profileId">
+        <span class="dot-online" *ngIf="chatStatus"></span>
+        <span class="dot-offline" *ngIf="!chatStatus"></span>
+      </div>
+    </div>
+
+    <div style="width: 100%; text-align: center">
+      <div style="color: #0d0439; font-size: 24px; font-weight: bold">
+        <b>{{userProfileDetail.first_name}} {{userProfileDetail.last_name}}</b>
+      </div>
+      <small
+        style="color: #000; display: block; font-size: 12px"
+        *ngIf="userProfileDetail.id"
+      >
+        <ion-icon name="location-outline" style="color: black"></ion-icon>&nbsp;
+        <span style="text-transform: capitalize"
+          >{{userProfileDetail.city}}</span
+        >
+        <span *ngIf="userProfileDetail.stateProvince!==''">
+          , {{userProfileDetail.stateProvince}}
+        </span>
+        <span *ngIf="userProfileDetail.countryName!==''">
+          , {{userProfileDetail.countryName}}
+        </span>
+      </small>
+    </div>
+  </div>
+
+  <!-- add person -->
+
+  <div
+    class="myfriendBar"
+    *ngIf="userDetail.id===profileId && isMinor === false"
+  ></div>
+  <div
+    class="unfriendBar"
+    *ngIf="userDetail.id!==profileId && isMinor === true"
+  >
+    <div class="profileIcon" *ngIf="sendGuardRequest === true">
+      <ion-icon
+        name="person-add-outline"
+        (click)="sendGuardianReq(userProfileData.baseInfo.id, userProfileData.guardianRequest.id)"
+      >
+      </ion-icon>
+      <div class="text">{{addAsGuardianString}}</div>
+    </div>
+    <div class="profileIcon" *ngIf="cancelSentGuardreq === true">
+      <ion-icon
+        name="alert-outline"
+        (click)="cancelGuardreq(userProfileData.guardianRequest.id)"
+      >
+      </ion-icon>
+      <div class="text">{{cancelGuardReqString}}</div>
+    </div>
+    <div class="profileIcon" *ngIf="cancelGuardianMinorLink === true">
+      <ion-icon
+        name="alert-outline"
+        (click)="cancelGuardLink(userProfileData.baseInfo.id)"
+      >
+      </ion-icon>
+      <div class="text">{{cancelGuardReqLinkString}}</div>
+    </div>
+  </div>
+  <div
+    class="unfriendBar"
+    *ngIf="userDetail.id!==profileId && isMinor === false"
+  >
+    <div
+      class="profileIcon"
+      *ngIf="sendRequest === true"
+      (click)="sendFriendReq(userProfileData.baseInfo.id)"
+    >
+      <ion-icon name="person-add-outline"> </ion-icon>
+      <div class="text">{{addFriendString}}</div>
+    </div>
+    <div
+      class="profileIcon"
+      *ngIf="cancelRequest === true"
+      (click)="cancelFriendreq(userProfileData.baseInfo.id)"
+    >
+      <ion-icon name="alert-outline"> </ion-icon>
+      <div class="text">{{requestedString}}</div>
+    </div>
+    <div
+      class="profileIcon"
+      *ngIf="unfriend === true"
+      (click)="unFriend(userProfileData.baseInfo.id, userProfileData.baseInfo.first_name)"
+    >
+      <ion-icon name="person-remove-outline"> </ion-icon>
+      <div class="text">{{unfriendString}}</div>
+    </div>
+    <div
+      *ngIf="acceptRejAction === true"
+      style="display: flex; justify-content: space-between"
+    >
+      <div
+        class="profileIcon"
+        (click)="acceptFrndReq(userProfileData.baseInfo.id)"
+      >
+        <ion-icon name="checkmark"> </ion-icon>
+        <div class="text" style="width: min-content">
+          {{acceptRequestString}}
+        </div>
+      </div>
+      <div
+        class="profileIcon"
+        (click)="deleteFrndReq(userProfileData.baseInfo.id)"
+      >
+        <ion-icon name="close"> </ion-icon>
+        <div class="text" style="width: min-content">
+          {{deleteRequestString}}
+        </div>
+      </div>
+    </div>
+    <div
+      *ngIf="acceptRejGuardAction === true"
+      style="display: flex; justify-content: space-between"
+    >
+      <div
+        class="profileIcon"
+        (click)="acceptGuardReq(userProfileData.guardianRequest)"
+      >
+        <ion-icon name="checkmark"> </ion-icon>
+        <div class="text" style="width: min-content">
+          {{acceptRequestString}}
+        </div>
+      </div>
+      <div
+        class="profileIcon"
+        (click)="deleteGuardReq(userProfileData.guardianRequest.id)"
+      >
+        <ion-icon name="close"> </ion-icon>
+        <div class="text" style="width: min-content">
+          {{deleteRequestString}}
+        </div>
+      </div>
+    </div>
+    <div
+      class="profileIcon"
+      *ngIf="cancelSentGuardreq === true"
+      (click)="cancelGuardreq(userProfileData.guardianRequest.id)"
+    >
+      <ion-icon name="alert-outline"> </ion-icon>
+      <div class="text">{{cancelGuardReqString}}</div>
+    </div>
+    <div
+      class="profileIcon"
+      *ngIf="cancelGuardianMinorLink === true"
+      (click)="cancelGuardLink(userProfileData.baseInfo.id)"
+    >
+      <ion-icon name="alert-outline"> </ion-icon>
+      <div class="text">{{cancelGuardReqLinkString}}</div>
+    </div>
+
+    <div
+      (click)="sendMessage()"
+      class="messageIcon"
+      *ngIf="userDetail.id!==profileId "
+    >
+      <ion-icon name="chatbox-ellipses-outline"></ion-icon>
+      <div class="text">{{messageString}}</div>
+    </div>
+  </div>
+
+  <!-- add person -->
+
+  <div class="topBar container">
+    <ion-segment
+      (ionChange)="segmentChanged($event)"
+      [(ngModel)]="checkedSegment"
+      value="home"
+      class="seg"
+      scrollable="true"
+      mode="ios"
+    >
+      <ion-segment-button mode="ios" href="#home" value="home" class="segTabs">
+        <div style="display: flex; align-items: center">
+          <!-- <ion-icon class="segIcon" name="home"></ion-icon> &nbsp; -->
+          <div class="ion-text-wrap segText">{{homeString}}</div>
+        </div>
+      </ion-segment-button>
+      <ion-segment-button
+        mode="ios"
+        href="#media"
+        value="media"
+        class="segTabs"
+      >
+        <div style="display: flex; align-items: center">
+          <!-- <ion-icon class="segIcon" name="albums"></ion-icon> &nbsp; -->
+          <div class="ion-text-wrap segText">{{mediaString}}</div>
+        </div>
+      </ion-segment-button>
+      <ion-segment-button
+        mode="ios"
+        href="#friends"
+        value="friends"
+        class="segTabs"
+      >
+        <div style="display: flex; align-items: center">
+          <!-- <ion-icon class="segIcon" name="people"></ion-icon> &nbsp; -->
+          <div class="ion-text-wrap segText">{{friendsString}}</div>
+        </div>
+      </ion-segment-button>
+      <ion-segment-button
+        mode="ios"
+        href="#about"
+        value="about"
+        class="segTabs"
+        (click)="openProtfolio()"
+      >
+        <div style="display: flex; align-items: center">
+          <!-- <ion-icon class="segIcon" name="person"></ion-icon> &nbsp; -->
+          <div class="ion-text-wrap segText">{{portfolioString}}</div>
+        </div>
+      </ion-segment-button>
+    </ion-segment>
+  </div>
+
+  <div *ngIf="checkedSegment==='home'">
+    <!-- NothingTo Tell you -->
+    <div *ngIf="postsArray.length===0" style="text-align: center; width: 100%">
+      <div style="width: 90%; margin-top: 9%">
+        <ion-img src="../../../assets/help.png" allowFullScreen> </ion-img>
+      </div>
+      <div
+        style="
+          margin-top: 1%;
+          margin-bottom: 20%;
+          width: 100%;
+          display: flex;
+          justify-content: center;
+        "
+      >
+        <div
+          style="width: 60%; font-size: small; font-style: italic"
+          *ngIf="profileId===userDetail.id"
+        >
+          {{noPostString}}
+        </div>
+        <div
+          style="width: 60%; font-size: small; font-style: italic"
+          *ngIf="profileId!==userDetail.id"
+        >
+          {{noFriendpostString}}
+        </div>
+      </div>
+    </div>
+    <!-- NothingTo Tell you -->
+    <div *ngIf="postsArray.length>=1 ">
+      <!-- Feeds -->
+      <div *ngFor="let feed of postsArray; let i=index">
+        <ion-card *ngIf="feed.admin === 0" mode="ios">
+          <!-- Feed Head -->
+          <ion-row style="padding: 3% 0; border-bottom: #dfdfdf solid 1px">
+            <ion-col
+              size="2"
+              style="display: flex; align-items: center"
+              class="colContent"
+            >
+              <ion-avatar>
+                <img
+                  (click)="goToProfile(feed.user.id)"
+                  *ngIf="feed.user.profile_img_url!=''"
+                  src="{{environment.apiUrl}}v1/api/post/imagecall_mobile_url?imagepath=profile/{{feed.user.id}}/{{feed.user.profile_img_url_thump}}"
+                />
+                <img
+                  *ngIf="feed.user.profile_img_url===''"
+                  src="../../../assets/defaultProfile.png"
+                />
+              </ion-avatar>
+            </ion-col>
+            <ion-col size="9" class="colContent">
+              <ion-row style="margin-top: 2%; font-size: medium; color: #000">
+                <div button (click)="goToProfile(feed.user.id)">
+                  {{feed.user.first_name}}&nbsp;{{feed.user.last_name}}
+                  <span
+                    *ngIf="feed.shared===1"
+                    style="--color: #999; color: #999"
+                    >{{sharedString}}</span
+                  >
+                </div>
+                <!-- <div *ngIf="feed.shared===1">
+              {{sharedString}}&nbsp;<a
+                href={{feed.sharedPostData.user.id}}>{{feed.sharedPostData.user.first_name}}&nbsp;{{feed.sharedPostData.user.last_name}}</a>{{someonesPostString}}
+            </div> -->
+              </ion-row>
+              <ion-row style="font-size: x-small">
+                {{getTimeFromNow(feed.created)}}
+              </ion-row>
+            </ion-col>
+
+            <ion-col
+              size="1"
+              style="display: flex; align-items: center"
+              class="colContent"
+              button
+              (click)="openPopUpEdit(i,feed,feed.user.id)"
+            >
+              <ion-icon
+                src="../../../assets/iconsSvg/ellipsis-vertical.svg"
+                style="font-size: large; color: #000"
+              >
+              </ion-icon>
+            </ion-col>
+          </ion-row>
+          <ion-row
+            *ngIf="feed.shared===1"
+            class="ion-no-padding shardPersonItem"
+          >
+            <!-- 
+          {{environment.apiUrl}}v1/api/post/imagecall_mobile_url?imagepath=profile/{{feed.sharedPostData.user.id}}/{{feed.sharedPostData.user.profile_img_url_thump}}
+         -->
+            <ion-col
+              size="2"
+              style="display: flex; align-items: center"
+              class="colContent"
+            >
+              <ion-avatar style="width: 32px; height: 32px">
+                <img
+                  (click)="goToProfile(feed.sharedPostData.user.id)"
+                  *ngIf="feed.sharedPostData.user.profile_img_url!='' "
+                  src="{{environment.apiUrl}}v1/api/post/imagecall_mobile_url?imagepath=profile/{{feed.sharedPostData.user.id}}/{{feed.sharedPostData.user.profile_img_url}}"
+                />
+                <img
+                  *ngIf="feed.sharedPostData.user.profile_img_url===''"
+                  src="../../../assets/defaultProfile.png"
+                />
+              </ion-avatar>
+            </ion-col>
+            <ion-col>
+              <a href="{{feed.sharedPostData.user.id}}"
+                >{{feed.sharedPostData.user.first_name}}&nbsp;{{feed.sharedPostData.user.last_name}}</a
+              >
+              <ion-row style="font-size: x-small">
+                {{getTimeFromNow(feed.sharedPostData.created)}}
+              </ion-row>
+            </ion-col>
+          </ion-row>
+          <!-- end Feed Head -->
+
+          <!-- Feed Content -->
+          <div
+            class="ion-no-padding"
+            style="padding: 2% 4% 5% 4%; margin-top: 3%"
+          >
+            <div
+              *ngIf="feed.content && feed.shared===0"
+              [innerHTML]="feed.content"
+              style="min-height: 10px; align-items: center; margin-bottom: 5px"
+            ></div>
+            <div
+              *ngIf="feed.sharedPostData && feed.shared===1"
+              [innerHTML]="feed.sharedPostData.content"
+              style="min-height: 10px; align-items: center; margin-bottom: 5px"
+            ></div>
+            <div class="kkk">
+              <div class="album1" *ngIf="feed.assets.length >=1">
+                <div
+                  style="width: 100%; justify-content: center"
+                  class="loading_img"
+                  *ngIf="feed.assets.length==1"
+                  (click)="openMultiMedia(feed.assets,0)"
+                >
+                  <img
+                    style="
+                      height: auto;
+                      width: 100%;
+                      object-fit: cover;
+                      border-radius: 4px;
+                      background: #fff;
+                      max-height: 400px;
+                      min-height: 180px;
+                    "
+                    src="{{environment.apiUrl}}v1/api/post/imagecall_mobile_url?imagepath={{feed.assets[0].asset_thumb_url}}"
+                  />
+                  <div
+                    class="videoPlayButtonSingle"
+                    *ngIf="feed.assets[0].post_type=='video'"
+                  >
+                    <ion-icon
+                      name="caret-forward-circle"
+                      class="white"
+                      mode="md"
+                    ></ion-icon>
+                  </div>
+                </div>
+
+                <div
+                  id="photos1"
+                  *ngIf="feed.assets.length>1 && feed.assets.length<5"
+                  style="width: 100%"
+                >
+                  <div
+                    *ngFor="let media of feed.assets;let i=index;"
+                    class="photoHolder1"
+                  >
+                    <!-- <div *ngIf="3>i"> -->
+                    <div (click)="openMultiMedia(feed.assets,i)">
+                      <img
+                        class="loading_img"
+                        src="{{environment.apiUrl}}v1/api/post/imagecall_mobile_url?imagepath={{media.asset_thumb_url}}"
+                      />
+                      <div
+                        class="videoPlayButton"
+                        *ngIf="media.post_type=='video'"
+                      >
+                        <ion-icon
+                          name="caret-forward-circle"
+                          class="white"
+                          mode="md"
+                        ></ion-icon>
+                      </div>
+                    </div>
+                  </div>
+                  <!-- <div *ngIf="i===3">
+                  <div class="emptyCard"></div>
+                </div>
+                <div style="float: left;clear: both;" *ngIf="i%2===0"></div>
+              </div> -->
+                </div>
+
+                <div
+                  id="photos1"
+                  *ngIf="feed.assets.length>4"
+                  style="width: 100%"
+                >
+                  <div
+                    *ngFor="let media of feed.assets;let i=index;"
+                    class="photoHolder1"
+                  >
+                    <div *ngIf="3>i">
+                      <div (click)="openMultiMedia(feed.assets,i)">
+                        <img
+                          class="loading_img"
+                          src="{{environment.apiUrl}}v1/api/post/imagecall_mobile_url?imagepath={{media.asset_thumb_url}}"
+                        />
+                        <div
+                          class="videoPlayButton"
+                          *ngIf="media.post_type=='video'"
+                        >
+                          <ion-icon
+                            name="caret-forward-circle"
+                            class="white"
+                            mode="md"
+                          ></ion-icon>
+                        </div>
+                      </div>
+                    </div>
+                    <div
+                      *ngIf="i===3"
+                      style="
+                        height: 145px;
+                        position: relative;
+                        text-align: center;
+                        background-color: rgba(0, 0, 0, 0.7);
+                        border-radius: 5px;
+                        width: fit-content;
+                        margin: 3px 5px;
+                        margin-right: 0;
+                      "
+                    >
+                      <div
+                        class="photoHolder"
+                        (click)="openMultiMedia(feed.assets,i)"
+                      >
+                        <img
+                          style="opacity: 0.15; margin: unset"
+                          class="img-fluid post-img img_height loading_img"
+                          src="{{environment.apiUrl}}v1/api/post/imagecall_mobile_url?imagepath={{media.asset_thumb_url}}"
+                        />
+                        <div
+                          style="
+                            position: absolute;
+                            top: 50%;
+                            left: 50%;
+                            transform: translate(-50%, -50%);
+                            font-size: x-large;
+                            font-weight: bold;
+                            color: rgb(255, 255, 255);
+                          "
+                        >
+                          +{{feed.assets.length - 3}}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- end Feed Content -->
+
+          <!-- Feed Like Share Comment -->
+          <ion-footer style="padding: unset !important; clear: both">
+            <ion-row
+              style="
+                font-size: large;
+                padding: 2% 0%;
+                border-top: #dfdfdf solid 1px;
+              "
+            >
+              <ion-col
+                class="colLikeShare"
+                button
+                (click)="likePost(feed.id, i, feed.user.id)"
+              >
+                <div *ngIf="feed.likes === 0" style="display: flex">
+                  <ion-icon
+                    src="../../../assets/iconsSvg/heart-outline.svg"
+                  ></ion-icon>
+                  <span>
+                    <ion-text style="color: #9e9bb0"> &nbsp; Like </ion-text>
+                  </span>
+                </div>
+                <div *ngIf="feed.likes > 0" style="display: flex">
+                  <ion-icon src="../../../assets/iconsSvg/heart.svg"></ion-icon>
+                  <span>
+                    <ion-text style="color: #ec5529"> &nbsp; Like </ion-text>
+                  </span>
+                </div>
+              </ion-col>
+              <ion-col
+                class="colLikeShare"
+                button
+                (click)="commentPost(feed, i)"
+              >
+                <ion-icon
+                  style="color: #9e9bb0"
+                  name="chatbox-outline"
+                  *ngIf="feed.commented===0"
+                >
+                </ion-icon>
+                <ion-icon
+                  name="chatbox-outline"
+                  *ngIf="feed.commented===1"
+                  style="color: #9e9bb0"
+                ></ion-icon>
+                <span>
+                  <ion-text style="color: #9e9bb0"> &nbsp;Comments </ion-text>
+                </span>
+              </ion-col>
+              <ion-col
+                class="colLikeShare"
+                button
+                (click)="sharePost(feed, i)"
+                *ngIf="feed.user.id !== userDetail.id"
+              >
+                <ion-icon
+                  src="../../../assets/iconsSvg/arrow-redo-outline.svg"
+                  *ngIf="feed.youShared===0"
+                ></ion-icon>
+                <ion-icon
+                  src="../../../assets/iconsSvg/arrow-redo.svg"
+                  *ngIf="feed.youShared===1"
+                  style="color: #ec5529"
+                >
+                </ion-icon>
+                <span *ngIf="feed.shares > 0">{{feed.shares}}</span>
+              </ion-col>
+              <ion-col class="colLikeShare" *ngIf="feed.sport_icon !== null">
+                <img
+                  src="../../../assets/sports/{{feed.sport_icon}}.png"
+                  style="height: auto; width: 40px"
+                />
+              </ion-col>
+
+              <!-- <div class="colLikeShare" style="    align-items: center;
+        margin-right: 3%;">
+            <ion-icon src="../../../assets/body-outline.svg"></ion-icon>
+          </div> -->
+            </ion-row>
+          </ion-footer>
+          <!-- end Feed Like Share Comment -->
+        </ion-card>
+      </div>
+      <!-- end Feeds -->
+    </div>
+    <ion-infinite-scroll
+      *ngIf="limitReached===false"
+      threshold="100px"
+      (ionInfinite)="loadMorePost($event)"
+    >
+      <ion-infinite-scroll-content
+        loadingSpinner="bubbles"
+        loadingText="{{getingFeedString}}"
+      >
+      </ion-infinite-scroll-content>
+    </ion-infinite-scroll>
+  </div>
+  <!--End Home-->
+
+  <!-- <div *ngIf="checkedSegment==='about'"></div> -->
+  <div *ngIf="checkedSegment==='media'" class="mainMedia">
+    <div class="personal_Media" *ngIf="personalMedia.length>0">
+      <div *ngFor="let media of personalMedia;let m=index;">
+        <div class="photoItem" button (click)="openMultiMedia(personalMedia,m)">
+          <img
+            class="loading_img img-fluid post-img img_height loading_img"
+            src="{{environment.apiUrl}}v1/api/post/imagecall_mobile_url?imagepath={{media.asset_thumb_url}}"
+          />
+          <div class="videoPlayButton" *ngIf="media.post_type=='video'">
+            <ion-icon name="caret-forward-circle" class="white"></ion-icon>
+          </div>
+        </div>
+        <div *ngIf="m%2 === 0" class="divider"></div>
+      </div>
+    </div>
+    <div *ngIf="personalMedia.length===0">
+      <div
+        class="noReq ion-text-capitalize ion-text-center"
+        style="margin-top: 30%; font-size: large"
+      >
+        <ion-icon
+          mode="ios"
+          name="albums"
+          style="font-size: 900%; color: #3a3a3a"
+        ></ion-icon>
+        <div style="margin-top: -3%">{{noMediaString}}</div>
+      </div>
+    </div>
+  </div>
+
+  <div *ngIf="checkedSegment==='friends'">
+    <div *ngIf="noFriends===true">
+      <div
+        class="noReq ion-text-capitalize ion-text-center"
+        style="margin-top: 18%; font-size: large"
+      >
+        <ion-icon
+          mode="ios"
+          src="../../../assets/UserThree.svg"
+          style="font-size: 900%; color: #3a3a3a"
+        ></ion-icon>
+        <div style="margin-top: -3%">{{noFriendString}}</div>
+      </div>
+    </div>
+    <div class="frnd_pad" *ngIf="noFriends===false" style="padding-top: 2%">
+      <div class="container">
+        <ion-list *ngIf="myfrndsList">
+          <ion-item-sliding
+            (ionSwipe)="unFriend(frnd.id,frnd.name)"
+            *ngFor="let frnd of friendsList"
+            class="friendItem"
+          >
+            <ion-item>
+              <ion-avatar slot="start" (click)="goToProfile(frnd.id)" button>
+                <img
+                  *ngIf="frnd.profile_img_url_thump!=null"
+                  src="{{environment.apiUrl}}v1/api/post/imagecall_mobile_url?imagepath=profile/{{frnd.id}}/{{frnd.profile_img_url_thump}}"
+                />
+                <img
+                  *ngIf="frnd.profile_img_url_thump==null"
+                  src="{{environment.apiUrl}}v1/api/post/imagecall_mobile_url?imagepath=profile/default.png"
+                />
+              </ion-avatar>
+              <ion-label (click)="goToProfile(frnd.id)" button>
+                <h2
+                  class="ion-text-wrap capital"
+                  button
+                  (click)="goToProfile(frnd.id)"
+                >
+                  {{frnd.name}}
+                </h2>
+                <p class="para_size" style="text-transform: capitalize">
+                  <ion-icon
+                    name="location-outline"
+                    class="icon_location"
+                  ></ion-icon
+                  ><span *ngIf="frnd.country_code!='0'">
+                    {{frnd.city}}, {{frnd.country}}
+                  </span>
+                  <span
+                    *ngIf="frnd.country_code=='0' || frnd.country_code=='' || frnd.country_code=='null'"
+                  >
+                    {{frnd.city}}</span
+                  >
+                </p>
+              </ion-label>
+              <ion-icon
+                style="color: #ec5529"
+                name="chatbox-ellipses-outline"
+                (click)="rootMsgPage(frnd.id)"
+              >
+              </ion-icon>
+            </ion-item>
+            <!-- <ion-item-options>
+              <ion-button
+                class="unfrnd-btn capital ion-text-wrap"
+                color="danger"
+                expand="full"
+                (click)="unFriend(frnd.id,frnd.name)"
+                >{{unfriendString}}</ion-button
+              >
+              <div class="text">{{messageString}}</div>
+            </ion-item-options> -->
+          </ion-item-sliding>
+        </ion-list>
+      </div>
+    </div>
+  </div>
+</ion-content>
+<!-- 
+<ion-button>
+  Open Portfolio
+</ion-button> -->

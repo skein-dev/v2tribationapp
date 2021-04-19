@@ -1,0 +1,72 @@
+<ion-header [translucent]="true">
+  <ion-toolbar mode="md">
+    <ion-icon
+      slot="start"
+      name="close"
+      class="white fnt-18"
+      (click)="back()"
+    ></ion-icon>
+    <ion-title mode="md" class="ion-align-self-center">{{
+      editEventTitleString
+    }}</ion-title>
+  </ion-toolbar>
+</ion-header>
+<!--=========== Header Ends ============-->
+
+<ion-content mode="ios">
+  <div style="margin: auto; width: 90%; margin-top: 5%">
+    <ion-item class="ion-no-padding">
+      <ion-label style="opacity: 1; color: #615d5d" position="stacked">{{
+        eventTitleString
+      }}</ion-label>
+      <ion-input
+        [(ngModel)]="eveTitle"
+        #a
+        (keyup.enter)="setFocus(b)"
+        enterkeyhint="next"
+        required="true"
+      ></ion-input>
+    </ion-item>
+    <ion-item class="ion-no-padding">
+      <ion-label style="opacity: 1; color: #615d5d" position="stacked">{{
+        eventDescString
+      }}</ion-label>
+      <ion-textarea [(ngModel)]="eveDec" enterkeyhint="next" #b></ion-textarea>
+    </ion-item>
+
+    <ion-item class="ion-no-padding" (click)="alarm.open()">
+      <ion-label style="opacity: 1; color: #615d5d" position="stacked">{{
+        eventDateString
+      }}</ion-label>
+      <ion-input readonly="true" [(ngModel)]="eveDate"></ion-input>
+    </ion-item>
+    <ion-item class="ion-no-padding">
+      <ion-label style="opacity: 1; color: #615d5d" position="stacked">{{
+        eventVenueString
+      }}</ion-label>
+      <ion-input [(ngModel)]="eveVenue" enterkeyhint="done" #c></ion-input>
+    </ion-item>
+  </div>
+  <div class="teamName ion-text-capitalize">
+    {{ eveteamName }}
+  </div>
+  <div style="width: 95%; margin: auto">
+    <ion-button class="tribationBtn" (click)="submitEiditedEve()">
+      {{ submitString }}
+    </ion-button>
+  </div>
+  <div class="claenderAction">
+    <ion-datetime
+      displayFormat="MMM DD YYYY"
+      #alarm
+      [(ngModel)]="calDate"
+      (ionChange)="updateEveDate()"
+      (ionBlur)="setFocus(c)"
+      (ionCancel)="setFocus(c)"
+      min="{{ eveDate }}"
+      max="{{ maxDate }}"
+      style="overflow: visible !important; text-overflow: unset !important"
+    >
+    </ion-datetime>
+  </div>
+</ion-content>

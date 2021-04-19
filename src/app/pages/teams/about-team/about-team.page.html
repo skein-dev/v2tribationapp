@@ -1,0 +1,97 @@
+<ion-header [translucent]="true">
+  <ion-toolbar mode="md">
+    <ion-icon
+      slot="start"
+      name="arrow-back"
+      class="fnt-18"
+      (click)="back()"
+    ></ion-icon>
+    <div (click)="aboutTeam()" class="coverImg" slot="start">
+      <ion-avatar>
+        <img
+          *ngIf="teamData.team_pic!=''"
+          src="{{environment.apiUrl}}v1/api/post/imagecall_mobile_url?imagepath=team/{{teamData.teamid}}/{{teamData.team_pic}}"
+        />
+        <img
+          *ngIf="teamData.team_pic==''"
+          src="{{environment.apiUrl}}v1/api/post/imagecall_mobile_url?imagepath=profile/cover1.jpg"
+        />
+      </ion-avatar>
+      <div slot="start" style="float: left; padding-left: 11px">
+        <div
+          style="font-size: large; font-weight: bolder; text-align-last: start"
+        >
+          {{teamData.team_name}}
+        </div>
+      </div>
+    </div>
+  </ion-toolbar>
+</ion-header>
+<!--=========== Header Ends ============-->
+<ion-content>
+  <ion-fab
+    vertical="bottom"
+    horizontal="end"
+    slot="fixed"
+    (click)="addEvent()"
+    *ngIf="isAdmin==true"
+  >
+    <ion-fab-button class="tribationBtn" style="--background: #112 !important">
+      <ion-icon name="add"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
+
+  <div class="msg slide-in-bottom" *ngIf="eventItems == false">
+    <div *ngIf="isAdmin==true" style="text-align: center">
+      <img src="../../assets/schedule.png" width="40%" />
+      <br />{{createEventString}}
+    </div>
+    <div *ngIf="isAdmin==false " style="text-align: center">
+      <img src="../../assets/schedule.png" width="40%" />
+      <br />{{noEventsString}}
+    </div>
+  </div>
+
+  <ion-card *ngFor="let list of eventList">
+    <ion-toolbar style="--background: #181334; font-size: large">
+      <div slot="start" style="color: #fff; padding-left: 8%">
+        {{(list.event_title | slice:0:23)+(list.event_title.length > 23? '...'
+        :'')}}
+      </div>
+
+      <div slot="end" style="color: #fff">
+        <ion-button
+          style="margin: 0px; --background: transparent"
+          *ngIf=" isAdmin==true"
+          (click)="deleteEvent(list.id,list.event_title)"
+        >
+          <ion-icon name="trash"></ion-icon>
+        </ion-button>
+        <ion-button
+          style="margin: 0px; --background: transparent"
+          *ngIf=" isAdmin==true"
+          (click)="editEvent(list)"
+        >
+          <ion-icon name="create"> </ion-icon>
+        </ion-button>
+      </div>
+    </ion-toolbar>
+
+    <ion-card-content (click)="viewDetail(list)">
+      <ion-row>
+        <ion-col size="6" text-start
+          ><strong>{{dateString}}:</strong> {{list.event_date | date:
+          'dd-MM-yyyy'}}
+        </ion-col>
+        <ion-col size="6" text-start
+          ><strong>{{venueString}}:</strong> {{list.event_venue}}</ion-col
+        >
+        <ion-col size="12">
+          {{(list.event_description |
+          slice:0:100)+(list.event_description.length > 100? '...'
+          :'')}}</ion-col
+        >
+      </ion-row>
+    </ion-card-content>
+  </ion-card>
+</ion-content>

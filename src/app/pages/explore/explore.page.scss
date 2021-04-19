@@ -1,0 +1,19 @@
+.colLikeShare {
+  display: flex;
+  justify-content: center;
+  font-size: x-large;
+  --color: #333;
+  color: #333;
+
+  span {
+    font-size: medium;
+  }
+}
+
+.videoPlayButton {
+  position: absolute;
+  left: 50%;
+  transform: translate(-50%, 1000%);
+  height: 160px;
+  width: 175px;
+}

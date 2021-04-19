@@ -1,0 +1,292 @@
+<ion-header [translucent]="true">
+  <ion-toolbar mode="md">
+    <ion-buttons slot="start">
+      <ion-menu-button autoHide="false" menuToggle></ion-menu-button>
+    </ion-buttons>
+    <ion-title
+      mode="md"
+      class="ion-align-self-center"
+      style="font-weight: bold; padding-left: 35%;"
+      >{{chatString}}</ion-title
+    >
+  </ion-toolbar>
+</ion-header>
+
+<ion-content mode="ios">
+  <div class="container seg_padding" scrollable>
+    <!-- segment -->
+    <ion-segment
+      class="seg_style"
+      (ionChange)="segmentChanged($event)"
+      [(ngModel)]="checkedsegment"
+      *ngIf="regularUser===true"
+    >
+      <ion-segment-button class="seg_btn" value="directChat">
+        <ion-row>
+          <ion-col>
+            <ion-label>{{messageString}}</ion-label>
+          </ion-col>
+          <ion-col *ngIf="unreadChatArray === true">
+            <ion-icon name="ellipse" style="font-size: medium"></ion-icon>
+          </ion-col>
+        </ion-row>
+      </ion-segment-button>
+
+      <ion-segment-button class="seg_btn" value="groupChat">
+        <ion-row>
+          <ion-col>
+            <ion-label>{{groupString}}</ion-label>
+          </ion-col>
+          <ion-col *ngIf="unreadGroupChatArray === true">
+            <ion-icon name="ellipse" style="font-size: medium"></ion-icon>
+          </ion-col>
+        </ion-row>
+      </ion-segment-button>
+    </ion-segment>
+  </div>
+  <div [ngSwitch]="checkedsegment">
+    <!-- Direct chat -->
+    <div class="frnd_pad" *ngSwitchCase="'directChat'">
+      <!-- serch bar -->
+      <div class="search_bar" *ngIf="this.chatmessages.length !== 0">
+        <ion-searchbar
+          color="light"
+          [(ngModel)]="searchTerm"
+          showCancelButton="never"
+          placeholder="{{searchString}}"
+          debounce="500"
+          (ionChange)="searchDirChat(searchTerm)"
+        >
+        </ion-searchbar>
+      </div>
+
+      <div *ngIf="noChats === true">
+        <div
+          class="noReq ion-text-capitalize ion-text-center"
+          style="margin-top: 38%; font-size: x-large"
+        >
+          <ion-icon
+            mode="ios"
+            src="../../../assets/iconsSvg/chatbubbles.svg"
+            style="font-size: 900%; color: #0d0439"
+          ></ion-icon>
+          <div style="margin-top: -3%">{{noChatString}}</div>
+        </div>
+      </div>
+
+      <!-- chats -->
+      <ion-list
+        style="margin-top: 4%"
+        *ngIf="chatArray.length > 0 && noChats === false"
+      >
+        <ion-item-sliding *ngFor="let chatdetail of chatArray;">
+          <ion-item
+            (click)="chatdetailClick(chatdetail.friendid)"
+            detail="false"
+            *ngIf="chatdetail.content!=''"
+            style="border-radius: 11px"
+          >
+            <ion-avatar slot="start">
+              <img
+                class="chatimg_tribation"
+                *ngIf="chatdetail.profile_img_url_thump!=null"
+                src="{{environment.apiUrl}}v1/api/post/imagecall_mobile_url?imagepath=profile/{{chatdetail.friendid}}/{{chatdetail.profile_img_url_thump}}"
+              />
+              <img
+                class="chatimg_tribation"
+                *ngIf="chatdetail.profile_img_url_thump == null"
+                src="../assets/defaultProfile.png"
+              />
+              <!-------------------------------------------- Person Online ------------------------------------------------->
+              <span class="dot-online" *ngIf="chatdetail.online"></span>
+              <span class="dot-offline" *ngIf="!chatdetail.online"></span>
+            </ion-avatar>
+
+            <ion-label *ngIf="chatdetail.first_name!=null">
+              <h2
+                style="
+                  font-size: initial !important;
+                  font-weight: 500 !important;
+                "
+                class="ion-text-wrap"
+              >
+                {{(chatdetail.first_name |
+                slice:0:20)+(chatdetail.first_name.length > 20 ? "...":"")}}
+              </h2>
+              <p>{{!chatdetail.content ? "media" : chatdetail.content}}</p>
+              <!-- <p>{{(chatdetail.content | slice:0:20) +(chatdetail.content.length > 20? '...' :'' )}}          </p> -->
+            </ion-label>
+
+            <div slot="end">
+              <ion-label style="padding-bottom: 10%">
+                <p>{{chatdetail.created | date :'shortTime'}}</p>
+              </ion-label>
+              <ion-badge *ngIf="chatdetail.unreaded!=''" class="badge-common"
+                >{{chatdetail.unreaded}}
+              </ion-badge>
+            </div>
+          </ion-item>
+
+          <ion-item-options
+            side="end"
+            (ionSwipe)="deleteChats(chatdetail.friendid)"
+            style="background-color: #eb445a"
+          >
+            <ion-item-option
+              color="danger"
+              (click)="deleteChats(chatdetail.friendid)"
+            >
+              <ion-icon slot="icon-only" name="trash-sharp"> </ion-icon>
+            </ion-item-option>
+          </ion-item-options>
+
+          <!------------------------------------------MEDIA MSG----------------------------------->
+          <!-- <ion-item (click)="chatdetailClick(chatdetail.friendid)" detail="false" *ngIf="chatdetail.type=='media'">
+            <ion-avatar slot="start">
+              <img class="chatimg_tribation" *ngIf="chatdetail.profile_img_url_thump!=''"
+                src="{{environment.apiUrl}}v1/api/post/imagecall_mobile_url?imagepath={{chatdetail.profile_img_url_thump}}">
+              <img class="chatimg_tribation" *ngIf="chatdetail.profile_img_url_thump==''"
+                src="../assets/defaultProfile.png">
+            
+              <span class="dot-online" *ngIf="chatdetail.online==1"></span>
+            </ion-avatar>
+
+            <ion-label *ngIf="chatdetail.first_name==null">
+              <h2>{{NoNameString}}</h2>
+            </ion-label>
+
+            <ion-label *ngIf="chatdetail.first_name!=null">
+              <h2>{{(chatdetail.first_name | slice:0:20)+(chatdetail.first_name.length > 20 ? "...":"")}}</h2>
+              <p>{{media}}</p>
+            </ion-label>
+
+            <div slot="end">
+              <ion-label style="padding-bottom: 10%;">
+                <p> {{chatdetail.created | date :'shortTime'}}</p>
+              </ion-label>
+              <ion-badge *ngIf="chatdetail.unreaded!=''" class="badge-common">{{chatdetail.unreaded}} </ion-badge>
+            </div>
+          </ion-item> -->
+        </ion-item-sliding>
+      </ion-list>
+    </div>
+
+    <!-- Group chat -->
+    <div *ngSwitchCase="'groupChat'">
+      <!-- serch bar -->
+      <div class="search_bar" *ngIf="this.groupArray.length !== 0">
+        <ion-searchbar
+          color="light"
+          [(ngModel)]="searchTermGrp"
+          showCancelButton="never"
+          placeholder="{{searchString}}"
+          debounce="500"
+          (ionChange)="searchGrp(searchTermGrp)"
+        >
+        </ion-searchbar>
+      </div>
+
+      <div *ngIf="noGroupChats === true">
+        <div
+          class="noReq ion-text-capitalize ion-text-center"
+          style="margin-top: 38%; font-size: x-large"
+        >
+          <ion-icon
+            mode="ios"
+            src="../../../assets/iconsSvg/chatbubbles.svg"
+            style="font-size: 900%; color: #0d0439"
+          ></ion-icon>
+          <div style="margin-top: -3%">{{noChatString}}</div>
+        </div>
+      </div>
+
+      <ion-list
+        style="margin-top: 4%"
+        *ngIf="groupChatArray.length > 0 && noGroupChats === false"
+      >
+        <ion-item-sliding *ngFor="let chatdetail of groupChatArray">
+          <ion-item
+            (click)="groupchatdetail(chatdetail)"
+            detail="false"
+            style="border-radius: 11px"
+          >
+            <ion-avatar slot="start" *ngIf="chatdetail.type==1">
+              <img
+                *ngIf="chatdetail.team_pic!=''"
+                src="{{environment.apiUrl}}v1/api/post/imagecall_mobile_url?imagepath=team/{{chatdetail.id}}/{{chatdetail.team_pic_small}}"
+              />
+
+              <img
+                *ngIf="chatdetail.team_pic==''"
+                src="../../../assets/tribation.jpg"
+              />
+            </ion-avatar>
+
+            <ion-avatar slot="start" *ngIf="chatdetail.type==2">
+              <img
+                *ngIf="chatdetail.team_pic!=''"
+                src="{{environment.apiUrl}}v1/api/post/imagecall_mobile_url?imagepath=groupchat/{{chatdetail.id}}/{{chatdetail.team_pic_small}}"
+              />
+
+              <img
+                *ngIf="!chatdetail.team_pic"
+                src="../../../assets/tribation.jpg"
+              />
+            </ion-avatar>
+
+            <ion-label>
+              <div
+                style="
+                  font-size: initial !important;
+                  font-weight: 500 !important;
+                "
+                class="ion-text-wrap"
+              >
+                {{chatdetail.team_name}}
+                <!-- {{(chatdetail.team_name | slice:0:20)+(chatdetail.team_name.length > 20 ? "...":"")}} -->
+              </div>
+              <p *ngIf="chatdetail.content !== '' ">
+                {{chatdetail.content}}
+                <!-- {{(chatdetail.content | slice:0:20) +(chatdetail.content.length > 20? '' :'' )}} -->
+              </p>
+            </ion-label>
+
+            <div slot="end" *ngIf="chatdetail.content!=''">
+              <ion-label style="padding-bottom: 10%">
+                <p>{{chatdetail.msgdate | date :'shortTime'}}</p>
+              </ion-label>
+              <ion-badge *ngIf="chatdetail.msgcount" class="badge-common"
+                >{{chatdetail.msgcount}}
+              </ion-badge>
+            </div>
+          </ion-item>
+
+          <ion-item-options
+            side="end"
+            (ionSwipe)="deleteGroupChats(chatdetail.id)"
+            style="background-color: #eb445a"
+          >
+            <ion-item-option
+              color="danger"
+              (click)="deleteGroupChats(chatdetail.id)"
+            >
+              <ion-icon slot="icon-only" name="trash-sharp"> </ion-icon>
+            </ion-item-option>
+          </ion-item-options>
+        </ion-item-sliding>
+      </ion-list>
+    </div>
+  </div>
+
+  <ion-fab
+    vertical="bottom"
+    horizontal="end"
+    slot="fixed"
+    *ngIf="checkedsegment=='groupChat'"
+    (click)="createGroup()"
+  >
+    <ion-fab-button class="tribationBtn">
+      <ion-icon name="add"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
+</ion-content>

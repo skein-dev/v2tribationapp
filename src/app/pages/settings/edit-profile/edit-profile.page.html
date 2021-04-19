@@ -1,0 +1,143 @@
+<ion-content class="tribationBackground slideInleft">
+  <ion-item
+    lines="none"
+    class="noBackgroundItem paddingSafe"
+    style="margin-top: 3%; margin-bottom: 10%"
+  >
+    <ion-icon
+      slot="start"
+      name="arrow-back"
+      class="fnt-18 ion-no-padding"
+      style="margin: 0px"
+      (click)="back()"
+    ></ion-icon>
+    <ion-title
+      mode="md"
+      class="ion-align-self-center"
+      style="text-align: center"
+      >{{editProfileString}}</ion-title
+    >
+  </ion-item>
+  <div class="fullWidthDisplayCenter custom-algn-center">
+    <ion-avatar style="width: 80px; height: 80px">
+      <img
+        *ngIf="this.profileImageURL!=null"
+        src="{{environment.apiUrl}}v1/api/post/imagecall_mobile_url?imagepath={{this.profileImageURL}}"
+      />
+      <img
+        *ngIf="this.profileImageURL==null"
+        src="{{environment.apiUrl}}v1/api/post/imagecall_mobile_url?imagepath=profile/default.png"
+      />
+    </ion-avatar>
+  </div>
+  <h4 class="white ion-text-center" style="margin: 0px">
+    {{profileFirstname}} {{profileLastName}}
+  </h4>
+  <!-- <small class="white custom-algn-center ion-text-center">
+    [ {{profileEmailId}} ]
+  </small> -->
+  <small class="white custom-algn-center ion-text-center">
+    <ion-icon name="location"></ion-icon>&nbsp;
+    <span style="text-transform: capitalize">{{profileCity}}</span>
+  </small>
+  <!--=========== Header Ends ============-->
+
+  <div class="fullWidthDisplayCenter white" style="margin-top: 5%; width: 90%">
+    <!-- Firstname Field -->
+    <ion-row class="cus-row">
+      <ion-col size="2" text-center>
+        <ion-icon class="white fnt-18" name="person"></ion-icon>
+      </ion-col>
+      <ion-col size="8" class="ion-no-padding">
+        <ion-item lines="none" class="noBackgroundItem">
+          <ion-label class="white" position="stacked"
+            >{{firstNameString}}</ion-label
+          >
+          <ion-input type="text" *ngIf="editFirstName==false" disabled="true"
+            >{{profileFirstname}}
+          </ion-input>
+          <ion-input
+            type="text"
+            (ionBlur)="reset('fName')"
+            enterkeyhint="done"
+            #firstNameInputBox
+            (ionFocus)="editedFirstName=''"
+            [(ngModel)]="editedFirstName"
+            *ngIf="editFirstName==true"
+          ></ion-input>
+        </ion-item>
+      </ion-col>
+      <ion-col size="2">
+        <ion-icon
+          name="pencil"
+          button
+          (click)="editFirstNameFun()"
+          *ngIf="editFirstName==false"
+          class="editicon"
+        >
+        </ion-icon>
+      </ion-col>
+    </ion-row>
+    <!-- Lastname Field -->
+    <ion-row class="cus-row">
+      <ion-col size="2" text-center>
+        <ion-icon class="white fnt-18 i_log" name="person"></ion-icon>
+      </ion-col>
+      <ion-col size="8" class="ion-no-padding">
+        <ion-item lines="none" class="noBackgroundItem">
+          <ion-label class="white" position="stacked"
+            >{{lastNameString}}</ion-label
+          >
+          <ion-input type="text" *ngIf="editLastName==false" disabled="true"
+            >{{profileLastName}}</ion-input
+          >
+          <ion-input
+            type="text"
+            *ngIf="editLastName==true"
+            [(ngModel)]="editedLastName"
+            enterkeyhint="done"
+            (ionFocus)="editedLastName=''"
+            (ionBlur)="reset('lName')"
+            #lastNameInputBox
+          ></ion-input>
+        </ion-item>
+      </ion-col>
+
+      <ion-col size="2">
+        <ion-icon
+          name="pencil"
+          button
+          *ngIf="editLastName==false"
+          (click)="editLastNameFun()"
+          class="editicon"
+        >
+        </ion-icon>
+      </ion-col>
+    </ion-row>
+
+    <!-- Email Field -->
+    <ion-row class="cus-row">
+      <ion-col size="2" text-center>
+        <ion-icon class="white fnt-18" name="mail"></ion-icon>
+      </ion-col>
+      <ion-col size="10" class="ion-no-padding">
+        <ion-item lines="none" class="noBackgroundItem">
+          <ion-label class="white" position="stacked"
+            >{{emailString}}</ion-label
+          >
+          <ion-input type="Email" disabled="true">{{profileEmailId}}</ion-input>
+        </ion-item>
+      </ion-col>
+    </ion-row>
+
+    <!-- UPDATE BUTTON-->
+    <div>
+      <ion-button
+        class="tribationBtn"
+        [disabled]="ifEdited==false || editedLastName=='' || editedFirstName=='' "
+        (click)="update(editedFirstName,editedLastName)"
+        >{{updateString}}</ion-button
+      >
+    </div>
+  </div>
+</ion-content>

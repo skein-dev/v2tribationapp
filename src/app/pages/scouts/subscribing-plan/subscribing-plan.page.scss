@@ -1,0 +1,76 @@
+.card {
+  height: 180px;
+  width: 350px;
+  padding: 20px;
+  background-color: #fff;
+  border-radius: 14px;
+  position: relative;
+  color: #fff;
+  background-image: url("../../../../assets/loginbg.jpg");
+  z-index: 5;
+  background-size: cover;
+  opacity: 1;
+  border: none;
+}
+
+.card::before {
+  height: 100%;
+  width: 100%;
+  position: absolute;
+  bottom: 0;
+  top: 0;
+  right: 0;
+  left: 0;
+  border-radius: 14px;
+  background: rgb(63, 94, 251);
+  background: linear-gradient(
+    90deg,
+    rgba(63, 94, 251, 1) 0%,
+    rgba(240, 50, 89, 1) 100%
+  );
+  opacity: 0.5;
+}
+
+.card::after {
+  height: 100%;
+  width: 100%;
+  position: absolute;
+  bottom: 0;
+  top: 0;
+  right: 0;
+  left: 0;
+  border-radius: 14px;
+  background: rgb(63, 94, 251);
+  background: linear-gradient(
+    90deg,
+    rgba(63, 94, 251, 1) 0%,
+    rgba(240, 50, 89, 1) 100%
+  );
+  clip-path: polygon(28% 13%, 48% 45%, 75% 63%, 100% 99%, 0 100%, 0% 60%, 0 0);
+  opacity: 0.5;
+}
+
+.msgForPayment {
+  text-align: center;
+  width: 95%;
+  margin: 10% auto;
+  padding: 5%;
+  z-index: 999;
+
+  div {
+    clear: both;
+    width: 100%;
+  }
+}
+.subscriptionList {
+  padding: 4%;
+  font-weight: bolder;
+  background: #ec5529;
+  border-radius: 13px;
+  margin-bottom: 6%;
+}
+
+ion-select {
+  width: 100%;
+  justify-content: center;
+}

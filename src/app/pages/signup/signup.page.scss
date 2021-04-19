@@ -1,0 +1,176 @@
+.pageContent {
+  margin: 4% 7%;
+  color: #fff !important;
+  --color: #fff !important;
+}
+.card-content-ios {
+  padding-left: unset;
+  padding-right: unset;
+  -webkit-padding-start: 4px;
+  padding-inline-start: 4px;
+  -webkit-padding-end: 20px;
+  padding-inline-end: 20px;
+}
+ion-skeleton-text {
+  --background-rgb: 255, 255, 255;
+}
+.header-md::after {
+  height: 0;
+}
+.list-ios {
+  --background: transparent !important;
+}
+ion-item {
+  --background: transparent !important;
+  color: white !important;
+}
+ion-input {
+  box-shadow: none;
+}
+.list-ios {
+  background: var(
+    --ion-item-background,
+    var(--ion-background-color, transparent)
+  ) !important;
+  margin-bottom: 5px !important;
+}
+ion-item.sc-ion-input-ios-h:not(.item-label),
+ion-item:not(.item-label) .sc-ion-input-ios-h {
+  --padding-start: 0px !important;
+}
+.list-md {
+  background: var(
+    --ion-item-background,
+    var(--ion-background-color, transparent)
+  ) !important;
+}
+
+.customgrey {
+  color: #898a9f !important;
+}
+
+// File Upload
+
+.p-image {
+  // position: relative;
+  // top: 52px;
+  // right: calc(100% - 56%);
+  // color: #ffffff;
+  // transition: all .3s cubic-bezier(.175, .885, .32, 1.275);
+  position: absolute;
+  right: calc(100% - 60%);
+  color: #252525;
+  background: black;
+  border-radius: 20px;
+  height: 23px;
+  width: 23px;
+}
+.p-image:hover {
+  transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+.upload-button {
+  font-size: 1.2em;
+}
+
+.upload-button:hover {
+  transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  color: #999;
+}
+.new-brdr {
+  img {
+    border: 2px solid #9999999e;
+  }
+}
+@media only screen and (min-device-width: 768px) and (max-device-width: 1024px) {
+  .p-image {
+    position: relative;
+    top: 52px;
+    right: calc(100% - 53%);
+    color: #ffffff;
+    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  }
+}
+
+@media only screen and (min-device-width: 1024px) and (max-device-width: 1366px) and (-webkit-min-device-pixel-ratio: 2) {
+  .p-image {
+    position: relative;
+    top: 52px;
+    right: calc(100% - 53%);
+    color: #ffffff;
+    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  }
+}
+
+.checktxt {
+  position: relative;
+  bottom: 4px;
+}
+
+.error {
+  font-size: 14px !important;
+  color: crimson !important;
+  i {
+    font-size: 16px !important;
+    position: relative;
+    top: 3px;
+  }
+}
+.div_mycamicon {
+  position: absolute;
+  top: calc(29% - 10px);
+  left: calc(53% - 0px);
+  height: 25px;
+  width: 25px;
+  background: black;
+  border-radius: 24px;
+}
+
+.myProfile_icon {
+  color: white;
+  position: absolute;
+  top: calc(61% - 10px);
+  left: calc(55% - 8px);
+  background-color: #000000;
+  border-radius: 38px;
+}
+ion-row {
+  --color: #fff;
+  color: #fff;
+}
+.uderline {
+  display: flex;
+  border-bottom-width: 0.1px;
+  border-bottom-style: groove;
+  align-items: center;
+  align-content: center;
+  justify-content: center;
+}
+.tribationBtn {
+  width: 85%;
+  --border-radius: 24px;
+  margin-top: 5%;
+}
+
+ion-radio {
+  --color: #fff;
+  --color-checked: #ec5529 !important;
+}
+.apple-sign-in {
+  appearance: none;
+  -webkit-appearance: none;
+  border: none;
+  background: #fff;
+  color: #000000;
+  font-size: medium;
+  cursor: pointer;
+  border-radius: 7px;
+}
+.google-sign-in {
+  -webkit-appearance: none;
+  border: none;
+  background: #fff;
+  color: #000000;
+  font-size: 2rem;
+  cursor: pointer;
+  border-radius: 7px;
+}

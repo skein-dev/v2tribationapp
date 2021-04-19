@@ -1,0 +1,109 @@
+<!-- <ion-content class="tribationBackground">
+  <h2 style="width:80%;margin: auto;margin-top:40%;text-align: center;" class="white"> Feature Comming in next Release</h2>
+</ion-content> -->
+
+<ion-header [translucent]="true">
+  <ion-toolbar mode="md">
+    <ion-buttons slot="start">
+      <ion-menu-button autoHide="false" menuToggle></ion-menu-button>
+    </ion-buttons>
+    <ion-title style="font-weight: bold; text-align: center"
+      >{{guardinaToolString}}</ion-title
+    >
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <div *ngIf="noMinor===true">
+    <div
+      class="noReq ion-text-capitalize ion-text-center"
+      style="margin-top: 42%"
+    >
+      <ion-icon
+        mode="ios"
+        src="../../../assets/UserThree.svg"
+        style="font-size: 900%; color: #3a3a3a"
+      ></ion-icon>
+      <div
+        style="
+          width: 70%;
+          margin: auto;
+          margin-top: -3%;
+          font-size: large;
+          text-transform: none;
+        "
+      >
+        {{noMinorString}}
+      </div>
+    </div>
+  </div>
+
+  <div class="frnd_pad" *ngIf="noMinor===false" style="padding-top: 2%">
+    <div class="search_bar">
+      <ion-searchbar
+        class="search_bar ion-no-padding"
+        color="light"
+        [(ngModel)]="searchTerm"
+        mode="ios"
+        placeholder="{{searchString}}"
+        showCancelButton="never"
+        style="width: 95%; margin: auto"
+      >
+      </ion-searchbar>
+    </div>
+    <div class="container" *ngIf="minorList.length>0">
+      <ion-list *ngFor="let minor of filteredMinorList; let i = index; ">
+        <ion-item-sliding (ionSwipe)="cancelGuardreq(minor.id, i)">
+          <ion-item>
+            <h1></h1>
+            <ion-avatar slot="start" (click)="goToProfile(minor.id)" button>
+              <img
+                *ngIf="minor.profile_img_url_thump!=null"
+                src="{{environment.apiUrl}}v1/api/post/imagecall_mobile_url?imagepath=profile/{{minor.id}}/{{minor.profile_img_url_thump}}"
+              />
+              <img
+                *ngIf="minor.profile_img_url_thump==null"
+                src="{{environment.apiUrl}}v1/api/post/imagecall_mobile_url?imagepath=profile/default.png"
+              />
+            </ion-avatar>
+            <ion-label (click)="goToProfile(minor.id)" button>
+              <h2
+                class="ion-text-wrap capital"
+                button
+                (click)="goToProfile(minor.id)"
+              >
+                {{minor.name}}
+              </h2>
+              <p class="para_size" style="text-transform: capitaliz">
+                <ion-icon name="location" class="icon_location"></ion-icon
+                ><span *ngIf="minor.country_code!='0'">
+                  {{minor.city}}, {{minor.country}} </span
+                ><span
+                  *ngIf="minor.country_code=='0' || minor.country_code=='' || minor.country_code=='null'"
+                >
+                  {{minor.city}}</span
+                >
+              </p>
+            </ion-label>
+            <ion-icon
+              style="font-size: x-large"
+              name="chatbox-ellipses-outline"
+              class="black"
+              (click)="rootMsgPage(minor.id)"
+            >
+            </ion-icon>
+          </ion-item>
+          <ion-item-options>
+            <ion-button
+              class="unfrnd-btn capital ion-text-wrap"
+              color="danger"
+              expand="full"
+              (click)="cancelGuardreq(minor.id, i)"
+              >{{discardMinorString}}</ion-button
+            >
+          </ion-item-options>
+        </ion-item-sliding>
+      </ion-list>
+    </div>
+  </div>
+</ion-content>

@@ -1,0 +1,111 @@
+<ion-content class="tribationBackground white">
+  <div style="display: flex; padding: 2%; margin: 2%" class="paddingSafe">
+    <ion-buttons slot="start">
+      <ion-menu-button
+        autoHide="false"
+        class="white"
+        menuToggle
+      ></ion-menu-button>
+    </ion-buttons>
+    <ion-title
+      mode="md"
+      style="color: #fff; font-weight: bold; text-align: center"
+      class="ion-align-self-center"
+      >{{getSubscriptionString}}</ion-title
+    >
+  </div>
+  <div>
+    <div class="msgForPayment">
+      <h1>{{scoutToolString}}</h1>
+      <!-- <div style="font-size: x-large;text-align: center;font-weight: bold;">{{congString}}</div>
+      <div style="font-size: large;text-align: center;margin-top: 3%;text-decoration: underline;">
+        {{approveBeingScoutString}}
+      </div> -->
+      <div style="margin-top: 8%; margin-bottom: 2%">{{selectPlanString}}</div>
+      <div *ngIf="this.platform.is('ios')">
+        <div *ngIf="products.length > 0">
+          <div
+            button
+            *ngFor="let p of products"
+            class="subscriptionList"
+            (click)="purchase(p)"
+            detail="false"
+          >
+            <ion-label class="ion-text-wrap"> {{ p.title }} </ion-label>
+          </div>
+          <!-- <div style="margin-top:15%;">{{selectPlanString}}</div> -->
+        </div>
+      </div>
+      <div *ngIf="this.platform.is('android') || this.platform.is('desktop')">
+        <ion-select
+          [(ngModel)]="plan"
+          interface="action-sheet"
+          cancelText="{{closeString}}"
+          style="--background: #ffffff38; background: #ffffff38"
+          (ionChange)="planChange(plan)"
+        >
+          <ion-select-option value="year">
+            <div>{{threeMonthsPlan}}</div>
+          </ion-select-option>
+          <ion-select-option value="month"
+            >{{monthlySubsPlan}}</ion-select-option
+          >
+          <ion-select-option value="free">{{freeSubsPlan}}</ion-select-option>
+        </ion-select>
+        <div style="margin-left: 6%; margin-top: 3%" *ngIf="showWas===true">
+          {{wasString}}
+          <span style="text-decoration: line-through; font-style: italic"
+            >{{yearActualSubsPlan}}</span
+          >
+        </div>
+        <ion-footer class="noBackgroundItem">
+          <a href="{{link}}" target="_blank">
+            <ion-button
+              class="tribationBtn"
+              shape="round"
+              style="
+                text-transform: none;
+                float: right;
+                margin-right: 5%;
+                margin-top: 10%;
+                margin-bottom: 6%;
+                border-radius: 5px;
+              "
+            >
+              {{getSubscriptionString}}
+
+              <ion-icon name="chevron-forward"></ion-icon>
+            </ion-button>
+          </a>
+        </ion-footer>
+      </div>
+    </div>
+
+    <!-- <ion-card style="padding: 5%;margin: auto;" class="card"> -->
+    <!-- <div style="font-size:large;position: absolute;color: #fff;--color: #fff;bottom: 1%;right: 3%;z-index: 99999999;">
+        {{displayMoney}}
+      </div> -->
+
+    <!-- <div style="text-align: center;width: 95%;margin: auto;">
+        <ion-input readonly="true" [(ngModel)]="cardNumber" type="text" inputmode="numeric" autocomplete="off"
+          maxlength="19" minlength="19" placeholder="XXXX-XXXX-XXXX-XXXX"
+          style="font-size: larger;letter-spacing: 5px;text-align: justify;" (ionChange)="cardnumberInput(cardNumber)">
+        </ion-input>
+      </div> -->
+    <!-- <div style="display: flex;width: 90%;margin: auto;">
+        <div style="width: 100%;">
+          <ion-input readonly="true" autocomplete="off" #monthYear [(ngModel)]="expiry" type="text" inputmode="numeric"
+            maxlength="7" minlength="7" placeholder="MM/YYYY" style="max-width: 75px;"
+            (ionChange)="expiryInput(expiry)">
+          </ion-input>
+        </div>
+
+        <div>
+          <ion-input readonly="true" #secrete autocomplete="off" inputmode="numeric" type="password" clearOnEdit="true"
+            maxlength="3" [(ngModel)]="cvv" minlength="3" placeholder="CVV" style="text-align: end;max-width: 50px;"
+            (ionChange)="secreteInput(cvv)"></ion-input>
+        </div>
+      </div> -->
+    <!-- </div> -->
+  </div>
+</ion-content>
